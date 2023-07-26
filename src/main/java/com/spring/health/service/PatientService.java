@@ -3,6 +3,7 @@ package com.spring.health.service;
 import java.util.List;
 import java.util.Optional;
 
+import com.spring.health.enums.ActiveEnum;
 import com.spring.health.model.Doctor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,28 +26,47 @@ public class PatientService {
 	}
 	
 	public List<Patient> getAllPatient() {
-		return  patientRepository.findAll();
-		
+		try {
+			return patientRepository.findAll();
+		} catch (Exception e) {
+			{
+				System.out.println(e);
+			}
+			return patientRepository.findAll();
+		}
 	}
-	
-	public Patient getByIdPatient(Long id) {
-		return patientRepository.findById(id).get();
-	
-	}
+
+
 	
 	public Patient updatePatient(Patient patient,long id) {
-		Patient patient2 =patientRepository.findById(id).get();
-		patient2.setName(patient.getName());
-		patient2.setAge(patient.getAge());
-		patient2.setNid(patient.getNid());		
-		return patientRepository.save(patient2);		
+				Patient patient2 =patientRepository.findById(id).get();
+				patient2.setName(patient.getName());
+				patient2.setAge(patient.getAge());
+				patient2.setNid(patient.getNid());
+				return patientRepository.save(patient2);
 	}
 	
 	
 	public void delete(Long id) {
+//		Optional<Patient> result =
+//		ActiveEnum.ACTIVE.getValue();
+//		if (result.isPresent()){
+//			Patient patient=result.get();
+//
+//		}
 
 		patientRepository.deleteById(id);
 		
 	}
 
-}
+
+
+//	public Patient getByIdPatient(Long id) {
+//		return patientRepository.findById(id).get();
+//
+//	}
+	public Patient getByIdPatient(Long id) {
+		return patientRepository.findById(id).get();
+	}
+
+	}

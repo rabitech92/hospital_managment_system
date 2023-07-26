@@ -9,7 +9,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.spring.health.BaseClass.BaseClass;
 import lombok.Data;
 import org.hibernate.annotations.*;
 
@@ -21,6 +20,9 @@ import org.hibernate.annotations.*;
 @Filter(name = "deletedPatientFilter", condition = "deleted = :isDeleted")
 public class Patient extends BaseClass {
 	
+//	@Id
+//	@GeneratedValue(strategy = GenerationType.IDENTITY)
+//	private Long id;
 
 	@Column(length = 30, nullable = false)
 	private String name;
@@ -35,7 +37,13 @@ public class Patient extends BaseClass {
 	@JoinColumn(name = "doctor_id")
 	private Doctor doctor;
 
-
+//	public Long getId() {
+//		return id;
+//	}
+//
+//	public void setId(Long id) {
+//		this.id = id;
+//	}
 
 	public String getName() {
 		return name;

@@ -10,6 +10,6 @@ import com.spring.health.model.Doctor;
 @Repository
 public interface DoctorRepository extends JpaRepository<Doctor, Long> {
 	
-	List<Doctor> findByStatus(String status);
+//	List<Doctor> findByStatus(String status);
 
 }
