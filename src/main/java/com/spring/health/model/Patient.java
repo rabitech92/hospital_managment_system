@@ -9,24 +9,22 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.*;
 
 @Entity
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name="patient")
-@SQLDelete(sql = "UPDATE patient SET deleted = true WHERE id=?")
-@FilterDef(name = "deletedPatientFilter", parameters = @ParamDef(name = "isDeleted", type = "boolean"))
-@Filter(name = "deletedPatientFilter", condition = "deleted = :isDeleted")
 public class Patient extends BaseClass {
-	
-//	@Id
-//	@GeneratedValue(strategy = GenerationType.IDENTITY)
-//	private Long id;
+
 
 	@Column(length = 30, nullable = false)
 	private String name;
-	
+
 	@Column(length = 12,nullable = false)
 	private int age ;
 	
@@ -37,46 +35,38 @@ public class Patient extends BaseClass {
 	@JoinColumn(name = "doctor_id")
 	private Doctor doctor;
 
-//	public Long getId() {
-//		return id;
+//	public String getName() {
+//		return name;
 //	}
 //
-//	public void setId(Long id) {
-//		this.id = id;
+//	public void setName(String name) {
+//		this.name = name;
 //	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public int getAge() {
-		return age;
-	}
-
-	public void setAge(int age) {
-		this.age = age;
-	}
-
-	public String getNid() {
-		return nid;
-	}
-
-	public void setNid(String nid) {
-		this.nid = nid;
-	}
-
-	public Doctor getDoctor() {
-		return doctor;
-	}
-
-	public void setDoctor(Doctor doctor) {
-		this.doctor = doctor;
-	}
-	
+//
+//	public int getAge() {
+//		return age;
+//	}
+//
+//	public void setAge(int age) {
+//		this.age = age;
+//	}
+//
+//	public String getNid() {
+//		return nid;
+//	}
+//
+//	public void setNid(String nid) {
+//		this.nid = nid;
+//	}
+//
+//	public Doctor getDoctor() {
+//		return doctor;
+//	}
+//
+//	public void setDoctor(Doctor doctor) {
+//		this.doctor = doctor;
+//	}
+//
 	
 	
 

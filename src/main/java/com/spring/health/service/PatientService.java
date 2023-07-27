@@ -17,23 +17,29 @@ public class PatientService {
 	
 	@Autowired
 	private PatientRepository patientRepository;
-	
+
+	public PatientService(PatientRepository patientRepository) {
+				this.patientRepository = patientRepository;
+	}
+
 	public Patient save(Patient patient) {
-//		Doctor doctor =new Doctor();
-//		patient.setDoctor(doctor);
-//		patient.setDoctor(doctor.getId());
-		return patientRepository.save(patient);		
+				Doctor doctor =new Doctor();
+				patient.setDoctor(doctor);
+				return patientRepository.save(patient);
 	}
 	
 	public List<Patient> getAllPatient() {
-		try {
-			return patientRepository.findAll();
-		} catch (Exception e) {
-			{
-				System.out.println(e);
-			}
-			return patientRepository.findAll();
-		}
+				try {
+					return patientRepository.findAll();
+				} catch (Exception e) {
+					{
+						System.out.println(e);
+					}
+					return patientRepository.findAll();
+				}
+	}
+	public Patient getByIdPatient(Long id) {
+				return patientRepository.findById(id).get();
 	}
 
 
@@ -46,27 +52,16 @@ public class PatientService {
 				return patientRepository.save(patient2);
 	}
 	
-	
 	public void delete(Long id) {
-//		Optional<Patient> result =
-//		ActiveEnum.ACTIVE.getValue();
-//		if (result.isPresent()){
-//			Patient patient=result.get();
-//
-//		}
-
-		patientRepository.deleteById(id);
-		
+				patientRepository.deleteById(id);
+	}
+	public void softDeletePatient(Long id) {
+				patientRepository.softDeleteById(id);
 	}
 
 
-
-//	public Patient getByIdPatient(Long id) {
-//		return patientRepository.findById(id).get();
-//
+//	public List<Patient> getAllNonDeletedPatients() {
+//				return patientRepository.findByDeletedFalse();
 //	}
-	public Patient getByIdPatient(Long id) {
-		return patientRepository.findById(id).get();
-	}
 
 	}
