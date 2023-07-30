@@ -20,7 +20,7 @@ import com.spring.health.model.Patient;
 import com.spring.health.service.PatientService;
 
 @RestController
-@RequestMapping("api")
+@RequestMapping("api/patients")
 public class PatientController {
 	
 	@Autowired
@@ -28,7 +28,6 @@ public class PatientController {
 	
 	@PostMapping("/save")
 	public Patient savepatient(@RequestBody Patient patient) {
-
 		return patientService.save(patient);
 	}
 	
@@ -37,8 +36,8 @@ public class PatientController {
 		return patientService.getAllPatient();
 	}
 	
-	@GetMapping("/get/{id}")
-	public Patient getBiId(@PathVariable ("id") Long id) {
+	@GetMapping("/{id}")
+	public Patient getById(@PathVariable ("id") Long id) {
 		return patientService.getByIdPatient(id);
 	}
 	
@@ -51,6 +50,7 @@ public class PatientController {
 	public void delete(@PathVariable Long id) {
 		patientService.delete(id);
 	}
+
 	@DeleteMapping("/{id}")
 	public ResponseEntity<String> softDeletePatient(@PathVariable Long id) {
 		patientService.softDeletePatient(id);

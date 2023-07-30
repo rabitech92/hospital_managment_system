@@ -16,7 +16,7 @@ import com.spring.health.model.Doctor;
 import com.spring.health.service.DoctorService;
 
 @RestController
-@RequestMapping("/api/doctor")
+@RequestMapping("api/doctors")
 public class DoctorController {
 	
 	

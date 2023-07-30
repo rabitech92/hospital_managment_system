@@ -1,10 +1,9 @@
 package com.spring.health.service;
 
 import java.util.List;
-import java.util.Optional;
 
-import com.spring.health.enums.ActiveEnum;
 import com.spring.health.model.Doctor;
+import com.spring.health.repository.DoctorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,9 +22,8 @@ public class PatientService {
 	}
 
 	public Patient save(Patient patient) {
-				Doctor doctor =new Doctor();
-				patient.setDoctor(doctor);
-				return patientRepository.save(patient);
+
+			return patientRepository.save(patient);
 	}
 	
 	public List<Patient> getAllPatient() {
@@ -33,7 +31,7 @@ public class PatientService {
 					return patientRepository.findAll();
 				} catch (Exception e) {
 					{
-						System.out.println(e);
+						System.out.println("No patient save here");
 					}
 					return patientRepository.findAll();
 				}
