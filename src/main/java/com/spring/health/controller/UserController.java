@@ -10,6 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/user")
+@CrossOrigin("http://localhost:3000")
 public class UserController {
 
     @Autowired
@@ -27,14 +28,12 @@ public class UserController {
     public List<User> getAll(){
         return userService.getAll();
     }
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
     public User updatePatient(@RequestBody User user, @PathVariable Long id) {
         return userService.update(user,id);
     }
-
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
         userService.delete(id);
     }
-
 }

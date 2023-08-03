@@ -1,9 +1,10 @@
 package com.spring.health.service;
 
-import com.spring.health.model.Patient;
+
 import com.spring.health.model.User;
 import com.spring.health.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,6 +14,7 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+
 
     public User addUser(User user){
        return userRepository.save(user);
@@ -36,5 +38,6 @@ public class UserService {
     public void delete(Long id){
         userRepository.deleteById(id);
     }
+
 
 }
