@@ -12,9 +12,9 @@ import java.util.List;
 
 @Repository
 public interface PatientRepository  extends JpaRepository<Patient, Long> {
-    @Query("UPDATE Patient p SET p.isDeleted = true WHERE p.id = :id")
-    @Modifying
-    void softDeleteById(@Param("id") Long id);
+//    @Query("UPDATE Patient p SET p.isDeleted = true WHERE p.id = :id")
+//    @Modifying
+//    void softDeleteById(@Param("id") Long id);
 
 //    List<Patient> findByDeletedFalse();
 

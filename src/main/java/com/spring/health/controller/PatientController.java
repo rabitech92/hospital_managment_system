@@ -18,7 +18,7 @@ public class PatientController {
 	@Autowired
 	private PatientService patientService;
 	
-	@PostMapping("/save")
+	@PostMapping
 	public Patient savepatient(@RequestBody Patient patient) {
 		return patientService.save(patient);
 	}
@@ -45,8 +45,8 @@ public class PatientController {
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<String> softDeletePatient(@PathVariable Long id) {
-		patientService.softDeletePatient(id);
-		return ResponseEntity.ok("Patient with ID " + id + " has been soft deleted.");
+		patientService.softDeleteById(id);
+		return ResponseEntity.ok("Patient ID " + id + " has been successfully soft deleted.");
 	}
 //	@GetMapping("/non-deleted")
 //	public ResponseEntity<List<Patient>> getNonDeletedPatients() {

@@ -2,14 +2,16 @@ package com.spring.health.service;
 
 import java.util.List;
 
-import com.spring.health.model.Doctor;
-import com.spring.health.repository.DoctorRepository;
+import com.spring.health.enums.Status;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
 import com.spring.health.model.Patient;
 import com.spring.health.repository.PatientRepository;
+
+import javax.persistence.EntityNotFoundException;
+import javax.transaction.Transactional;
 
 @Service
 public class PatientService {
@@ -22,7 +24,6 @@ public class PatientService {
 	}
 
 	public Patient save(Patient patient) {
-
 			return patientRepository.save(patient);
 	}
 	
@@ -53,9 +54,16 @@ public class PatientService {
 	public void delete(Long id) {
 				patientRepository.deleteById(id);
 	}
-	public void softDeletePatient(Long id) {
-				patientRepository.softDeleteById(id);
+
+
+	@Transactional
+	public void softDeleteById(Long id) {
+		Patient patient = patientRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+		patient.setStatus(Status.DELETE);
+		patientRepository.save(patient);
 	}
+
+
 
 
 //	public List<Patient> getAllNonDeletedPatients() {
