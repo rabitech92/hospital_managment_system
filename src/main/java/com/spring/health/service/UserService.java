@@ -1,8 +1,10 @@
 package com.spring.health.service;
 
 
+import com.spring.health.Dto.UserDto;
 import com.spring.health.model.User;
 import com.spring.health.repository.UserRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,9 +13,14 @@ import java.util.List;
 @Service
 public class UserService {
 
-    @Autowired
-    private UserRepository userRepository;
 
+    private UserRepository userRepository;
+    private ModelMapper modelMapper;
+
+    public UserService(UserRepository userRepository, ModelMapper modelMapper) {
+        this.userRepository = userRepository;
+        this.modelMapper = modelMapper;
+    }
 
     public User addUser(User user){
        return userRepository.save(user);
@@ -38,7 +45,15 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
-    
+
+    public UserDto convertToUserDto(User user){
+        return modelMapper.map(user,UserDto.class);
+    }
+    public User convertToUser(UserDto userDto){
+        return modelMapper.map(userDto,User.class);
+    }
+
+
 
 
 }
