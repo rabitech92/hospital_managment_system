@@ -15,11 +15,10 @@ public class UserService {
 
 
     private UserRepository userRepository;
-    private ModelMapper modelMapper;
 
-    public UserService(UserRepository userRepository, ModelMapper modelMapper) {
+
+    public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.modelMapper = modelMapper;
     }
 
     public User addUser(User user){
@@ -44,15 +43,6 @@ public class UserService {
     public void delete(Long id){
         userRepository.deleteById(id);
     }
-
-
-    public UserDto convertToUserDto(User user){
-        return modelMapper.map(user,UserDto.class);
-    }
-    public User convertToUser(UserDto userDto){
-        return modelMapper.map(userDto,User.class);
-    }
-
 
 
 
