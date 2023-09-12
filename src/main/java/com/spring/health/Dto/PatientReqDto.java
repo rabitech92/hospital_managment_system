@@ -5,9 +5,8 @@ import com.spring.health.model.BaseClass;
 import com.spring.health.model.Doctor;
 import lombok.Data;
 
-
 @Data
-public class PatientDto extends BaseClass {
+public class PatientReqDto extends BaseClass {
 
 
     private String name;
@@ -15,6 +14,7 @@ public class PatientDto extends BaseClass {
     private String email;
     private String nid;
     private Status status;
-    private DoctorDto doctor;
+    private Doctor doctor;
+
 
 }
