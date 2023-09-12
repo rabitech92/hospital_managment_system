@@ -14,7 +14,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @NoArgsConstructor
 @Document(collection ="doctor")
 public class Doctor extends BaseClass {
-
 	private String name;
 	private String email;
 	private String password;

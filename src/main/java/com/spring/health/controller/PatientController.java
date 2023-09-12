@@ -1,27 +1,41 @@
 package com.spring.health.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.spring.health.Dto.PatientDto;
 import com.spring.health.Dto.PatientReqDto;
-import com.spring.health.model.Doctor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import com.spring.health.service.PatientService;
+import org.bson.types.ObjectId;
 import org.springframework.web.bind.annotation.*;
 
-import com.spring.health.model.Patient;
-import com.spring.health.service.PatientService;
+import java.util.List;
+
+
 @CrossOrigin(origins = "http://localhost:3000/")
 @RestController
 @RequestMapping("api/patients")
 public class PatientController {
-	
+    private final PatientService patientService;
+    public PatientController(PatientService patientService) {
+        this.patientService = patientService;
+    }
+    @PostMapping
+    public PatientDto save(@RequestBody PatientReqDto patientReqDto){
+        return patientService.create(patientReqDto);
+    }
+    @PostMapping
+    public PatientDto update(@RequestBody PatientReqDto patientReqDto){
+        return patientService.update(patientReqDto);
 
-//	@GetMapping("/non-deleted")
-//	public ResponseEntity<List<Patient>> getNonDeletedPatients() {
-//		List<Patient> nonDeletedPatients = patientService.getAllNonDeletedPatients();
-//		return ResponseEntity.ok(nonDeletedPatients);
-//	}
-
+    }
+    @GetMapping("/{id}")
+    public PatientDto getById(@PathVariable ObjectId id){
+        return patientService.getById(id);
+    }
+    @GetMapping
+    public List<PatientDto> getAll(){
+        return patientService.getAll();
+    }
+    @DeleteMapping("/{id}")
+    public PatientDto delete(@PathVariable ObjectId id){
+        return patientService.delete(id);
+    }
 }

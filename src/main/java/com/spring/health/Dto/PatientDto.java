@@ -2,7 +2,6 @@ package com.spring.health.Dto;
 
 import com.spring.health.enums.Status;
 import com.spring.health.model.BaseClass;
-import com.spring.health.model.Doctor;
 import lombok.Data;
 
 

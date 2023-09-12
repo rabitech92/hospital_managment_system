@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -51,7 +52,7 @@ public class PatientServiceImpl  implements PatientService {
     public List<PatientDto> getAll() {
         try {
         List<Patient> patients= patientRepository.findAll();
-        List<PatientDto> patientDtos = patients.stream().map(this::convertToDto).toList();
+        List<PatientDto> patientDtos = patients.stream().map(this::convertToDto).collect(Collectors.toList());
         return patientDtos;
         }catch (Exception ex){
             throw new RuntimeException(ex.getMessage(), ex);
@@ -103,7 +104,7 @@ public class PatientServiceImpl  implements PatientService {
         }
     private Patient checkAndGet(ObjectId id){
         Optional<Patient> patientOpt = patientRepository.findById(id);
-        if(patientOpt.isEmpty()){
+        if(!patientOpt.isPresent()){
             throw new RuntimeException("Patient not found with ID: "+ id);
         }
         return patientOpt.get();

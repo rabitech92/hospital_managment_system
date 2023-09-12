@@ -7,10 +7,10 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class Config {
 
-//    @Bean
-//    public ModelMapper modelMapper(){
-//        return new ModelMapper();
-//    }
+    @Bean
+    public ModelMapper modelMapper(){
+        return new ModelMapper();
+    }
 //    public UserDto convertToUserDto(User user){
 //        ModelMapper modelMapper=new ModelMapper();
 //        return modelMapper.map(user,UserDto.class);
