@@ -32,14 +32,14 @@ public class PatientServiceImpl  implements PatientService {
 
 
     @Override
-    public PatientDto create(PatientReqDto payload) {
+    public PatientDto create(PatientReqDto patientReqDto) {
         try {
-                if (doctorRepository.existsByEmailAndIdNotIn(payload.getDoctor().getEmail(),payload.getDoctor().getId()))
+                if (doctorRepository.existsByEmailAndIdNotIn(patientReqDto.getDoctor().getEmail(),patientReqDto.getDoctor().getId()))
             {
-                throw new RuntimeException("Email Must be Unique " + payload.getDoctor().getEmail() +" is already taken bu another Doctor !");
+                throw new RuntimeException("Email Must be Unique " + patientReqDto.getDoctor().getEmail() +" is already taken bu another Doctor !");
             }
-            Patient patient=modelMapper.map(payload,Patient.class);
-            Doctor doctor = modelMapper.map(payload,Doctor.class);
+            Patient patient=modelMapper.map(patientReqDto,Patient.class);
+            Doctor doctor = modelMapper.map(patientReqDto,Doctor.class);
             patient.setDoctor(doctor);
             patient=patientRepository.save(patient);
             return convertToDto(patient);
@@ -60,13 +60,13 @@ public class PatientServiceImpl  implements PatientService {
     }
 
     @Override
-    public PatientDto update(PatientReqDto payload) {
+    public PatientDto update(PatientReqDto patientReqDto) {
         try {
-           if (doctorRepository.existsByEmailAndIdNotIn(payload.getDoctor().getEmail(),payload.getDoctor().getId())){
-               throw new RuntimeException("Email Must br unique. " + payload.getDoctor().getEmail() +" is already taken by another user !");
+           if (doctorRepository.existsByEmailAndIdNotIn(patientReqDto.getDoctor().getEmail(),patientReqDto.getDoctor().getId())){
+               throw new RuntimeException("Email Must br unique. " + patientReqDto.getDoctor().getEmail() +" is already taken by another user !");
             }
-            Patient patient=checkAndGet(payload.getId());
-            modelMapper.map(payload,patient);
+            Patient patient=checkAndGet(patientReqDto.getId());
+            modelMapper.map(patientReqDto,patient);
             patient=patientRepository.save(patient);
             return convertToDto(patient);
             }catch (Exception ex){

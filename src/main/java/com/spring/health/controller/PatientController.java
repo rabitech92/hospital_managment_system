@@ -11,19 +11,19 @@ import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:3000/")
 @RestController
-@RequestMapping("api/patients")
+@RequestMapping
 public class PatientController {
     private final PatientService patientService;
     public PatientController(PatientService patientService) {
         this.patientService = patientService;
     }
     @PostMapping
-    public PatientDto save(@RequestBody PatientReqDto patientReqDto){
-        return patientService.create(patientReqDto);
+    public PatientDto save(@RequestBody PatientReqDto payload){
+        return patientService.create(payload);
     }
-    @PostMapping
-    public PatientDto update(@RequestBody PatientReqDto patientReqDto){
-        return patientService.update(patientReqDto);
+    @PutMapping
+    public PatientDto update(@RequestBody PatientReqDto payload){
+        return patientService.update(payload);
 
     }
     @GetMapping("/{id}")

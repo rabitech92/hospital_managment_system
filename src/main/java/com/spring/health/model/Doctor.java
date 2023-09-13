@@ -12,7 +12,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Document(collection ="doctor")
+@Document(collection ="doctors")
 public class Doctor extends BaseClass {
 	private String name;
 	private String email;

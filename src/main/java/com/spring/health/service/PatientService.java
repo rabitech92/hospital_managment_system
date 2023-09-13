@@ -12,9 +12,9 @@ import java.util.List;
 
 public interface PatientService {
 
-	PatientDto create(PatientReqDto payload);
+	PatientDto create(PatientReqDto patientReqDto);
 	List<PatientDto> getAll();
-	PatientDto update (PatientReqDto payload);
+	PatientDto update (PatientReqDto patientReqDto);
 	PatientDto getById (ObjectId id);
 	PatientDto delete (ObjectId id);
 
