@@ -8,7 +8,6 @@ import lombok.Data;
 @Data
 public class PatientDto extends BaseClass {
 
-
     private String name;
     private int age ;
     private String email;

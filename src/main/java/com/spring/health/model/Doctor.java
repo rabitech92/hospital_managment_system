@@ -1,17 +1,14 @@
 package com.spring.health.model;
 
-import java.util.List;
-
-
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.Accessors;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-
-@Data
+@Setter
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@Accessors(chain = true)
 @Document(collection ="doctors")
 public class Doctor extends BaseClass {
 	private String name;

@@ -3,6 +3,7 @@ package com.spring.health.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.*;
 
@@ -10,13 +11,11 @@ import org.springframework.data.annotation.*;
 import java.time.LocalDateTime;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
+@Accessors(chain = true)
 public class BaseClass {
 
     @Id
     private ObjectId id;
-    private String statusCode;
     private boolean isDeleted;
     @CreatedBy
     private String createdBy;
@@ -26,6 +25,7 @@ public class BaseClass {
     private String LastModifiedBy;
     @LastModifiedDate
     private LocalDateTime lastModifyDate;
+    private Boolean activeStatus = true;
 
 
 }

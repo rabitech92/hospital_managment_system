@@ -1,15 +1,16 @@
 package com.spring.health.model;
 
 import com.spring.health.enums.Status;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.Accessors;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-
-@Data
+@Setter
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@Accessors(chain = true)
 @Document(collection = "patients")
 public class Patient extends BaseClass{
 
@@ -19,6 +20,7 @@ public class Patient extends BaseClass{
 	private String address;
 	private String nid;
 	private Status status;
+	@DBRef
 	private Doctor doctor;
 
 }
