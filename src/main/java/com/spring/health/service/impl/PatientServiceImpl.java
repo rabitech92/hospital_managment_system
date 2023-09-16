@@ -39,7 +39,7 @@ public class PatientServiceImpl  implements PatientService {
                 throw new RuntimeException("Email Must be Unique " + patientReqDto.getDoctor().getEmail() +" is already taken bu another Doctor !");
             }
             Patient patient=modelMapper.map(patientReqDto,Patient.class);
-            Doctor doctor = modelMapper.map(patientReqDto,Doctor.class);
+            Doctor doctor = doctorRepository.save(patientReqDto.getDoctor());
             patient.setDoctor(doctor);
             patient=patientRepository.save(patient);
             return convertToDto(patient);
