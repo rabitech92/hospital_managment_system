@@ -1,14 +1,13 @@
 package com.spring.health.Dto;
 
 import com.spring.health.enums.Status;
-import com.spring.health.model.BaseClass;
 import lombok.Data;
 
 
 @Data
 public class PatientDto {
-    private String id;
 
+    private String id;
     private String name;
     private int age ;
     private String email;

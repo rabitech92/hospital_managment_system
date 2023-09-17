@@ -9,5 +9,6 @@ import com.spring.health.model.Doctor;
 @Repository
 public interface DoctorRepository extends MongoRepository<Doctor, ObjectId> {
     boolean existsByEmailAndIdNotIn(String email, ObjectId id);
+    Doctor findByEmail(String email);
 
 }

@@ -13,9 +13,9 @@ import java.util.List;
 public interface PatientService {
 
 	PatientDto create(PatientReqDto patientReqDto);
-	List<PatientDto> getAll();
 	PatientDto update (PatientReqDto patientReqDto);
 	PatientDto getById (ObjectId id);
+	List<PatientDto> getAll();
 	PatientDto delete (ObjectId id);
 
 //	@Transactional

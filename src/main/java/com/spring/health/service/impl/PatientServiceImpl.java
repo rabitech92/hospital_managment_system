@@ -52,6 +52,7 @@ public class PatientServiceImpl  implements PatientService {
     public List<PatientDto> getAll() {
         try {
         List<Patient> patients= patientRepository.findAll();
+            System.out.println(patients);
         List<PatientDto> patientDtos = patients.stream().map(this::convertToDto).collect(Collectors.toList());
         return patientDtos;
         }catch (Exception ex){
@@ -63,7 +64,7 @@ public class PatientServiceImpl  implements PatientService {
     public PatientDto update(PatientReqDto patientReqDto) {
         try {
            if (doctorRepository.existsByEmailAndIdNotIn(patientReqDto.getDoctor().getEmail(),patientReqDto.getDoctor().getId())){
-               throw new RuntimeException("Email Must br unique. " + patientReqDto.getDoctor().getEmail() +" is already taken by another user !");
+               throw new RuntimeException("Email Must be unique. " + patientReqDto.getDoctor().getEmail() +" is already taken by another user !");
             }
             Patient patient=checkAndGet(patientReqDto.getId());
             modelMapper.map(patientReqDto,patient);
@@ -104,7 +105,7 @@ public class PatientServiceImpl  implements PatientService {
         }
     private Patient checkAndGet(ObjectId id){
         Optional<Patient> patientOpt = patientRepository.findById(id);
-        if(!patientOpt.isPresent()){
+        if(patientOpt.isEmpty()){
             throw new RuntimeException("Patient not found with ID: "+ id);
         }
         return patientOpt.get();
