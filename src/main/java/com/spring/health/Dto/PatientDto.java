@@ -6,7 +6,8 @@ import lombok.Data;
 
 
 @Data
-public class PatientDto extends BaseClass {
+public class PatientDto {
+    private String id;
 
     private String name;
     private int age ;

@@ -7,6 +7,7 @@ import lombok.Data;
 
 @Data
 public class PatientReqDto extends BaseClass {
+
     private String name;
     private int age ;
     private String email;

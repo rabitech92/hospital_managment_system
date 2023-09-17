@@ -36,7 +36,7 @@ public class PatientServiceImpl  implements PatientService {
         try {
                 if (doctorRepository.existsByEmailAndIdNotIn(patientReqDto.getDoctor().getEmail(),patientReqDto.getDoctor().getId()))
             {
-                throw new RuntimeException("Email Must be Unique " + patientReqDto.getDoctor().getEmail() +" is already taken bu another Doctor !");
+                throw new RuntimeException("Email Must be Unique " + patientReqDto.getDoctor().getEmail() +" is already taken by another Doctor !");
             }
             Patient patient=modelMapper.map(patientReqDto,Patient.class);
             Doctor doctor = doctorRepository.save(patientReqDto.getDoctor());
