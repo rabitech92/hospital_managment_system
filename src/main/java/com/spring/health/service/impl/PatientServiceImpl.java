@@ -52,7 +52,6 @@ public class PatientServiceImpl  implements PatientService {
     public List<PatientDto> getAll() {
         try {
         List<Patient> patients= patientRepository.findAll();
-            System.out.println(patients);
         List<PatientDto> patientDtos = patients.stream().map(this::convertToDto).collect(Collectors.toList());
         return patientDtos;
         }catch (Exception ex){
