@@ -11,12 +11,4 @@ public class Config {
     public ModelMapper modelMapper(){
         return new ModelMapper();
     }
-//    public UserDto convertToUserDto(User user){
-//        ModelMapper modelMapper=new ModelMapper();
-//        return modelMapper.map(user,UserDto.class);
-//    }
-//    public User convertToUser(UserDto userDto){
-//        ModelMapper modelMapper=new ModelMapper();
-//        return modelMapper.map(userDto,User.class);
-//    }
 }
