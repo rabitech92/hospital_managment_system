@@ -21,7 +21,7 @@ public class PatientController {
     public PatientDto save(@RequestBody PatientReqDto payload){
         return patientService.create(payload);
     }
-    @PutMapping("/id")
+    @PutMapping("/{id}")
     public PatientDto update(@RequestBody PatientReqDto payload){
         return patientService.update(payload);
 

@@ -4,6 +4,7 @@ import com.spring.health.Dto.DoctorDto;
 import com.spring.health.model.Doctor;
 import com.spring.health.repository.DoctorRepository;
 import com.spring.health.service.DoctorService;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,11 +14,12 @@ import java.util.stream.Collectors;
 public class DoctorServiceImpl implements DoctorService {
 
     private final DoctorRepository doctorRepository;
+    private final ModelMapper modelMapper;
 
-    public DoctorServiceImpl(DoctorRepository doctorRepository) {
+    public DoctorServiceImpl(DoctorRepository doctorRepository, ModelMapper modelMapper) {
         this.doctorRepository = doctorRepository;
+        this.modelMapper = modelMapper;
     }
-
 
     @Override
     public Doctor findByEmail(String email) {
@@ -32,10 +34,7 @@ public class DoctorServiceImpl implements DoctorService {
 
 
     private DoctorDto convertEntityToDto(Doctor doctor){
-        DoctorDto doctorDto = new DoctorDto();
-        doctorDto.setEmail(doctor.getEmail());
-        doctorDto.setName(doctor.getName());
-        doctorDto.setPassword(doctor.getPassword());
+        DoctorDto doctorDto=modelMapper.map(doctor,DoctorDto.class);
         return doctorDto;
     }
 
