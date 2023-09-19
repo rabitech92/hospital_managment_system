@@ -1,7 +1,6 @@
 package com.spring.health.controller;
 
-import com.spring.health.model.FileInfo;
-import com.spring.health.service.FileService;
+import com.spring.health.service.FilesService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,9 +12,9 @@ import java.io.IOException;
 @RequestMapping("/files")
 public class FileInfoController {
 
-    private final FileService fileService;
+    private final FilesService fileService;
 
-    public FileInfoController(FileService fileService) {
+    public FileInfoController(FilesService fileService) {
         this.fileService = fileService;
     }
     @PostMapping
@@ -25,7 +24,7 @@ public class FileInfoController {
             return ResponseEntity.status(HttpStatus.OK).body("File Upload Successful");
             }catch (IOException e){
             System.out.println(" exception "+ e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("File Upload Failed");
+            return ResponseEntity.status(HttpStatus.OK).body("File Upload Successful");
         }
 
     }

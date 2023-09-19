@@ -3,7 +3,7 @@ package com.spring.health.service.impl;
 import com.spring.health.Dto.FileInfoDto;
 import com.spring.health.model.FileInfo;
 import com.spring.health.repository.FileInfoRepository;
-import com.spring.health.service.FileService;
+import com.spring.health.service.FilesService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,7 +16,7 @@ import java.util.Date;
 
 
 @Service
-public class FileServiceImpl implements FileService {
+public class FileServiceImpl implements FilesService {
 
 
     private final FileInfoRepository fileInfoRepository;
@@ -37,9 +37,8 @@ public class FileServiceImpl implements FileService {
 
         Path filePath = Paths.get("Directory",file.getOriginalFilename());
         Files.write(filePath, file.getBytes());
-        fileInfo=fileInfoRepository.save(fileInfo);
 
-        return convertrDto(fileInfo);
+        return convertrDto(fileInfoRepository.save(fileInfo));
     }
 
     @Override

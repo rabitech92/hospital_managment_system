@@ -21,6 +21,10 @@ public class PatientController {
     public PatientDto save(@RequestBody PatientReqDto payload){
         return patientService.create(payload);
     }
+    @GetMapping
+    public List<PatientDto> getAll(){
+        return patientService.getAll();
+    }
     @PutMapping("/{id}")
     public PatientDto update(@RequestBody PatientReqDto payload){
         return patientService.update(payload);
@@ -30,10 +34,7 @@ public class PatientController {
     public PatientDto getById(@PathVariable ObjectId id){
         return patientService.getById(id);
     }
-    @GetMapping
-    public List<PatientDto> getAll(){
-        return patientService.getAll();
-    }
+
     @DeleteMapping("/{id}")
     public PatientDto delete(@PathVariable ObjectId id){
         return patientService.delete(id);
