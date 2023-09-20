@@ -7,14 +7,14 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-@Document(collection = "appointments")
-@Accessors(chain = true)
+
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString(callSuper = true)
-
+@Document(collection = "appointments")
+@Accessors(chain = true)
 public class Appointment extends BaseClass {
 
 

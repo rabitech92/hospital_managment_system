@@ -102,6 +102,9 @@ public class PatientServiceImpl  implements PatientService {
         result.setDoctor(doctorDto);
         return result;
         }
+
+
+
     private Patient checkAndGet(ObjectId id){
         Optional<Patient> patientOpt = patientRepository.findById(id);
         if(patientOpt.isEmpty()){
