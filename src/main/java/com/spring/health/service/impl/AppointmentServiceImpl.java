@@ -34,7 +34,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     public Response getApointment() {
         List<Appointment> appointmentList=appointmentRepository.findAll();
         if (appointmentList.isEmpty()){
-            return ResponseBuilder.getFailureResponse(HttpStatus.INTERNAL_SERVER_ERROR,"No Data");
+            return ResponseBuilder.getFailureResponse(HttpStatus.INTERNAL_SERVER_ERROR,"There are no Appointment Data");
         }
         return ResponseBuilder.getSuccessResponse(HttpStatus.FOUND,"Appointment has been retrieved",appointmentMapper.toDtoList(appointmentList),appointmentList.size());
     }
@@ -51,8 +51,14 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public Response updateApointment(AppointmentDto appointmentDto, String id) {
+        Appointment existAppoint =appointmentRepository.findById(id).orElse(null);
+        if (existAppoint==null){
+            return ResponseBuilder.getFailureResponse(HttpStatus.NOT_FOUND,"Appoinment Not Found");
+        }
+        Appointment appointmentUpdate =appointmentMapper.toEntity(appointmentDto,existAppoint);
+        appointmentUpdate=appointmentRepository.save(appointmentUpdate);
+        return ResponseBuilder.getSuccessResponse(HttpStatus.ACCEPTED,"Appointment Updated",appointmentMapper.toDto(appointmentUpdate));
 
-        return null;
     }
 
     @Override

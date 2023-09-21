@@ -15,8 +15,8 @@ public class AppointmentDto {
   private String date;
   private String time;
 
-  private  String complaint;
-  private  String doctorId;
+  private String complaint;
+  private String doctorId;
   private String room;
   private String department;
 }
