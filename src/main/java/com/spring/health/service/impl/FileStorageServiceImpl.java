@@ -38,7 +38,7 @@ public class FileStorageServiceImpl implements FileStorageService {
     @Override
     public Response downloadImage(String fileName) {
         ImageData imageData=fileStorageRepository.findByName(fileName);
-        byte[] images=ImageUtils.decompressImage()
+//        byte[] images=ImageUtils.decompressImage()
                 //ImageUtils.decompressImage(dbImageData.get().getImageData());
         return null;
     }
