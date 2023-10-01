@@ -1,6 +1,7 @@
 package com.spring.health.controller;
 
 import com.spring.health.Dto.MailSenderDto;
+import com.spring.health.service.MailService;
 import com.spring.health.service.impl.MailServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class MailController {
 
-    private final MailServiceImpl service;
+    private final MailService service;
 
     @PostMapping("/send/{email}")
     public void sendMail(@PathVariable String email, @RequestBody MailSenderDto mailSenderDto ){

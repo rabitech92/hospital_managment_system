@@ -16,12 +16,12 @@ public class MailServiceImpl implements MailService {
     private final JavaMailSender mailSender;
 
     @Value("$(spring.mail.username)")
-    private String formmail;
+    private String formMail;
 
     @Override
     public void sendMail(String email, MailSenderDto mailSenderDto) {
         SimpleMailMessage simpleMailMessage =new SimpleMailMessage();
-        simpleMailMessage.setFrom(formmail);
+        simpleMailMessage.setFrom(formMail);
         simpleMailMessage.setSubject(mailSenderDto.getSubject());
         simpleMailMessage.setText(mailSenderDto.getMessage());
         simpleMailMessage.setTo(email);
