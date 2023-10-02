@@ -9,9 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Date;
 
 
@@ -34,10 +31,8 @@ public class FileServiceImpl implements FilesService {
         fileInfo.setSize(file.getSize());
         fileInfo.setContentType(file.getContentType());
         fileInfo.setUploadDate(new Date());
-
-        Path filePath = Paths.get("Directory",file.getOriginalFilename());
-        Files.write(filePath, file.getBytes());
-
+//        Path filePath = Paths.get("Directory",file.getOriginalFilename());
+//        Files.write(filePath, file.getBytes());
         return convertrDto(fileInfoRepository.save(fileInfo));
     }
 

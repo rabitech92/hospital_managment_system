@@ -27,8 +27,8 @@ public class PatientController {
         return patientService.getAll();
     }
     @PutMapping("/{id}")
-    public PatientDto update(@RequestBody PatientReqDto payload){
-        return patientService.update(payload);
+    public PatientDto update(@PathVariable ObjectId id,@RequestBody PatientReqDto payload){
+        return patientService.update(id,payload);
 
     }
     @GetMapping("/{id}")

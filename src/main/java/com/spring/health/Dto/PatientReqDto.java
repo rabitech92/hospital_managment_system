@@ -10,6 +10,8 @@ public class PatientReqDto extends BaseClass {
 
     private String name;
     private int age ;
+    private String gender;
+    private String address;
     private String email;
     private String nid;
     private Status status;

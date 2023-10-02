@@ -13,7 +13,7 @@ import java.util.List;
 public interface PatientService {
 
 	PatientDto create(PatientReqDto patientReqDto);
-	PatientDto update (PatientReqDto patientReqDto);
+	PatientDto update (ObjectId id,PatientReqDto patientReqDto);
 	PatientDto getById (ObjectId id);
 	List<PatientDto> getAll();
 	PatientDto delete (ObjectId id);

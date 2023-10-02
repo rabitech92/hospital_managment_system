@@ -9,9 +9,8 @@ import org.bson.types.ObjectId;
 import java.util.List;
 
 public interface DoctorService {
-    Doctor findByEmail(String email);
-    List<DoctorDto> findAllDoctors();
 
+    List<DoctorDto> findAllDoctors();
     Response saveDoctor(DoctorDto doctorDto);
     Response getDoctor( );
     Response getByIdDoctor(ObjectId id);

@@ -27,11 +27,6 @@ public class DoctorServiceImpl implements DoctorService {
 
 
     @Override
-    public Doctor findByEmail(String email) {
-        return doctorRepository.findByEmail(email);
-    }
-
-    @Override
     public List<DoctorDto> findAllDoctors() {
         List<Doctor> doctors =doctorRepository.findAll();
         return doctors.stream().map((doctor) ->convertEntityToDto(doctor)).collect(Collectors.toList());

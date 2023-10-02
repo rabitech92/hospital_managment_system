@@ -60,18 +60,21 @@ public class PatientServiceImpl  implements PatientService {
     }
 
     @Override
-    public PatientDto update(PatientReqDto patientReqDto) {
-        try {
-           if (doctorRepository.existsByEmailAndIdNotIn(patientReqDto.getDoctor().getEmail(),patientReqDto.getDoctor().getId())){
-               throw new RuntimeException("Email Must be unique. " + patientReqDto.getDoctor().getEmail() +" is already taken by another user !");
-            }
-            Patient patient=checkAndGet(patientReqDto.getId());
-            modelMapper.map(patientReqDto,patient);
+    public PatientDto update( ObjectId id,PatientReqDto patientReqDto) {
+        Patient patient=checkAndGet(id);
+        if (patient!=null){
+            patient.setName(patientReqDto.getName());
+            patient.setAge(patientReqDto.getAge());
+            patient.setGender(patientReqDto.getGender());
+            patient.setAddress(patientReqDto.getAddress());
+            patient.setNid(patientReqDto.getNid());
+            patient.setDoctor(patientReqDto.getDoctor());
+            patient=modelMapper.map(patientReqDto, Patient.class);
+            Doctor doctor=doctorRepository.save(patientReqDto.getDoctor());
             patient=patientRepository.save(patient);
-            return convertToDto(patient);
-            }catch (Exception ex){
-            throw new RuntimeException(ex.getMessage(),ex);
+           return convertToDto(patient);
         }
+        return null;
     }
 
     @Override
