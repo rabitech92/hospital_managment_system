@@ -60,7 +60,7 @@ public class PatientServiceImpl  implements PatientService {
     }
 
     @Override
-    public PatientDto update( ObjectId id,PatientReqDto patientReqDto) {
+    public PatientDto update(ObjectId id,PatientReqDto patientReqDto) {
         Patient patient=checkAndGet(id);
         if (patient!=null){
             patient.setName(patientReqDto.getName());
