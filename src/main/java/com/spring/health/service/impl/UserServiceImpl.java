@@ -71,15 +71,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Response verifyAccount(String email, String otp) {
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found with this email: " + email));
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found with this email: " + email));
         if (user.getOtp().equals(otp) && Duration.between(user.getOtpGeneratedTime(),
-                LocalDateTime.now()).getSeconds() < (1 * 60)) {
+                LocalDateTime.now()).getSeconds() < (5 * 60)) {
             user.setVerified(true);
             userRepository.save(user);
-            return ResponseBuilder.getFailureResponse(HttpStatus.OK,"OTP verified you can login");
+            return ResponseBuilder.getSuccessResponse(HttpStatus.OK,"OTP verified you can login",userMapper.toDto(user));
         }
-        return ResponseBuilder.getFailureResponse(HttpStatus.OK,"Please regenerate otp and try again");
+        return ResponseBuilder.getSuccessResponse(HttpStatus.OK,"Please regenerate otp and try again",userMapper.toDto(user));
     }
 
     @Override
@@ -97,7 +96,7 @@ public class UserServiceImpl implements UserService {
         user.setOtp(otp);
         user.setOtpGeneratedTime(LocalDateTime.now());
         userRepository.save(user);
-        return ResponseBuilder.getSuccessResponse(HttpStatus.CREATED,"User registration successful",userMapper.toRegistrationDto(user));
+        return ResponseBuilder.getSuccessResponse(HttpStatus.OK,"User registration successful",userMapper.toRegistrationDto(user));
     }
 //
 //    @Override
