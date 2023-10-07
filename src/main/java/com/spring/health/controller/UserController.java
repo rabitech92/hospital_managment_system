@@ -2,6 +2,7 @@ package com.spring.health.controller;
 
 import com.spring.health.Dto.LoginDto;
 import com.spring.health.Dto.RegisterDto;
+import com.spring.health.Dto.Response;
 import com.spring.health.Dto.UserRegistrationRequest;
 import com.spring.health.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +13,12 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping
 public class UserController {
-//    @Autowired
-//    private UserService userService;
-//
-//    @PostMapping("/register")
+     private UserService userService;
+
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
+    //    @PostMapping("/register")
 //    public ResponseEntity<String> registerUser(@RequestBody UserRegistrationRequest registrationRequest) {
 //        userService.registerUser(registrationRequest.getEmail(), registrationRequest.getPassword());
 //        return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully. Check your email for verification.");
@@ -31,26 +34,23 @@ public class UserController {
 //    }
 
 
-    @Autowired
-    private UserService userService;
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody RegisterDto registerDto) {
-        return new ResponseEntity<>(userService.register(registerDto), HttpStatus.OK);
+    public Response register(@RequestBody RegisterDto registerDto) {
+        return userService.register(registerDto);
     }
 
     @PutMapping("/verify-account")
-    public ResponseEntity<String> verifyAccount(@RequestParam String email,
-                                                @RequestParam String otp) {
-        return new ResponseEntity<>(userService.verifyAccount(email, otp), HttpStatus.OK);
+    public Response verifyAccount(@RequestParam String email,@RequestParam String otp) {
+        return userService.verifyAccount(email, otp);
     }
     @PutMapping("/regenerate-otp")
-    public ResponseEntity<String> regenerateOtp(@RequestParam String email) {
-        return new ResponseEntity<>(userService.regenerateOtp(email), HttpStatus.OK);
+    public Response regenerateOtp(@RequestParam String email) {
+        return userService.regenerateOtp(email);
     }
     @PutMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginDto loginDto) {
-        return new ResponseEntity<>(userService.login(loginDto), HttpStatus.OK);
+    public Response login(@RequestBody LoginDto loginDto) {
+        return userService.login(loginDto);
     }
 
 
