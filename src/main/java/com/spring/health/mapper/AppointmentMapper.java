@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 @Component
 public class AppointmentMapper {
 
-  //ModelMapper modelMapper = new ModelMapper();
+
   public AppointmentDto toDto(Appointment appointment) {
     AppointmentDto appointmentDto = CommonMapper.mapEntityToDto(appointment, AppointmentDto.class);
     if (appointmentDto != null) {

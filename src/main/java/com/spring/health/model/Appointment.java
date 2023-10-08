@@ -2,6 +2,7 @@ package com.spring.health.model;
 
 import lombok.*;
 import lombok.experimental.Accessors;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
@@ -28,4 +29,10 @@ public class Appointment extends BaseClass {
   private String doctorId;
   private String room;
   private String department;
+  @DBRef
+  private Patient patient;
+  @DBRef
+  private Doctor doctor;
+
+
 }

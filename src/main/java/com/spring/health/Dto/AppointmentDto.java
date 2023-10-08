@@ -1,5 +1,7 @@
 package com.spring.health.Dto;
 
+import com.spring.health.model.Doctor;
+import com.spring.health.model.Patient;
 import lombok.*;
 
 @Getter
@@ -19,4 +21,7 @@ public class AppointmentDto {
   private String doctorId;
   private String room;
   private String department;
+  private Patient patient;
+  private Doctor doctor;
+
 }

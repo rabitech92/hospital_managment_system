@@ -18,4 +18,6 @@ public class PatientReqDto extends BaseClass {
     private Doctor doctor;
 
 
+
+
 }

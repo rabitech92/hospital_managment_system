@@ -22,5 +22,7 @@ public class Patient extends BaseClass{
 	private Status status;
 	@DBRef
 	private Doctor doctor;
+	@DBRef
+	private Appointment appointment;
 
 }
