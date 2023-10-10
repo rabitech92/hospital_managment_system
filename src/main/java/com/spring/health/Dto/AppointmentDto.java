@@ -11,7 +11,7 @@ import lombok.*;
 @ToString
 public class AppointmentDto {
 
-  private String patientId;
+  private String id;
   private String patientName;
   private String patientNumber;
   private String date;
@@ -21,7 +21,5 @@ public class AppointmentDto {
   private String doctorId;
   private String room;
   private String department;
-  private Patient patient;
-  private Doctor doctor;
 
 }

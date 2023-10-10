@@ -8,17 +8,22 @@ import com.spring.health.repository.AppointmentRepository;
 import com.spring.health.service.AppointmentService;
 import com.spring.health.util.ResponseBuilder;
 import lombok.RequiredArgsConstructor;
+import org.bson.types.ObjectId;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 public class AppointmentServiceImpl implements AppointmentService {
 
     private final AppointmentMapper appointmentMapper;
     private final AppointmentRepository appointmentRepository;
+
+    public AppointmentServiceImpl(AppointmentMapper appointmentMapper, AppointmentRepository appointmentRepository) {
+        this.appointmentMapper = appointmentMapper;
+        this.appointmentRepository = appointmentRepository;
+    }
 
     @Override
     public Response saveAppointment(AppointmentDto appointmentDto) {
@@ -40,7 +45,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public Response getApointmentById(String id) {
+    public Response getApointmentById(ObjectId id) {
         Appointment appointment=appointmentRepository.findById(id).orElse(null);
         if (appointment==null){
         return ResponseBuilder.getFailureResponse(HttpStatus.INTERNAL_SERVER_ERROR,"Appointment not Found");
@@ -50,7 +55,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public Response updateApointment(AppointmentDto appointmentDto, String id) {
+    public Response updateApointment(AppointmentDto appointmentDto, ObjectId id) {
         Appointment existAppoint =appointmentRepository.findById(id).orElse(null);
         if (existAppoint==null){
             return ResponseBuilder.getFailureResponse(HttpStatus.NOT_FOUND,"Appoinment Not Found");
@@ -62,7 +67,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public Response deleteApointment(String id) {
+    public Response deleteApointment(ObjectId id) {
         if (!appointmentRepository.existsById(id)){
             return ResponseBuilder.getFailureResponse(HttpStatus.NOT_FOUND,"Appoint not found");
         }

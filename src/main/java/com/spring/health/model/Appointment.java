@@ -18,8 +18,6 @@ import java.time.LocalTime;
 @Accessors(chain = true)
 public class Appointment extends BaseClass {
 
-
-  private String patientId;
   private String patientName;
   private String patientNumber;
   private LocalDate date;
@@ -29,10 +27,7 @@ public class Appointment extends BaseClass {
   private String doctorId;
   private String room;
   private String department;
-  @DBRef
-  private Patient patient;
-  @DBRef
-  private Doctor doctor;
+
 
 
 }
