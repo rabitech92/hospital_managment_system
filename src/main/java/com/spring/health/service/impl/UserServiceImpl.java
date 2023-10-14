@@ -46,8 +46,8 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new RuntimeException("User not found with this email: " + loginDto.getEmail()));
         if (!loginDto.getPassword().equals(user.getPassword())) {
             return ResponseBuilder.getFailureResponse(HttpStatus.NOT_FOUND,"Password is incorrect");
-        } else if (!user.isVerified()) {
-            return ResponseBuilder.getFailureResponse(HttpStatus.OK,"your account is not verified");
+        } else if (user.isVerified()) {
+            return ResponseBuilder.getSuccessResponse(HttpStatus.CREATED,"Login successful",userMapper.toDto(user));
         }
         return ResponseBuilder.getSuccessResponse(HttpStatus.CREATED,"Login successful",userMapper.toDto(user));
     }

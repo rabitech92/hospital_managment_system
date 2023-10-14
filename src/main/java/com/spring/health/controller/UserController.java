@@ -49,7 +49,7 @@ public class UserController {
     public Response regenerateOtp(@RequestParam String email) {
         return userService.regenerateOtp(email);
     }
-    @PutMapping("/login")
+    @PostMapping("/login")
     public Response login(@RequestBody LoginDto loginDto) {
         return userService.login(loginDto);
     }

@@ -16,6 +16,7 @@ public interface DoctorService {
     Response getByIdDoctor(ObjectId id);
     Response updateDoctor(DoctorDto  doctorDto,ObjectId id);
     Response deleteDoctor(ObjectId id);
+    Response loginDoctor(DoctorDto doctorDto);
 
 	
 

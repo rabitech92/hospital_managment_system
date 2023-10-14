@@ -1,9 +1,11 @@
 package com.spring.health.controller;
 
+import com.spring.health.Dto.DoctorDto;
 import com.spring.health.Dto.Response;
 import com.spring.health.service.DoctorService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,6 +18,11 @@ public class DoctorController {
     @GetMapping
     public Response getAll(){
         return doctorService.getDoctor();
+    }
+
+    public Response login(@RequestBody DoctorDto doctorDto){
+        return doctorService.loginDoctor(doctorDto);
+
     }
 
 }

@@ -1,6 +1,7 @@
 package com.spring.health.service.impl;
 
 import com.spring.health.Dto.DoctorDto;
+import com.spring.health.Dto.LoginDto;
 import com.spring.health.Dto.Response;
 import com.spring.health.mapper.DoctorMapper;
 import com.spring.health.model.Doctor;
@@ -14,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -78,6 +80,15 @@ public class DoctorServiceImpl implements DoctorService {
         }
         doctorRepository.deleteById(id);
         return ResponseBuilder.getSuccessResponse(HttpStatus.OK,"Doctor Id has deleted : ",id);
+    }
+
+    @Override
+    public Response loginDoctor(DoctorDto doctorDto) {
+        Optional<LoginDto> loginDto= Optional.ofNullable(doctorRepository.findByEmail(doctorDto.getEmail()));
+        if (loginDto.isPresent()){
+            return ResponseBuilder.getSuccessResponse(HttpStatus.OK,"Login Successfull",doctorDto.getEmail());
+        }
+        return ResponseBuilder.getFailureResponse(HttpStatus.NOT_FOUND,"No Doctor As ");
     }
 
 
