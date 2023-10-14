@@ -10,5 +10,7 @@ import com.spring.health.model.Patient;
 
 @Repository
 public interface PatientRepository  extends MongoRepository<Patient, ObjectId> {
+    Patient findByEmail(String email);
+
 
 }

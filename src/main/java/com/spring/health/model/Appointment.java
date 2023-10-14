@@ -1,11 +1,13 @@
 package com.spring.health.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 
@@ -18,15 +20,15 @@ import java.time.LocalTime;
 @Accessors(chain = true)
 public class Appointment extends BaseClass {
 
-  private String patientName;
-  private String patientNumber;
-  private LocalDate date;
-  private LocalTime time;
 
-  private String complaint;
-  private String doctorId;
-  private String room;
-  private String department;
+
+  @DBRef
+  @JsonIgnore
+  private Patient patient;
+  private LocalDateTime appointmentDateAndTime;
+  @DBRef
+  @JsonIgnore
+  private Doctor doctor;
 
 
 

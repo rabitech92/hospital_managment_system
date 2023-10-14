@@ -35,6 +35,7 @@ public class AppointmentServiceImpl implements AppointmentService {
         return ResponseBuilder.getFailureResponse(HttpStatus.INTERNAL_SERVER_ERROR,"Internal Server Error");
     }
 
+
     @Override
     public Response getApointment() {
         List<Appointment> appointmentList=appointmentRepository.findAll();

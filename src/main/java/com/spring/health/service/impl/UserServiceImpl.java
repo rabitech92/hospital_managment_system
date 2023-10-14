@@ -49,7 +49,7 @@ public class UserServiceImpl implements UserService {
         } else if (user.isVerified()) {
             return ResponseBuilder.getSuccessResponse(HttpStatus.CREATED,"Login successful",userMapper.toDto(user));
         }
-        return ResponseBuilder.getSuccessResponse(HttpStatus.CREATED,"Login successful",userMapper.toDto(user));
+        return null;
     }
 
 

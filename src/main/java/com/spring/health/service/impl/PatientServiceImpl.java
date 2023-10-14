@@ -3,6 +3,7 @@ package com.spring.health.service.impl;
 import com.spring.health.Dto.DoctorDto;
 import com.spring.health.Dto.PatientDto;
 import com.spring.health.Dto.PatientReqDto;
+import com.spring.health.exception.PatientException;
 import com.spring.health.model.Doctor;
 import com.spring.health.model.Patient;
 import com.spring.health.repository.DoctorRepository;
@@ -10,19 +11,27 @@ import com.spring.health.repository.PatientRepository;
 import com.spring.health.service.PatientService;
 import org.bson.types.ObjectId;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.SecureRandom;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 @Transactional
-public class PatientServiceImpl  implements PatientService {
+public class PatientServiceImpl  implements PatientService,Runnable {
+
+
+    public static BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder(10, new SecureRandom());
+
     private PatientRepository patientRepository;
     private DoctorRepository doctorRepository;
     private ModelMapper modelMapper;
+
 
     public PatientServiceImpl(PatientRepository patientRepository, DoctorRepository doctorRepository, ModelMapper modelMapper) {
         this.patientRepository = patientRepository;
@@ -32,19 +41,15 @@ public class PatientServiceImpl  implements PatientService {
 
 
     @Override
-    public PatientDto create(PatientReqDto patientReqDto) {
-        try {
-                if (doctorRepository.existsByEmailAndIdNotIn(patientReqDto.getDoctor().getEmail(),patientReqDto.getDoctor().getId()))
-            {
-                throw new RuntimeException("Email Must be Unique " + patientReqDto.getDoctor().getEmail() +" is already taken by another Doctor !");
-            }
-            Patient patient=modelMapper.map(patientReqDto,Patient.class);
-            Doctor doctor = doctorRepository.save(patientReqDto.getDoctor());
-            patient.setDoctor(doctor);
-            patient=patientRepository.save(patient);
+    public PatientDto create(Patient patient) throws PatientException{
+        Patient patient1=patientRepository.findByEmail(patient.getEmail());
+        if (patient1==null){
+            patient.setType("Patient");
+            patient.setPassword(bCryptPasswordEncoder.encode(patient.getPassword()));
+            patientRepository.save(patient);
             return convertToDto(patient);
-        }catch (Exception ex){
-            throw new RuntimeException(ex.getMessage(), ex);
+        }else{
+            throw new PatientException("Patient already register with this Email Id "+patient.getEmail());
         }
     }
 
@@ -117,4 +122,8 @@ public class PatientServiceImpl  implements PatientService {
     }
 
 
+    @Override
+    public void run() {
+
+    }
 }

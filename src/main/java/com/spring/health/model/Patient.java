@@ -1,5 +1,6 @@
 package com.spring.health.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.spring.health.enums.Status;
 import lombok.*;
 import lombok.experimental.Accessors;
@@ -15,14 +16,17 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Patient extends BaseClass{
 
 	private String name;
+	private String email;
 	private int age ;
 	private String gender;
 	private String address;
 	private String nid;
-	private Status status;
-	@DBRef
+	private String type;
+	private String password;
+
+	@JsonIgnore
 	private Doctor doctor;
-	@DBRef
+	@JsonIgnore
 	private Appointment appointment;
 
 }
