@@ -24,19 +24,23 @@ public class PatientController {
     public PatientDto save(@RequestBody Patient patient) throws PatientException {
         return patientService.create(patient);
     }
+
+    @PutMapping("/updatePatient")
+    public PatientDto update(@RequestBody Patient patient,@RequestParam(required = false) String key)throws PatientException{
+        return patientService.update(patient,key);
+    }
+
+    @GetMapping("/")
+    public PatientDto getByUuid(@RequestParam String key) throws PatientException {
+        return patientService.getPatientByUuid(key);
+    }
+
     @GetMapping
-    public List<PatientDto> getAll(){
+    public List<PatientDto> getAll() throws PatientException {
         return patientService.getAll();
     }
-    @PutMapping("/{id}")
-    public PatientDto update(@PathVariable ObjectId id,@RequestBody PatientReqDto payload){
-        return patientService.update(id,payload);
 
-    }
-    @GetMapping("/{id}")
-    public PatientDto getById(@PathVariable ObjectId id){
-        return patientService.getById(id);
-    }
+
 
     @DeleteMapping("/{id}")
     public PatientDto delete(@PathVariable ObjectId id){

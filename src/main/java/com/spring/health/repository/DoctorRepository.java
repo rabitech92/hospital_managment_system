@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.spring.health.model.Doctor;
 
 @Repository
-public interface DoctorRepository extends MongoRepository<Doctor, ObjectId> {
+public interface DoctorRepository extends MongoRepository<Doctor, Integer> {
     boolean existsByEmailAndIdNotIn(String email, ObjectId id);
     LoginDto findByEmail(String email);
 }

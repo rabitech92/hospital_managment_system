@@ -1,4 +1,4 @@
-package com.spring.health.exceptionhandler;
+package com.spring.health.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
