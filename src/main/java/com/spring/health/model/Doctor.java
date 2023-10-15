@@ -16,10 +16,9 @@ import java.util.List;
 @NoArgsConstructor
 @Accessors(chain = true)
 @Document(collection ="doctors")
-public class Doctor{
+public class Doctor extends BaseClass{
 
-	@Id
-	private Integer doctorId;
+
 	@Pattern(regexp = "^[0-9]{10}$", message = "Please enter valid mobile number")
 	private String mobileNo;
 	private String password;

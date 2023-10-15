@@ -182,7 +182,7 @@ public class PatientServiceImpl  implements PatientService,Runnable {
                 // setting patient in appointment
                 appointment.setPatient(patient.get());
                 Doctor doctor = appointment.getDoctor();
-                Optional<Doctor> registerDoctors = doctorRepository.findById(doctor.getDoctorId());
+                Optional<Doctor> registerDoctors = doctorRepository.findById(doctor.getId());
                 if(!registerDoctors.isEmpty()) {
                     // setting doctor in appointment
                     appointment.setDoctor(registerDoctors.get());
@@ -249,7 +249,7 @@ public class PatientServiceImpl  implements PatientService,Runnable {
                     patientRepository.save(patient.get());
                     return convertToDto(registerAppointment);
                 }else {
-                    throw new DoctorException("Please enter valid doctors details or doctor not present with thid id " + doctor.getDoctorId());
+                    throw new DoctorException("Please enter valid doctors details or doctor not present with thid id " + doctor.getId());
                 }
             }else {
                 throw new LoginException("Please enter valid key");
@@ -278,12 +278,12 @@ public class PatientServiceImpl  implements PatientService,Runnable {
         Optional<Patient> patient = patientRepository.findById(currentPatientSession.getUserId());
         if(patient.get() != null) {
             Optional<Appointment> registerAppoinment = appointmentRepository.findById(newAppointment.getAppointmentId());
-            Optional<Doctor> registerDoctor = doctorRepository.findById(newAppointment.getDoctor().getDoctorId());
+            Optional<Doctor> registerDoctor = doctorRepository.findById(newAppointment.getDoctor().getId());
             if(!registerAppoinment.isEmpty()) {
                 // check patient updated doctor or not
                 Doctor newDoctor = newAppointment.getDoctor();
                 Doctor oldDoctor = registerAppoinment.get().getDoctor();
-                Boolean patientChangeDoctorOrNot = newDoctor.getDoctorId() == oldDoctor.getDoctorId() ? true : false;
+                Boolean patientChangeDoctorOrNot = newDoctor.getId() == oldDoctor.getId() ? true : false;
                 if(!registerDoctor.isEmpty()) {
                     // patient did not change the doctor now check patient may have change appointment time then check this doctor is
                     // available at that time or not.
@@ -326,7 +326,7 @@ public class PatientServiceImpl  implements PatientService,Runnable {
                         throw new AppointmentException("Please update the appointment. You did not update anythings.");
                     }
                 }else {
-                    throw new DoctorException("No doctor found with this id " + newAppointment.getDoctor().getDoctorId());
+                    throw new DoctorException("No doctor found with this id " + newAppointment.getDoctor().getId());
                 }
             }else {
                 throw new AppointmentException("No appointments found. Please book appointments");

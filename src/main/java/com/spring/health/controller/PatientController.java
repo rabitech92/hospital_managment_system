@@ -43,7 +43,7 @@ public class PatientController {
 
 
     @DeleteMapping("/{id}")
-    public PatientDto delete(@PathVariable ObjectId id){
+    public PatientDto delete(@PathVariable ObjectId id) throws PatientException {
         return patientService.delete(id);
     }
 }
