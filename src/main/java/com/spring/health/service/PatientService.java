@@ -1,19 +1,13 @@
 package com.spring.health.service;
 
 
-import com.spring.health.Dto.AppointmentDto;
 import com.spring.health.Dto.PatientDto;
 import com.spring.health.Dto.PatientReqDto;
-import com.spring.health.exception.*;
-import com.spring.health.model.Appointment;
-import com.spring.health.model.CurrentSession;
-import com.spring.health.model.Doctor;
+import com.spring.health.exception.PatientException;
 import com.spring.health.model.Patient;
-import jakarta.mail.MessagingException;
 import org.bson.types.ObjectId;
 
 
-import java.io.IOException;
 import java.util.List;
 
 
@@ -21,6 +15,7 @@ import java.util.List;
 public interface PatientService {
 
 	PatientDto create(Patient patient)throws PatientException;
+<<<<<<< HEAD
 	PatientDto update (Patient user, String key)throws PatientException;
 	PatientDto getPatientByUuid (String uuid)throws PatientException;
 	List<PatientDto> getAll()throws PatientException;
@@ -34,6 +29,12 @@ public interface PatientService {
 
 
 
+=======
+	PatientDto update (ObjectId id,PatientReqDto patientReqDto);
+	PatientDto getById (ObjectId id);
+	List<PatientDto> getAll();
+	PatientDto delete (ObjectId id);
+>>>>>>> parent of 607c5be (patient service impl get all doctors method)
 
 //	@Transactional
 //	public void softDeleteById(Long id) {

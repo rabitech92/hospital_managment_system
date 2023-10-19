@@ -24,6 +24,7 @@ public class PatientController {
     public PatientDto save(@RequestBody Patient patient) throws PatientException {
         return patientService.create(patient);
     }
+<<<<<<< HEAD
 
     @PutMapping("/updatePatient")
     public PatientDto update(@RequestBody Patient patient,@RequestParam(required = false) String key)throws PatientException{
@@ -35,12 +36,21 @@ public class PatientController {
         return patientService.getPatientByUuid(key);
     }
 
+=======
+>>>>>>> parent of 607c5be (patient service impl get all doctors method)
     @GetMapping
-    public List<PatientDto> getAll() throws PatientException {
+    public List<PatientDto> getAll(){
         return patientService.getAll();
     }
+    @PutMapping("/{id}")
+    public PatientDto update(@PathVariable ObjectId id,@RequestBody PatientReqDto payload){
+        return patientService.update(id,payload);
 
-
+    }
+    @GetMapping("/{id}")
+    public PatientDto getById(@PathVariable ObjectId id){
+        return patientService.getById(id);
+    }
 
     @DeleteMapping("/{id}")
     public PatientDto delete(@PathVariable ObjectId id) throws PatientException {

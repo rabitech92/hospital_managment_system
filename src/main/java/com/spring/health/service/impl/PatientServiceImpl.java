@@ -1,18 +1,14 @@
 package com.spring.health.service.impl;
 
-
-import com.spring.health.Dto.AppointmentDto;
+import com.spring.health.Dto.DoctorDto;
 import com.spring.health.Dto.PatientDto;
 import com.spring.health.Dto.PatientReqDto;
-import com.spring.health.exception.*;
-import com.spring.health.model.*;
-import com.spring.health.repository.AppointmentRepository;
+import com.spring.health.exception.PatientException;
+import com.spring.health.model.Doctor;
+import com.spring.health.model.Patient;
 import com.spring.health.repository.DoctorRepository;
 import com.spring.health.repository.PatientRepository;
-import com.spring.health.repository.SessionRepository;
-import com.spring.health.service.EmailSenderService;
 import com.spring.health.service.PatientService;
-import jakarta.mail.MessagingException;
 import org.bson.types.ObjectId;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,44 +16,27 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.FileReader;
-import java.io.IOException;
 import java.security.SecureRandom;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 @Transactional
 public class PatientServiceImpl  implements PatientService,Runnable {
 
-    public static Map<String, LocalDateTime> myTimeDate = new LinkedHashMap<>();
+
     public static BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder(10, new SecureRandom());
-    @Autowired
+
     private PatientRepository patientRepository;
-    @Autowired
     private DoctorRepository doctorRepository;
-    @Autowired
     private ModelMapper modelMapper;
-    @Autowired
-    EmailSenderService emailSenderService;
-    @Autowired
-    Appointment savedAppointment;
-    @Autowired
-    EmailBody emailBody;
-    @Autowired
-    SessionRepository sessionRepository;
-    @Autowired
-    AppointmentRepository appointmentRepository;
 
 
-
-
-    public PatientServiceImpl(Appointment appointment, EmailSenderService emailSenderService, EmailBody emailBody) {
-        this.savedAppointment = appointment;
-        this.emailSenderService = emailSenderService;
-        this.emailBody = emailBody;
+    public PatientServiceImpl(PatientRepository patientRepository, DoctorRepository doctorRepository, ModelMapper modelMapper) {
+        this.patientRepository = patientRepository;
+        this.doctorRepository = doctorRepository;
+        this.modelMapper = modelMapper;
     }
 
 
@@ -75,20 +54,6 @@ public class PatientServiceImpl  implements PatientService,Runnable {
     }
 
     @Override
-    public PatientDto update(Patient patient, String key) throws PatientException {
-        CurrentSession session=sessionRepository.findByUuid(key);
-        if (session==null){
-            throw new PatientException("Please provide the valid key to update the user");
-        }
-        if (patient.getId() == session.getUserId()){
-            Patient patient1= patientRepository.save(patient);
-            return convertToDto(patient1);
-        }else {
-            throw new PatientException("Invalid user details. Login first");
-        }
-    }
-
-    @Override
     public List<PatientDto> getAll() {
         try {
         List<Patient> patients= patientRepository.findAll();
@@ -99,81 +64,26 @@ public class PatientServiceImpl  implements PatientService,Runnable {
         }
     }
 
-
-
     @Override
-    public PatientDto getPatientByUuid(String uuid) throws PatientException {
-       CurrentSession session =sessionRepository.findByUuid(uuid);
-       Optional<Patient> patient=patientRepository.findById(session.getUserId());
-       if (patient.isPresent()){
-           return convertToDto(patient.get());
-       }else {
-           throw new PatientException("Patient or Admin not present by this uuid " + uuid);
-       }
+    public PatientDto update(ObjectId id,PatientReqDto patientReqDto) {
+        Patient patient=checkAndGet(id);
+        if (patient!=null){
+            patient.setName(patientReqDto.getName());
+            patient.setAge(patientReqDto.getAge());
+            patient.setGender(patientReqDto.getGender());
+            patient.setAddress(patientReqDto.getAddress());
+            patient.setNid(patientReqDto.getNid());
+            patient.setDoctor(patientReqDto.getDoctor());
+            patient=modelMapper.map(patientReqDto, Patient.class);
+            Doctor doctor=doctorRepository.save(patientReqDto.getDoctor());
+            patient=patientRepository.save(patient);
+           return convertToDto(patient);
         }
-
-
-    @Override
-    public CurrentSession getCurrentPatientByUuid(String uuid) throws LoginException {
-        CurrentSession currentUserSession = sessionRepository.findByUuid(uuid);
-        if(currentUserSession != null) {
-            return currentUserSession;
-        }else {
-            throw new LoginException("Please enter valid key");
-        }
+        return null;
     }
 
-
-    public static void getAppointmentDates(Integer from, Integer to) throws IOException, TimeDateException {
-        // empty the myTimeDate firstly before putting the new values
-        myTimeDate.clear();
-        // checking from and to is null or not
-        if(from == null || to == null) {
-            throw new TimeDateException("Please enter valid doctor appointment From to To time");
-        }
-        FileReader reader = new FileReader("config.properties");
-        Properties p = new Properties();
-        p.load(reader);
-        LocalDateTime currentDateTime = LocalDateTime.now();
-        LocalDateTime tomorrowDateTime =  currentDateTime.plusDays(1);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        // puting todays dates
-        for(int i= from; i <= to; i++) {
-            String TodaytimeString = null;
-            if(!( i >= 10)) {
-                TodaytimeString = currentDateTime.toLocalDate() + " 0" + i + ":00";
-            }else {
-                TodaytimeString = currentDateTime.toLocalDate() + " " + i + ":00";
-            }
-            LocalDateTime dateTime = LocalDateTime.parse(TodaytimeString, formatter);
-            // we are checking if time is gone or not if time is gone then don't put in database
-            // 2023-03-09 01:00
-            if(currentDateTime.isBefore(dateTime)) {
-                myTimeDate.put("today"+i, dateTime);
-
-            }
-
-        }
-
-        // puting tomorrow dates
-
-        for(int i= from; i <= to; i++) {
-            String tomorrowTimeString = null;
-            if(!( i >= 10)) {
-                tomorrowTimeString = tomorrowDateTime.toLocalDate() + " 0" + i + ":00";
-            }else {
-                tomorrowTimeString = tomorrowDateTime.toLocalDate() + " " + i + ":00";
-            }
-            LocalDateTime dateTime = LocalDateTime.parse(tomorrowTimeString, formatter);
-            // we are checking if time is gone or not if time is gone then don't put in database
-            if(currentDateTime.isBefore(dateTime)) {
-                myTimeDate.put("tomorrow"+i, dateTime);
-            }
-        }
-    }
-
-
     @Override
+<<<<<<< HEAD
     public AppointmentDto bookAppointment(String key, Appointment appointment) throws AppointmentException, LoginException, DoctorException, IOException, TimeDateException, MessagingException {
         CurrentSession currentPatientSession = sessionRepository.findByUuid(key);
         Optional<Patient> patient = patientRepository.findById(currentPatientSession.getUserId());
@@ -250,11 +160,17 @@ public class PatientServiceImpl  implements PatientService,Runnable {
                     return convertToDto(registerAppointment);
                 }else {
                     throw new DoctorException("Please enter valid doctors details or doctor not present with thid id " + doctor.getId());
+=======
+    public PatientDto getById(ObjectId id) {
+        try {
+            Patient patient=checkAndGet(id);
+            return convertToDto(patient);
+        }catch (Exception ex){
+            throw new RuntimeException(ex.getMessage(),ex);
+>>>>>>> parent of 607c5be (patient service impl get all doctors method)
                 }
-            }else {
-                throw new LoginException("Please enter valid key");
-            }
         }
+<<<<<<< HEAD
     }
 
     @Override
@@ -355,6 +271,8 @@ public class PatientServiceImpl  implements PatientService,Runnable {
        return patientDto;
     }
 
+=======
+>>>>>>> parent of 607c5be (patient service impl get all doctors method)
 
     @Override
     public PatientDto delete(ObjectId id) {
@@ -368,17 +286,12 @@ public class PatientServiceImpl  implements PatientService,Runnable {
         }
     }
 
-
-
     private PatientDto convertToDto(Patient patient){
         PatientDto result =modelMapper.map(patient, PatientDto.class);
+        DoctorDto doctorDto  =modelMapper.map(patient.getDoctor(),DoctorDto.class);
+        result.setDoctor(doctorDto);
         return result;
         }
-
-    private AppointmentDto convertToDto(Appointment appointment){
-        AppointmentDto result =modelMapper.map(appointment, AppointmentDto.class);
-        return result;
-    }
 
 
 
@@ -393,11 +306,6 @@ public class PatientServiceImpl  implements PatientService,Runnable {
 
     @Override
     public void run() {
-        try {
-            emailSenderService.sendAppointmentBookingMail(savedAppointment.getPatient().getEmail(),emailBody);
-        }catch (MessagingException e){
-            e.printStackTrace();
-        }
 
     }
 }
