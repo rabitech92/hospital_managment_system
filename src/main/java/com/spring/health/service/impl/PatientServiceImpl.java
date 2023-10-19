@@ -348,6 +348,12 @@ public class PatientServiceImpl  implements PatientService,Runnable {
 
     }
 
+    @Override
+    public PatientDto searchPatient(String email) throws PatientException {
+       Patient patient=patientRepository.findByEmail(email);
+       PatientDto patientDto=modelMapper.map(patient,PatientDto.class);
+       return patientDto;
+    }
 
 
     @Override

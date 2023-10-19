@@ -15,14 +15,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class DoctorController {
 
     private final DoctorService doctorService;
+
     @GetMapping
     public Response getAll(){
         return doctorService.getDoctor();
     }
-
     public Response login(@RequestBody DoctorDto doctorDto){
         return doctorService.loginDoctor(doctorDto);
-
     }
 
 }

@@ -30,6 +30,11 @@ public interface PatientService {
 	List<Appointment> getAllAppointmenPatientWise(String key)throws AppointmentException, PatientException;
 	Appointment updateAppointment(String key, Appointment newAppointment) throws AppointmentException, PatientException, DoctorException, IOException, TimeDateException;
 	List<Doctor> getAllDoctors() throws DoctorException;
+	PatientDto searchPatient(String email)throws PatientException;
+
+
+
+
 //	@Transactional
 //	public void softDeleteById(Long id) {
 //		Patient patient = patientRepository.findById(id).orElseThrow(EntityNotFoundException::new);

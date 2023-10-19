@@ -30,7 +30,7 @@ public class PatientController {
         return patientService.update(patient,key);
     }
 
-    @GetMapping("/")
+    @GetMapping
     public PatientDto getByUuid(@RequestParam String key) throws PatientException {
         return patientService.getPatientByUuid(key);
     }
@@ -45,5 +45,10 @@ public class PatientController {
     @DeleteMapping("/{id}")
     public PatientDto delete(@PathVariable ObjectId id) throws PatientException {
         return patientService.delete(id);
+    }
+
+    @GetMapping("/email")
+    public PatientDto searchPatient(@RequestParam("email") String email) throws PatientException {
+       return patientService.searchPatient(email);
     }
 }

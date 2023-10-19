@@ -7,7 +7,6 @@ import com.spring.health.model.Appointment;
 import com.spring.health.repository.AppointmentRepository;
 import com.spring.health.service.AppointmentService;
 import com.spring.health.util.ResponseBuilder;
-import lombok.RequiredArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
