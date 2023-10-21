@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 public class AdminDoctorServiceImpl implements AdminDoctorService {
 
     private final DoctorRepository doctorRepository;
-    private final AppointmentRepository appointmentRepository;
     private final DoctorMapper doctorMapper;
 
 
