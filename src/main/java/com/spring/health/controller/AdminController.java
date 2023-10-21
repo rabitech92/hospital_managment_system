@@ -22,6 +22,7 @@ public class AdminController {
     private final AdminDoctorService adminDoctorService;
     private final PatientAndAdminLoginService patientAndAdminLoginService;
     private final DoctorMapper doctorMapper;
+
     @PostMapping("/doctorRegister")
     public DoctorDto rigisterDoctor(@RequestParam String key, @RequestBody Doctor doctor)throws DoctorException, LoginException {
         if (patientAndAdminLoginService.checkUserLoginOrNot(key)){
@@ -43,5 +44,5 @@ public class AdminController {
     }
 
 
-    
+
 }
