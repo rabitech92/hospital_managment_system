@@ -8,8 +8,10 @@ import org.springframework.stereotype.Repository;
 
 import com.spring.health.model.Doctor;
 
+import java.util.Optional;
+
 @Repository
 public interface DoctorRepository extends MongoRepository<Doctor, ObjectId> {
     boolean existsByEmailAndIdNotIn(String email, ObjectId id);
-    LoginDto findByEmail(String email);
+    Doctor findByEmail(String email);
 }

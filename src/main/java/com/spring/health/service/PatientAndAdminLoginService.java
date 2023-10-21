@@ -8,5 +8,6 @@ public interface PatientAndAdminLoginService {
 
     Boolean checkUserLoginOrNot(String key) throws LoginException;
     LoginUUIDKey logIntoAccount(LoginDto loginDTO) throws LoginException;
+    String logoutFromAccount(String key) throws LoginException;
 
 }

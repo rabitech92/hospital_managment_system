@@ -1,11 +1,13 @@
 package com.spring.health.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.spring.health.enums.Status;
+import jakarta.validation.constraints.Email;
 import lombok.*;
 import lombok.experimental.Accessors;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Setter
 @Getter
@@ -16,13 +18,21 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Patient extends BaseClass{
 
 	private String name;
+	@Email(message = "Email should be a valid email")
 	private String email;
+	private String password;
 	private int age ;
 	private String gender;
 	private String address;
 	private String nid;
 	private String type;
-	private String password;
+	@JsonIgnore
+	List<Appointment> listOfAppointments = new ArrayList<>();
+	@JsonIgnore
+	List<Review> listReviews = new ArrayList<>();
+	@JsonIgnore
+	List<Message> listOfMessage = new ArrayList<>();
+
 
 	@JsonIgnore
 	private Doctor doctor;

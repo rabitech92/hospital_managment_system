@@ -24,15 +24,15 @@ public class AdminController {
     private final DoctorMapper doctorMapper;
 
     @PostMapping("/doctorRegister")
-    public DoctorDto rigisterDoctor(@RequestParam String key, @RequestBody Doctor doctor)throws DoctorException, LoginException {
+    public DoctorDto rigisterDoctor(@RequestParam String key, @RequestBody DoctorDto doctorDto)throws DoctorException, LoginException {
         if (patientAndAdminLoginService.checkUserLoginOrNot(key)){
             CurrentSession currentSession =patientService.getCurrentUserByUuid(key);
             if (!currentSession.getUserType().equals("Admin")){
                 throw new LoginException("Please Login as Admin");
             }
-            if (doctor !=null){
-                adminDoctorService.registerDoctor(doctor);
-                return doctorMapper.toDto(doctor);
+            if (doctorDto !=null){
+                adminDoctorService.registerDoctor(doctorDto);
+                return doctorDto;
             }
             else{
                 throw new DoctorException("Please enter valid doctor details");

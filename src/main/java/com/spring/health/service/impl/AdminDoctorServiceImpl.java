@@ -21,15 +21,16 @@ public class AdminDoctorServiceImpl implements AdminDoctorService {
 
 
     @Override
-    public DoctorDto registerDoctor(Doctor doctor) throws DoctorException {
-        LoginDto doctor1=doctorRepository.findByEmail(doctor.getEmail());
-        if (doctor1!=null){
-            doctor.setType("Doctor");
-            doctor.setPassword(PatientServiceImpl.bCryptPasswordEncoder.encode(doctor.getPassword()));
+    public DoctorDto registerDoctor(DoctorDto doctorDto) throws DoctorException {
+        Doctor doctor1=doctorRepository.findByEmail(doctorDto.getEmail());
+        if (doctor1==null){
+            doctorDto.setType("Doctor");
+            doctorDto.setPassword(PatientServiceImpl.bCryptPasswordEncoder.encode(doctorDto.getPassword()));
+            Doctor doctor=doctorMapper.toEntity(doctorDto);
             doctorRepository.save(doctor);
-            DoctorDto doctorDto= doctorMapper.toDto(doctor);
-            return doctorDto;
+            DoctorDto doctorDto1=doctorMapper.toDto(doctor);
+            return doctorDto1;
         }
-        throw new DoctorException("Doctor already register with is mobile no. " +doctor.getEmail());
+        throw new DoctorException("Doctor already register with is mobile no. " +doctorDto.getName());
     }
 }

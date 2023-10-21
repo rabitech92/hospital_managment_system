@@ -10,12 +10,12 @@ public class PatientDto {
 
     private String name;
     private String email;
+    private String password;
     private int age ;
     private String gender;
     private String address;
     private String nid;
     private String type;
-    private String password;
     @JsonIgnore
     private DoctorDto doctor;
 

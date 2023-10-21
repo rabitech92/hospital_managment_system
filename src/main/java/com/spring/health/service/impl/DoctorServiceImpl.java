@@ -84,11 +84,11 @@ public class DoctorServiceImpl implements DoctorService {
 
     @Override
     public Response loginDoctor(DoctorDto doctorDto) {
-        Optional<LoginDto> loginDto= Optional.ofNullable(doctorRepository.findByEmail(doctorDto.getEmail()));
-        if (loginDto.isPresent()){
+        Doctor doctor= doctorRepository.findByEmail(doctorDto.getEmail());
+        if (doctor !=null){
             return ResponseBuilder.getSuccessResponse(HttpStatus.OK,"Login Successfull",doctorDto.getEmail());
         }
-        return ResponseBuilder.getFailureResponse(HttpStatus.NOT_FOUND,"No Doctor As ");
+        return ResponseBuilder.getFailureResponse(HttpStatus.NOT_FOUND,"No Doctor As " +doctorDto.getName());
     }
 
 
