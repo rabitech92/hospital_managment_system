@@ -31,6 +31,6 @@ public class AdminDoctorServiceImpl implements AdminDoctorService {
             DoctorDto doctorDto1=doctorMapper.toDto(doctor);
             return doctorDto1;
         }
-        throw new DoctorException("Doctor already register with is mobile no. " +doctorDto.getName());
+        throw new DoctorException("Doctor already register his name is. " +doctorDto.getName());
     }
 }

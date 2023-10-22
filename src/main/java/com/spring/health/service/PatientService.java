@@ -1,18 +1,16 @@
 package com.spring.health.service;
 
 
+import com.spring.health.Dto.AppointmentDto;
 import com.spring.health.Dto.PatientDto;
 import com.spring.health.Dto.PatientReqDto;
 import com.spring.health.Dto.Response;
-import com.spring.health.exception.LoginException;
-import com.spring.health.exception.PatientException;
+import com.spring.health.exception.*;
 import com.spring.health.model.CurrentSession;
 import com.spring.health.model.Patient;
+import jakarta.mail.MessagingException;
 
-
-
-
-
+import java.io.IOException;
 
 
 public interface PatientService {
@@ -23,5 +21,6 @@ public interface PatientService {
 	PatientDto searchPatient(String email)throws PatientException;
 	PatientDto deletePatient(String email)throws PatientException;
 	CurrentSession getCurrentUserByUuid(String uuid) throws LoginException;
+	AppointmentDto bookAppointment(String key, AppointmentDto appointment) throws AppointmentException, LoginException, DoctorException, IOException, TimeDateException, MessagingException;
 
 	}

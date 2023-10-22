@@ -29,4 +29,8 @@ public class Doctor extends BaseClass{
 	private Boolean validDoctor = true;
 	@JsonIgnore
 	List<Message> listOfMessage = new ArrayList<>();
+	@JsonIgnore
+	List<Appointment> listOfAppointments = new ArrayList<>();
+	private Integer appointmentFromTime;
+	private Integer appointmentToTime;
 }
