@@ -30,7 +30,7 @@ public class PatientAndAdminLoginServiceImpl implements PatientAndAdminLoginServ
             throw new LoginException("Please enter valid email :" +loginDTO.getEmail());
         }
         Optional<CurrentSession> validCustomer=sessionRepository.findById(existPatient.getId());
-        if (validCustomer.isEmpty()){
+        if (validCustomer.isPresent()){
             if (PatientServiceImpl.bCryptPasswordEncoder.matches(loginDTO.getPassword(),existPatient.getPassword())){
                 loginUUIDKey.setUuid(validCustomer.get().getUuid());
                 loginUUIDKey.setMsg("Login Successful");
@@ -53,7 +53,7 @@ public class PatientAndAdminLoginServiceImpl implements PatientAndAdminLoginServ
         }else{
           existPatient.setType("patient");
           currentSession.setUserId(existPatient.getId());
-          currentSession.setUuid(key);
+          currentSession.setUserType("patient");
         }
         patientRepository.save(existPatient);
         sessionRepository.save(currentSession);

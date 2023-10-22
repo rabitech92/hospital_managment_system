@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 public class DoctorDto {
-    private String id;
+    private String mobileNo;
     private String name;
     private String email;
     private String type;;

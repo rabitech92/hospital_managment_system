@@ -2,6 +2,7 @@ package com.spring.health.model;
 
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.stereotype.Component;
@@ -20,5 +21,7 @@ public class Appointment extends BaseClass{
     private Patient patient;
     private LocalDateTime appointmentDateAndTime;
     private Doctor doctor;
+    @JsonIgnore
+    private Review review;
 
 }

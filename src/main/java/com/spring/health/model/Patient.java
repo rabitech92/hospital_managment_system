@@ -21,7 +21,7 @@ public class Patient extends BaseClass{
 	@Email(message = "Email should be a valid email")
 	private String email;
 	private String password;
-	private String age ;
+	private int age ;
 	private String gender;
 	private String address;
 	private String nid;

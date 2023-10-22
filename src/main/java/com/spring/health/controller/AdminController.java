@@ -27,7 +27,7 @@ public class AdminController {
     public DoctorDto rigisterDoctor(@RequestParam String key, @RequestBody DoctorDto doctorDto)throws DoctorException, LoginException {
         if (patientAndAdminLoginService.checkUserLoginOrNot(key)){
             CurrentSession currentSession =patientService.getCurrentUserByUuid(key);
-            if (!currentSession.getUserType().equals("Admin")){
+            if (!currentSession.getUserType().equals("admin")){
                 throw new LoginException("Please Login as Admin");
             }
             if (doctorDto !=null){
