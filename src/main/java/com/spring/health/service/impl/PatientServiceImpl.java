@@ -2,17 +2,16 @@ package com.spring.health.service.impl;
 
 import com.spring.health.Dto.*;
 import com.spring.health.exception.*;
-import com.spring.health.model.Appointment;
-import com.spring.health.model.CurrentSession;
-import com.spring.health.model.Doctor;
-import com.spring.health.model.Patient;
+import com.spring.health.model.*;
 import com.spring.health.repository.AppointmentRepository;
 import com.spring.health.repository.DoctorRepository;
 import com.spring.health.repository.PatientRepository;
 import com.spring.health.repository.SessionRepository;
+import com.spring.health.service.MailService;
 import com.spring.health.service.PatientService;
 import jakarta.mail.MessagingException;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,24 +25,33 @@ import java.util.*;
 
 @Service
 @Transactional
+
 public class PatientServiceImpl  implements PatientService {
 
     public static Map<String, LocalDateTime> myTimeDate = new LinkedHashMap<>();
     public static BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder(10, new SecureRandom());
+    @Autowired
+    private PatientRepository patientRepository;
+    @Autowired
+    private DoctorRepository doctorRepository;
+    @Autowired
+    private ModelMapper modelMapper;
+    @Autowired
+    private SessionRepository sessionRepository;
+    @Autowired
+    private AppointmentRepository appointmentRepository;
+    @Autowired
+    private MailSender mailSender;
+    @Autowired
+    private MailService mailService;
+    @Autowired
+    private Appointment appointment;
 
-    private final PatientRepository patientRepository;
-    private final DoctorRepository doctorRepository;
-    private final ModelMapper modelMapper;
-    private final SessionRepository sessionRepository;
-    private final AppointmentRepository appointmentRepository;
 
-
-    public PatientServiceImpl(PatientRepository patientRepository, DoctorRepository doctorRepository, ModelMapper modelMapper, SessionRepository sessionRepository, AppointmentRepository appointmentRepository) {
-        this.patientRepository = patientRepository;
-        this.doctorRepository = doctorRepository;
-        this.modelMapper = modelMapper;
-        this.sessionRepository = sessionRepository;
-        this.appointmentRepository = appointmentRepository;
+    public PatientServiceImpl(MailSender mailSender, MailService mailService, Appointment appointment) {
+        this.mailSender = mailSender;
+        this.mailService = mailService;
+        this.appointment = appointment;
     }
 
     @Override
@@ -62,7 +70,7 @@ public class PatientServiceImpl  implements PatientService {
     }
 
     @Override
-    public AppointmentDto bookAppointment(String key, AppointmentDto appointmentDto) throws AppointmentException, LoginException, DoctorException, IOException, TimeDateException, MessagingException {
+    public AppointmentDto bookAppointment(String key, Appointment appointmentDto) throws AppointmentException, LoginException, DoctorException, IOException, TimeDateException, MessagingException {
         CurrentSession currentSession=sessionRepository.findByUuid(key);
         Optional<Patient> patient=patientRepository.findById(currentSession.getUserId());
         synchronized (this){
@@ -90,19 +98,41 @@ public class PatientServiceImpl  implements PatientService {
                     if (!time && time1){
                         Appointment appointment=modelMapper.map(appointmentDto,Appointment.class);
                         registerApointment=appointmentRepository.save(appointment);
+                        mailSender.setMessage("Dear Sir/Ma'am, \n You have booked an appointment with " + registerApointment.getDoctor().getName()+
+                                ". Please make sure to join on time. If you want to call a doctor please contact " + registerApointment.getDoctor().getEmail()+"\n"
+                                +"\n"
+                                +"Appointment ID : "+registerApointment.getId()+"\n"
+                                +"Doctor specialty: " +registerApointment.getDoctor().getSpecialty()+"\n"
+                                +"Doctor education: " +registerApointment.getDoctor().getEducation()+"\n"
+                                +"Doctor experience: " +registerApointment.getDoctor().getExperience()+"\n"
+                                +"\n"
 
+                                +"Thanks and Regards \n"
+                                +"Appointment Booking Application");
 
+                        mailSender.setSubject("You have successfully book appointment at " +registerApointment.getAppointmentDateAndTime());
+                        PatientServiceImpl patientServiceImpl=new PatientServiceImpl(mailSender,mailService,appointment);
+                        Thread emailSentThread=new Thread((Runnable) patientServiceImpl);
+                        emailSentThread.start();
+
+                    }else{
+                        throw new AppointmentException("This time or date already booked or please enter valid appointment time and date " +appointment.getAppointmentDateAndTime());
                     }
-
-
-
+                    registerDoctor.get().getListOfAppointments().add(registerApointment);
+                    doctorRepository.save(registerDoctor.get());
+                    AppointmentDto appointmentDto1=modelMapper.map(registerApointment,AppointmentDto.class);
+                    return appointmentDto1;
+                }else {
+                    throw new DoctorException("Please enter valid doctors details or doctor not present with thid id " +doctor.getId());
                 }
 
+            }
+            else {
+                throw new LoginException("Please enter valid key");
             }
 
         }
 
-        return null;
     }
 
     @Override

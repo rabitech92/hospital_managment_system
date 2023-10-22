@@ -91,8 +91,8 @@ public class PatientAndAdminLoginServiceImpl implements PatientAndAdminLoginServ
             int index = (int) (ran.nextFloat() * kayValue.length());
             sb.append(kayValue.charAt(index));
         }
-        String saltStr=sb.toString();
-        return saltStr;
+        String str=sb.toString();
+        return str;
     }
 
 
