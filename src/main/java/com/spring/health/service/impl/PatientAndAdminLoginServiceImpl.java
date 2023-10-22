@@ -54,7 +54,6 @@ public class PatientAndAdminLoginServiceImpl implements PatientAndAdminLoginServ
           existPatient.setType("patient");
           currentSession.setUserId(existPatient.getId());
           currentSession.setUuid(key);
-
         }
         patientRepository.save(existPatient);
         sessionRepository.save(currentSession);
