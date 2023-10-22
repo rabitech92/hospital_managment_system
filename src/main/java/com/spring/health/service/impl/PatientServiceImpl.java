@@ -90,7 +90,7 @@ public class PatientServiceImpl  implements PatientService {
                     if (!time && time1){
                         Appointment appointment=modelMapper.map(appointmentDto,Appointment.class);
                         registerApointment=appointmentRepository.save(appointment);
-                        
+
 
                     }
 
