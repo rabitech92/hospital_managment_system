@@ -4,6 +4,7 @@ import com.spring.health.Dto.*;
 import com.spring.health.exception.*;
 import com.spring.health.model.Appointment;
 import com.spring.health.model.Patient;
+import com.spring.health.service.DoctorService;
 import com.spring.health.service.PatientAndAdminLoginService;
 import com.spring.health.service.PatientService;
 import jakarta.mail.MessagingException;
@@ -13,6 +14,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -25,6 +27,7 @@ public class PatientController {
     private final PatientService patientService;
     private final PatientAndAdminLoginService loginService;
     private final ModelMapper modelMapper;
+    private final DoctorService doctorService;
 
 
     @PostMapping
@@ -63,5 +66,15 @@ public class PatientController {
     @GetMapping("/DoctorList")
     public List<DoctorDto> getAll() throws DoctorException {
         return patientService.getAllDoctors();
+    }
+
+    @PostMapping("/doctorShedule")
+    public List<LocalDateTime> doctorShedule(@RequestParam String key, @RequestBody DoctorDto doctorDto) throws LoginException, TimeDateException, IOException, DoctorException {
+        if (loginService.checkUserLoginOrNot(key)) {
+            List<LocalDateTime> listOfAvailable = doctorService.getDoctorAvailableTimingForBooking(key, doctorDto);
+            return listOfAvailable;
+        } else {
+            throw new LoginException("Invalid key or please login first");
+        }
     }
 }

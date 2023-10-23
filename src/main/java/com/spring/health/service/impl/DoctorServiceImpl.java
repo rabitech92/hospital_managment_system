@@ -3,7 +3,10 @@ package com.spring.health.service.impl;
 import com.spring.health.Dto.DoctorDto;
 import com.spring.health.Dto.LoginDto;
 import com.spring.health.Dto.Response;
+import com.spring.health.exception.DoctorException;
+import com.spring.health.exception.TimeDateException;
 import com.spring.health.mapper.DoctorMapper;
+import com.spring.health.model.Appointment;
 import com.spring.health.model.Doctor;
 import com.spring.health.repository.DoctorRepository;
 import com.spring.health.service.DoctorService;
@@ -14,7 +17,11 @@ import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -89,6 +96,41 @@ public class DoctorServiceImpl implements DoctorService {
             return ResponseBuilder.getSuccessResponse(HttpStatus.OK,"Login Successfull",doctorDto.getEmail());
         }
         return ResponseBuilder.getFailureResponse(HttpStatus.NOT_FOUND,"No Doctor As " +doctorDto.getName());
+    }
+
+    @Override
+    public List<LocalDateTime> getDoctorAvailableTimingForBooking(String key, DoctorDto doctorDto) throws IOException, TimeDateException, DoctorException {
+        Optional<Doctor> registerDoctor=doctorRepository.findById(doctorDto.getId());
+        List<LocalDateTime> doctorAvailableTiming = new ArrayList<>();
+        if (registerDoctor.isPresent()){
+            PatientServiceImpl.getAppointmentDates(registerDoctor.get().getAppointmentFromTime(),registerDoctor.get().getAppointmentToTime());
+            Map<String,LocalDateTime> dateTimeMap=PatientServiceImpl.myTimeDate;
+            List<Appointment> appointmentList=registerDoctor.get().getListOfAppointments();
+            for (String str : dateTimeMap.keySet()){
+                Boolean time =false;
+                for (Appointment everyAppointment :appointmentList){
+                    LocalDateTime localDateTime=dateTimeMap.get(str);
+                    if (localDateTime.isEqual(everyAppointment.getAppointmentDateAndTime())){
+                        time=true;
+                        break;
+                    }
+
+                }
+                if (time==false){
+                    doctorAvailableTiming.add(dateTimeMap.get(str));
+                }
+
+            }
+            if (!doctorAvailableTiming.isEmpty()){
+                return doctorAvailableTiming;
+            }
+            else {
+                throw new DoctorException("No time and date available to book appointment. Please try again");
+            }
+        }
+        else {
+            throw new DoctorException("No doctor found with this id " + doctorDto.getId());
+        }
     }
 
 
