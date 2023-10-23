@@ -1,9 +1,6 @@
 package com.spring.health.controller;
 
-import com.spring.health.Dto.AppointmentDto;
-import com.spring.health.Dto.PatientDto;
-import com.spring.health.Dto.PatientReqDto;
-import com.spring.health.Dto.Response;
+import com.spring.health.Dto.*;
 import com.spring.health.exception.*;
 import com.spring.health.model.Appointment;
 import com.spring.health.model.Patient;
@@ -62,5 +59,9 @@ public class PatientController {
         else {
             throw new LoginException("Invalid key or please login first");
         }
+    }
+    @GetMapping("/DoctorList")
+    public List<DoctorDto> getAll() throws DoctorException {
+        return patientService.getAllDoctors();
     }
 }

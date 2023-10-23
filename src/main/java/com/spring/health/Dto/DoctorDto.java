@@ -5,10 +5,11 @@ import lombok.Data;
 
 @Data
 public class DoctorDto {
-    private String mobileNo;
+    private String id;
     private String name;
     private String email;
     private String password;
+    private String mobileNo;
     private String type;
     private String specialty;
     private Boolean insuranceAcceptance;

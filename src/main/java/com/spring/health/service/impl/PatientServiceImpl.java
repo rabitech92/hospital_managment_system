@@ -22,6 +22,7 @@ import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -136,6 +137,21 @@ public class PatientServiceImpl  implements PatientService {
     }
 
     @Override
+    public List<DoctorDto> getAllDoctors() throws DoctorException {
+        List<Doctor> doctorList = doctorRepository.findAll();
+        if (!doctorList.isEmpty()) {
+            doctorList = doctorList.stream().filter(everyDoctor -> everyDoctor.getValidDoctor() == true).collect(Collectors.toList());
+            List<DoctorDto> doctorDto = doctorList.stream()
+                    .map(doctor -> modelMapper.map(doctor, DoctorDto.class))
+                    .collect(Collectors.toList());
+            return doctorDto;
+        } else {
+            throw new DoctorException("No doctors registered. Please contact admin.");
+        }
+    }
+
+
+    @Override
     public PatientDto update(Patient user, String key) throws PatientException {
         return null;
     }
@@ -204,7 +220,6 @@ public class PatientServiceImpl  implements PatientService {
                 tomorrowTimeString = tomorrowDateTime.toLocalDate() + " " + i + ":00";
             }
             LocalDateTime dateTime = LocalDateTime.parse(tomorrowTimeString, formatter);
-            // we are checking if time is gone or not if time is gone then don't put in database
             if(currentDateTime.isBefore(dateTime)) {
                 myTimeDate.put("tomorrow"+i, dateTime);
             }
