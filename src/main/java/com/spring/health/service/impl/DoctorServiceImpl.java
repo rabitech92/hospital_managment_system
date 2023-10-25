@@ -100,7 +100,7 @@ public class DoctorServiceImpl implements DoctorService {
 
     @Override
     public List<LocalDateTime> getDoctorAvailableTimingForBooking(String key, DoctorDto doctorDto) throws IOException, TimeDateException, DoctorException {
-        Optional<Doctor> registerDoctor=doctorRepository.findById(doctorDto.getId());
+        Optional<Doctor> registerDoctor= Optional.ofNullable(doctorRepository.findByEmail(doctorDto.getEmail()));
         List<LocalDateTime> doctorAvailableTiming = new ArrayList<>();
         if (registerDoctor.isPresent()){
             PatientServiceImpl.getAppointmentDates(registerDoctor.get().getAppointmentFromTime(),registerDoctor.get().getAppointmentToTime());
@@ -129,7 +129,7 @@ public class DoctorServiceImpl implements DoctorService {
             }
         }
         else {
-            throw new DoctorException("No doctor found with this id " + doctorDto.getId());
+            throw new DoctorException("No doctor found with this id " + doctorDto.getName());
         }
     }
 

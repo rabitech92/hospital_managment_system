@@ -23,7 +23,7 @@ public interface PatientService {
 	PatientDto searchPatient(String email)throws PatientException;
 	PatientDto deletePatient(String email)throws PatientException;
 	CurrentSession getCurrentUserByUuid(String uuid) throws LoginException;
-	AppointmentDto bookAppointment(String key, Appointment appointment) throws AppointmentException, LoginException, DoctorException, IOException, TimeDateException, MessagingException;
+	AppointmentDto bookAppointment(String key, AppointmentDto appointmentDto) throws AppointmentException, LoginException, DoctorException, IOException, TimeDateException, MessagingException;
 	List<DoctorDto> getAllDoctors() throws DoctorException;
 
 	}

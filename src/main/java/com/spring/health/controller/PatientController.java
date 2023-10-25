@@ -55,14 +55,14 @@ public class PatientController {
             throw new AppointmentException("Please enter valid appointment");
         }
         if (loginService.checkUserLoginOrNot(key)){
-            Appointment appointment=modelMapper.map(appointmentDto,Appointment.class);
-            AppointmentDto registerAppointment = patientService.bookAppointment(key,appointment);
+            AppointmentDto registerAppointment = patientService.bookAppointment(key,appointmentDto);
             return registerAppointment;
         }
         else {
             throw new LoginException("Invalid key or please login first");
         }
     }
+
     @GetMapping("/DoctorList")
     public List<DoctorDto> getAll() throws DoctorException {
         return patientService.getAllDoctors();

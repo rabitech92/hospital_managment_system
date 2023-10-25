@@ -1,12 +1,21 @@
 package com.spring.health.Dto;
 
-import lombok.Data;
-import org.bson.types.ObjectId;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.spring.health.model.Appointment;
+import com.spring.health.model.Message;
+import com.spring.health.model.Review;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
-@Data
+@Getter
+@Setter
 public class DoctorDto {
-    private ObjectId id;
+
     private String name;
     private String email;
     private String password;
@@ -16,6 +25,15 @@ public class DoctorDto {
     private Boolean insuranceAcceptance;
     private String education;
     private String experience;
+
+    @JsonIgnore
+    private List<Review> listOfReviews = new ArrayList<>();
+    private String doctorImg;
+    private Boolean validDoctor = true;
+    @JsonIgnore
+    List<Message> listOfMessage = new ArrayList<>();
+    @JsonIgnore
+    List<Appointment> listOfAppointments = new ArrayList<>();
 
     private Integer appointmentFromTime;
     private Integer appointmentToTime;

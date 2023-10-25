@@ -26,7 +26,6 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
-
 public class PatientServiceImpl  implements PatientService {
 
     public static Map<String, LocalDateTime> myTimeDate = new LinkedHashMap<>();
@@ -71,7 +70,7 @@ public class PatientServiceImpl  implements PatientService {
     }
 
     @Override
-    public AppointmentDto bookAppointment(String key, Appointment appointmentDto) throws AppointmentException, LoginException, DoctorException, IOException, TimeDateException, MessagingException {
+    public AppointmentDto bookAppointment(String key, AppointmentDto appointmentDto) throws AppointmentException, LoginException, DoctorException, IOException, TimeDateException, MessagingException {
         CurrentSession currentSession=sessionRepository.findByUuid(key);
         Optional<Patient> patient=patientRepository.findById(currentSession.getUserId());
         synchronized (this){
@@ -109,7 +108,7 @@ public class PatientServiceImpl  implements PatientService {
                                 +"\n"
 
                                 +"Thanks and Regards \n"
-                                +"Appointment Booking Application");
+                                +"Thanks for Appointment Booking ");
 
                         mailSender.setSubject("You have successfully book appointment at " +registerApointment.getAppointmentDateAndTime());
                         PatientServiceImpl patientServiceImpl=new PatientServiceImpl(mailSender,mailService,appointment);

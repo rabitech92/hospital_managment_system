@@ -5,7 +5,6 @@ import com.spring.health.Dto.DoctorDto;
 import com.spring.health.Dto.Response;
 import com.spring.health.exception.DoctorException;
 import com.spring.health.exception.TimeDateException;
-import com.spring.health.model.Doctor;
 import org.bson.types.ObjectId;
 
 import java.io.IOException;
@@ -22,7 +21,5 @@ public interface DoctorService {
     Response deleteDoctor(ObjectId id);
     Response loginDoctor(DoctorDto doctorDto);
     List<LocalDateTime> getDoctorAvailableTimingForBooking(String key, DoctorDto doctorDto) throws IOException, TimeDateException, DoctorException;
-
-	
 
 }
