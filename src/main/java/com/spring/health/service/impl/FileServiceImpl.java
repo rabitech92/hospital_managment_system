@@ -26,7 +26,7 @@ public class FileServiceImpl implements FilesService {
 
     @Override
     public FileInfoDto uploadFile(MultipartFile file) throws IOException {
-        FileInfo fileInfo =new FileInfo();
+        FileInfo fileInfo = new FileInfo();
         fileInfo.setFilename(file.getOriginalFilename());
         fileInfo.setSize(file.getSize());
         fileInfo.setContentType(file.getContentType());
@@ -41,8 +41,8 @@ public class FileServiceImpl implements FilesService {
         return null;
     }
 
-    private FileInfoDto convertrDto(FileInfo fileInfo){
-        FileInfoDto fileInfoDto=modelMapper.map(fileInfo,FileInfoDto.class);
+    private FileInfoDto convertrDto(FileInfo fileInfo) {
+        FileInfoDto fileInfoDto = modelMapper.map(fileInfo, FileInfoDto.class);
         return fileInfoDto;
 
     }

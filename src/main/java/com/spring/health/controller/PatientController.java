@@ -50,12 +50,12 @@ public class PatientController {
        return patientService.searchPatient(email);
     }
     @PostMapping("/bookAppointment")
-    public AppointmentDto appoint(@RequestParam String key,@RequestBody AppointmentDto appointmentDto) throws AppointmentException, LoginException, TimeDateException, MessagingException, IOException, DoctorException {
-        if (appointmentDto==null){
+    public AppointmentDto appoint(@RequestParam String key,@RequestBody Appointment appointment) throws AppointmentException, LoginException, TimeDateException, MessagingException, IOException, DoctorException {
+        if (appointment==null){
             throw new AppointmentException("Please enter valid appointment");
         }
         if (loginService.checkUserLoginOrNot(key)){
-            AppointmentDto registerAppointment = patientService.bookAppointment(key,appointmentDto);
+            AppointmentDto registerAppointment = patientService.bookAppointment(key,appointment);
             return registerAppointment;
         }
         else {

@@ -14,7 +14,6 @@ import java.time.LocalDateTime;
 @ToString
 public class AppointmentDto {
 
-
   private Patient patient;
   private LocalDateTime appointmentDateAndTime;
   private Doctor doctor;

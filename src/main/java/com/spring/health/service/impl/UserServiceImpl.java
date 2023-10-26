@@ -21,33 +21,25 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 
-
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
 
     private final UserRepository userRepository;
-//  private final EmailService emailService;
+    //  private final EmailService emailService;
     private final OtpUtil otpUtil;
     private final EmailUtil emailUtil;
     private final UserMapper userMapper;
 
 
-    public UserServiceImpl(UserRepository userRepository,UserMapper userMapper, OtpUtil otpUtil, EmailUtil emailUtil) {
-        this.userRepository = userRepository;
-        this.userMapper=userMapper;
-        this.otpUtil = otpUtil;
-        this.emailUtil = emailUtil;
-    }
-
     @Override
     public Response login(LoginDto loginDto) {
-        User user = userRepository.findByEmail(loginDto.getEmail())
-                .orElseThrow(() -> new RuntimeException("User not found with this email: " + loginDto.getEmail()));
+        User user = userRepository.findByEmail(loginDto.getEmail()).orElseThrow(() -> new RuntimeException("User not found with this email: " + loginDto.getEmail()));
         if (!loginDto.getPassword().equals(user.getPassword())) {
-            return ResponseBuilder.getFailureResponse(HttpStatus.NOT_FOUND,"Password is incorrect");
+            return ResponseBuilder.getFailureResponse(HttpStatus.NOT_FOUND, "Password is incorrect");
         } else if (user.isVerified()) {
-            return ResponseBuilder.getSuccessResponse(HttpStatus.CREATED,"Login successful",userMapper.toDto(user));
+            return ResponseBuilder.getSuccessResponse(HttpStatus.CREATED, "Login successful", userMapper.toDto(user));
         }
         return null;
     }
@@ -55,8 +47,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Response regenerateOtp(String email) {
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found with this email: " + email));
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found with this email: " + email));
         String otp = otpUtil.generateOtp();
         try {
             emailUtil.sendOtpEmail(email, otp);
@@ -66,19 +57,18 @@ public class UserServiceImpl implements UserService {
         user.setOtp(otp);
         user.setOtpGeneratedTime(LocalDateTime.now());
         userRepository.save(user);
-        return ResponseBuilder.getFailureResponse(HttpStatus.OK,"Email sent... please verify account within 1 minute");
+        return ResponseBuilder.getFailureResponse(HttpStatus.OK, "Email sent... please verify account within 1 minute");
     }
 
     @Override
     public Response verifyAccount(String email, String otp) {
         User user = userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found with this email: " + email));
-        if (user.getOtp().equals(otp) && Duration.between(user.getOtpGeneratedTime(),
-                LocalDateTime.now()).getSeconds() < (5 * 60)) {
+        if (user.getOtp().equals(otp) && Duration.between(user.getOtpGeneratedTime(), LocalDateTime.now()).getSeconds() < (5 * 60)) {
             user.setVerified(true);
             userRepository.save(user);
-            return ResponseBuilder.getSuccessResponse(HttpStatus.OK,"OTP verified you can login",userMapper.toDto(user));
+            return ResponseBuilder.getSuccessResponse(HttpStatus.OK, "OTP verified you can login", userMapper.toDto(user));
         }
-        return ResponseBuilder.getSuccessResponse(HttpStatus.OK,"Please regenerate otp and try again",userMapper.toDto(user));
+        return ResponseBuilder.getSuccessResponse(HttpStatus.OK, "Please regenerate otp and try again", userMapper.toDto(user));
     }
 
     @Override
@@ -96,7 +86,7 @@ public class UserServiceImpl implements UserService {
         user.setOtp(otp);
         user.setOtpGeneratedTime(LocalDateTime.now());
         userRepository.save(user);
-        return ResponseBuilder.getSuccessResponse(HttpStatus.OK,"User registration successful",userMapper.toRegistrationDto(user));
+        return ResponseBuilder.getSuccessResponse(HttpStatus.OK, "User registration successful", userMapper.toRegistrationDto(user));
     }
 //
 //    @Override
@@ -156,7 +146,6 @@ public class UserServiceImpl implements UserService {
 //        }
 //        return "Otp already  send your email";
 //    }
-
 
 
 }

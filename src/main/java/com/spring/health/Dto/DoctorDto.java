@@ -7,6 +7,7 @@ import com.spring.health.model.Message;
 import com.spring.health.model.Review;
 import lombok.Getter;
 import lombok.Setter;
+import org.bson.types.ObjectId;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +16,7 @@ import java.util.List;
 @Getter
 @Setter
 public class DoctorDto {
-
+    private ObjectId id;
     private String name;
     private String email;
     private String password;

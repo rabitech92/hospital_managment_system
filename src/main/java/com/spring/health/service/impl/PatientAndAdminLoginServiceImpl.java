@@ -24,45 +24,45 @@ public class PatientAndAdminLoginServiceImpl implements PatientAndAdminLoginServ
 
     @Override
     public LoginUUIDKey logIntoAccount(LoginDto loginDTO) throws LoginException {
-        LoginUUIDKey loginUUIDKey=new LoginUUIDKey();
+        LoginUUIDKey loginUUIDKey = new LoginUUIDKey();
         Patient existPatient = patientRepository.findByEmail(loginDTO.getEmail());
-        if (existPatient==null){
-            throw new LoginException("Please enter valid email :" +loginDTO.getEmail());
+        if (existPatient == null) {
+            throw new LoginException("Please enter valid email :" + loginDTO.getEmail());
         }
-        Optional<CurrentSession> validCustomer=sessionRepository.findById(existPatient.getId());
-        if (validCustomer.isPresent()){
-            if (PatientServiceImpl.bCryptPasswordEncoder.matches(loginDTO.getPassword(),existPatient.getPassword())){
-                loginUUIDKey.setUuid(validCustomer.get().getUuid());
+        Optional<CurrentSession> currentUser = sessionRepository.findById(existPatient.getId());
+        if (currentUser.isPresent()) {
+            if (PatientServiceImpl.bCryptPasswordEncoder.matches(loginDTO.getPassword(), existPatient.getPassword())) {
+                loginUUIDKey.setUuid(currentUser.get().getUuid());
                 loginUUIDKey.setMsg("Login Successful");
                 return loginUUIDKey;
             }
             throw new LoginException("Please enter valid details");
         }
-    if (PatientServiceImpl.bCryptPasswordEncoder.matches(loginDTO.getPassword(),existPatient.getPassword())){
-        String key = genarateString();
-        CurrentSession currentSession =new CurrentSession(existPatient.getId(),key, LocalDateTime.now());
-        if (PatientServiceImpl.bCryptPasswordEncoder.matches("admin",existPatient.getPassword()) && existPatient.getEmail().equals("rabiulnewsinfo@gmail.com")){
-            existPatient.setType("admin");
-            currentSession.setUserType("admin");
-            currentSession.setUserId(existPatient.getId());
-            sessionRepository.save(currentSession);
+        if (PatientServiceImpl.bCryptPasswordEncoder.matches(loginDTO.getPassword(), existPatient.getPassword())) {
+            String key = genarateString();
+            CurrentSession currentSession = new CurrentSession(existPatient.getId(), key, LocalDateTime.now());
+            if (PatientServiceImpl.bCryptPasswordEncoder.matches("admin", existPatient.getPassword()) && existPatient.getEmail().equals("rabiulnewsinfo@gmail.com")) {
+                existPatient.setType("admin");
+                currentSession.setUserType("admin");
+                currentSession.setUserId(existPatient.getId());
+                sessionRepository.save(currentSession);
+                patientRepository.save(existPatient);
+                loginUUIDKey.setMsg("Login successful as admin with key");
+                loginUUIDKey.setUuid(key);
+                return loginUUIDKey;
+            } else {
+                existPatient.setType("patient");
+                currentSession.setUserId(existPatient.getId());
+                currentSession.setUserType("patient");
+            }
             patientRepository.save(existPatient);
-            loginUUIDKey.setMsg("Login successful as admin with key");
+            sessionRepository.save(currentSession);
+            loginUUIDKey.setMsg("Login Successful as patient with this key");
             loginUUIDKey.setUuid(key);
             return loginUUIDKey;
-        }else{
-          existPatient.setType("patient");
-          currentSession.setUserId(existPatient.getId());
-          currentSession.setUserType("patient");
+        } else {
+            throw new LoginException("Please enter valid password");
         }
-        patientRepository.save(existPatient);
-        sessionRepository.save(currentSession);
-        loginUUIDKey.setMsg("Login Successful as patient with this key");
-        loginUUIDKey.setUuid(key);
-        return loginUUIDKey;
-    }else {
-        throw new LoginException("Please enter valid password");
-    }
     }
 
     @Override
@@ -71,27 +71,25 @@ public class PatientAndAdminLoginServiceImpl implements PatientAndAdminLoginServ
     }
 
 
-
-
-
     @Override
     public Boolean checkUserLoginOrNot(String key) throws LoginException {
         CurrentSession currentPatientSession = sessionRepository.findByUuid(key);
-        if(currentPatientSession != null) {
+        if (currentPatientSession != null) {
             return true;
-        }else {
+        } else {
             return false;
         }
     }
-    public static String genarateString(){
-        String kayValue="ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
-        StringBuilder sb =new StringBuilder();
-        Random ran=new Random();
-        while (sb.length()<18){
+
+    public static String genarateString() {
+        String kayValue = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+        StringBuilder sb = new StringBuilder();
+        Random ran = new Random();
+        while (sb.length() < 18) {
             int index = (int) (ran.nextFloat() * kayValue.length());
             sb.append(kayValue.charAt(index));
         }
-        String str=sb.toString();
+        String str = sb.toString();
         return str;
     }
 

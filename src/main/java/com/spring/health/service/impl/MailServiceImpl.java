@@ -22,7 +22,7 @@ public class MailServiceImpl implements MailService {
 
     @Override
     public MailSenderDto sendMail(String email, MailSender mailSenderDto) {
-        SimpleMailMessage simpleMailMessage =new SimpleMailMessage();
+        SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
         simpleMailMessage.setFrom(formMail);
         simpleMailMessage.setSubject(mailSenderDto.getSubject());
         simpleMailMessage.setText(mailSenderDto.getMessage());
@@ -32,11 +32,10 @@ public class MailServiceImpl implements MailService {
     }
 
 
-    private MailSenderDto toDto(MailSender mailSender){
-        MailSenderDto mailSenderDto=modelMapper.map(mailSender,MailSenderDto.class);
+    private MailSenderDto toDto(MailSender mailSender) {
+        MailSenderDto mailSenderDto = modelMapper.map(mailSender, MailSenderDto.class);
         return mailSenderDto;
     }
-
 
 
 }

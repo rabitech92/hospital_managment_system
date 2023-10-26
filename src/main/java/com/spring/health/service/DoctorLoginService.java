@@ -6,5 +6,7 @@ import com.spring.health.model.LoginUUIDKey;
 
 public interface DoctorLoginService {
     LoginUUIDKey logIntoAccount(LoginDto loginDTO) throws LoginException;
+    LoginUUIDKey logOutAccount(LoginDto loginDTO) throws LoginException;
+
 
 }

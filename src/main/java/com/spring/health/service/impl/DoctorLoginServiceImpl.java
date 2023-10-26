@@ -22,20 +22,19 @@ public class DoctorLoginServiceImpl implements DoctorLoginService {
     private final SessionRepository sessionRepository;
 
 
-
     @Override
     public LoginUUIDKey logIntoAccount(LoginDto loginDTO) throws LoginException {
-        LoginUUIDKey loginUUIDKey=new LoginUUIDKey();
+        LoginUUIDKey loginUUIDKey = new LoginUUIDKey();
         Doctor existDoctor = doctorRepository.findByEmail(loginDTO.getEmail());
-        if (existDoctor==null){
-            throw new LoginException("Please enter valid email "+loginDTO.getEmail());
+        if (existDoctor == null) {
+            throw new LoginException("Please enter valid email " + loginDTO.getEmail());
         }
-        if (PatientServiceImpl.bCryptPasswordEncoder.matches(loginDTO.getPassword(), existDoctor.getPassword())){
-            if (existDoctor.getValidDoctor()==false){
+        if (PatientServiceImpl.bCryptPasswordEncoder.matches(loginDTO.getPassword(), existDoctor.getPassword())) {
+            if (existDoctor.getValidDoctor() == false) {
                 throw new LoginException("You don't have permission to login. Please contact Admin for permission.");
             }
-            String key =generateRandomString();
-            CurrentSession currentSession=new CurrentSession(existDoctor.getId(),key, LocalDateTime.now());
+            String key = generateRandomString();
+            CurrentSession currentSession = new CurrentSession(existDoctor.getId(), key, LocalDateTime.now());
             existDoctor.setType("Doctor");
             currentSession.setUserId(existDoctor.getId());
             currentSession.setUserType("Doctor");
@@ -44,21 +43,25 @@ public class DoctorLoginServiceImpl implements DoctorLoginService {
             loginUUIDKey.setMsg("Login successful with valid key");
             loginUUIDKey.setUuid(key);
             return loginUUIDKey;
-        }
-        else {
+        } else {
             throw new LoginException("Please enter valid password");
         }
     }
 
+    @Override
+    public LoginUUIDKey logOutAccount(LoginDto loginDTO) throws LoginException {
+        return null;
+    }
+
     public static String generateRandomString() {
         String keyValue = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
-        StringBuilder salt = new StringBuilder();
+        StringBuilder sb = new StringBuilder();
         Random rnd = new Random();
-        while (salt.length() < 18) { // length of the random string.
+        while (sb.length() < 18) {
             int index = (int) (rnd.nextFloat() * keyValue.length());
-            salt.append(keyValue.charAt(index));
+            sb.append(keyValue.charAt(index));
         }
-        String saltStr = salt.toString();
+        String saltStr = sb.toString();
         return saltStr;
 
     }
