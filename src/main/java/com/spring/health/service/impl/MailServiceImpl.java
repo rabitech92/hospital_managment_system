@@ -21,7 +21,6 @@ public class MailServiceImpl implements MailService {
     private String formMail;
 
     @Override
-
     public MailSenderDto sendMail(String email, MailSender mailSender) {
         SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
         simpleMailMessage.setFrom(formMail);
@@ -32,12 +31,9 @@ public class MailServiceImpl implements MailService {
         return toDto(mailSender);
     }
 
-
     private MailSenderDto toDto(MailSender mailSender){
         MailSenderDto mailSenderDto=modelMapper.map(mailSender,MailSenderDto.class);
         return mailSenderDto;
     }
-
-
 
 }

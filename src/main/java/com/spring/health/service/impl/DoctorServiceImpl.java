@@ -3,10 +3,7 @@ package com.spring.health.service.impl;
 import com.spring.health.Dto.DoctorDto;
 import com.spring.health.Dto.Response;
 import com.spring.health.exception.DoctorException;
-import com.spring.health.exception.TimeDateException;
 import com.spring.health.mapper.DoctorMapper;
-import com.spring.health.model.Appointment;
-import com.spring.health.model.CurrentSession;
 import com.spring.health.model.Doctor;
 import com.spring.health.repository.DoctorRepository;
 import com.spring.health.repository.SessionRepository;
@@ -17,12 +14,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
+
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service

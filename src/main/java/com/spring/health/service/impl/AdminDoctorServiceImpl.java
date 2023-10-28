@@ -27,10 +27,8 @@ public class AdminDoctorServiceImpl implements AdminDoctorService {
             doctorDto.setType("Doctor");
             doctorDto.setPassword(PatientServiceImpl.bCryptPasswordEncoder.encode(doctorDto.getPassword()));
             Doctor doctor=doctorMapper.toEntity(doctorDto);
-            doctorRepository.save(doctor);
-            DoctorDto doctorDto1=doctorMapper.toDto(doctor);
-            return doctorDto1;
+            return doctorMapper.toDto(doctorRepository.save(doctor));
         }
-        throw new DoctorException("Doctor already register his name is. " +doctorDto.getName());
+        throw new DoctorException("Doctor already register his/her name is " +doctorDto.getName());
     }
 }

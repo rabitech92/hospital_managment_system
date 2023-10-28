@@ -22,8 +22,7 @@ public class LoginController {
 
     @PostMapping("/login-patient")
     public LoginUUIDKey loginPatient(@RequestBody LoginDto loginDto) throws LoginException {
-        LoginUUIDKey loginUUIDKey=patientAndAdminLoginService.logIntoAccount(loginDto);
-       return loginUUIDKey;
+        return patientAndAdminLoginService.logIntoAccount(loginDto);
     }
 
     @PostMapping("/loginDoctor")

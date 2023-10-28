@@ -77,8 +77,7 @@ public class DoctorLoginServiceImpl implements DoctorLoginService {
             int index = (int) (rnd.nextFloat() * keyValue.length());
             salt.append(keyValue.charAt(index));
         }
-        String saltStr = salt.toString();
-        return saltStr;
+        return salt.toString();
 
     }
 }

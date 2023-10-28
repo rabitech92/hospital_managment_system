@@ -22,9 +22,11 @@ public class DoctorController {
     public Response getAll(){
         return doctorService.getDoctor();
     }
+
     public Response login(@RequestBody DoctorDto doctorDto){
         return doctorService.loginDoctor(doctorDto);
     }
+
     @GetMapping("/{id}")
     public DoctorDto getDoctor(@PathVariable ObjectId id) throws DoctorException, LoginException {
        return doctorService.getDoctorDetails(id);

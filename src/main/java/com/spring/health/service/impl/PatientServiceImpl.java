@@ -81,7 +81,7 @@ public class PatientServiceImpl  implements PatientService {
             Optional<Doctor> registerDoctor = doctorRepository.findById(doctor.getId());
             if (!registerDoctor.isEmpty()) {
                 appointmentDto.setDoctor(registerDoctor.get());
-                boolean appoint =true;
+                boolean appoint =false;
                 boolean appoint1 =false;
                 Appointment registerAppointment= null;
                 if (!appoint && appoint1){

@@ -31,10 +31,12 @@ public class UserController {
     public Response verifyAccount(@RequestParam String email,@RequestParam String otp) {
         return userService.verifyAccount(email, otp);
     }
+
     @PutMapping("/regenerate-otp")
     public Response regenerateOtp(@RequestParam String email) {
         return userService.regenerateOtp(email);
     }
+
     @PostMapping("/login")
     public Response login(@RequestBody LoginDto loginDto) {
         return userService.login(loginDto);
