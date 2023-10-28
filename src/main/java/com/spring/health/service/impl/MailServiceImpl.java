@@ -14,21 +14,21 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class MailServiceImpl implements MailService {
 
-    private final JavaMailSender mailSender;
+    private final JavaMailSender javaMailSender;
     private final ModelMapper modelMapper;
 
     @Value("$(spring.mail.username)")
     private String formMail;
 
     @Override
-    public MailSenderDto sendMail(String email, MailSender mailSenderDto) {
+    public MailSenderDto sendMail(String email, MailSender mailSender) {
         SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
         simpleMailMessage.setFrom(formMail);
-        simpleMailMessage.setSubject(mailSenderDto.getSubject());
-        simpleMailMessage.setText(mailSenderDto.getMessage());
         simpleMailMessage.setTo(email);
-        mailSender.send(simpleMailMessage);
-        return toDto(mailSenderDto);
+        simpleMailMessage.setText(mailSender.getMessage());
+        simpleMailMessage.setSubject(mailSender.getSubject());
+        javaMailSender.send(simpleMailMessage);
+        return toDto(mailSender);
     }
 
 

@@ -4,10 +4,12 @@ package com.spring.health.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
+import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Document
 @AllArgsConstructor
@@ -16,8 +18,8 @@ import java.time.LocalDateTime;
 @Setter
 @Component
 @ToString
-public class Appointment extends BaseClass{
-
+public class Appointment {
+    private ObjectId id;
     private Patient patient;
     private LocalDateTime appointmentDateAndTime;
     private Doctor doctor;

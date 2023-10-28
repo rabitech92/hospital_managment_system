@@ -53,6 +53,18 @@ public class DoctorLoginServiceImpl implements DoctorLoginService {
         return null;
     }
 
+    @Override
+    public Boolean checkUserLoginOrNot(String key) throws LoginException {
+        CurrentSession currentPatientSession = sessionRepository.findByUuid(key);
+        if (currentPatientSession != null) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
+
     public static String generateRandomString() {
         String keyValue = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
         StringBuilder sb = new StringBuilder();

@@ -19,20 +19,6 @@ public class UserController {
     public UserController(UserService userService) {
         this.userService = userService;
     }
-    //    @PostMapping("/register")
-//    public ResponseEntity<String> registerUser(@RequestBody UserRegistrationRequest registrationRequest) {
-//        userService.registerUser(registrationRequest.getEmail(), registrationRequest.getPassword());
-//        return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully. Check your email for verification.");
-//    }
-//
-//    @GetMapping("/verify-email")
-//    public ResponseEntity<String> verifyEmail(@RequestParam String email, @RequestParam String otp) {
-//        if (userService.verifyEmail(email, otp)) {
-//            return ResponseEntity.ok("Email verified successfully");
-//        } else {
-//            return ResponseEntity.badRequest().body("Invalid OTP or email");
-//        }
-//    }
 
 
 

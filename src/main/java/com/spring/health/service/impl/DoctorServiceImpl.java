@@ -1,17 +1,17 @@
 package com.spring.health.service.impl;
 
 import com.spring.health.Dto.DoctorDto;
-import com.spring.health.Dto.LoginDto;
 import com.spring.health.Dto.Response;
 import com.spring.health.exception.DoctorException;
 import com.spring.health.exception.TimeDateException;
 import com.spring.health.mapper.DoctorMapper;
 import com.spring.health.model.Appointment;
+import com.spring.health.model.CurrentSession;
 import com.spring.health.model.Doctor;
 import com.spring.health.repository.DoctorRepository;
+import com.spring.health.repository.SessionRepository;
 import com.spring.health.service.DoctorService;
 import com.spring.health.util.ResponseBuilder;
-import lombok.AllArgsConstructor;
 import org.bson.types.ObjectId;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
@@ -26,13 +26,19 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-@AllArgsConstructor
 public class DoctorServiceImpl implements DoctorService {
 
     private final DoctorRepository doctorRepository;
     private final ModelMapper modelMapper;
     private final DoctorMapper doctorMapper;
+    private final SessionRepository sessionRepository;
 
+    public DoctorServiceImpl(DoctorRepository doctorRepository, ModelMapper modelMapper, DoctorMapper doctorMapper, SessionRepository sessionRepository) {
+        this.doctorRepository = doctorRepository;
+        this.modelMapper = modelMapper;
+        this.doctorMapper = doctorMapper;
+        this.sessionRepository = sessionRepository;
+    }
 
     @Override
     public List<DoctorDto> findAllDoctors() {
@@ -128,6 +134,13 @@ public class DoctorServiceImpl implements DoctorService {
         } else {
             throw new DoctorException("No doctor found with this id " + doctorDto.getName());
         }
+    }
+
+    @Override
+    public DoctorDto getDoctorDetails(ObjectId id) throws DoctorException {
+       Doctor doctor=doctorRepository.findById(id).get();
+       DoctorDto doctorDto =modelMapper.map(doctor,DoctorDto.class);
+       return doctorDto;
     }
 
 

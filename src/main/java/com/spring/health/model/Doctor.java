@@ -15,9 +15,9 @@ import java.util.List;
 @NoArgsConstructor
 @Accessors(chain = true)
 @Document(collection ="doctors")
-public class Doctor{
+public class Doctor extends BaseClass{
 
-	private ObjectId id;
+
 	private String mobileNo;
 	private String name;
 	private String email;

@@ -26,13 +26,12 @@ public class PatientController {
 
     private final PatientService patientService;
     private final PatientAndAdminLoginService loginService;
-    private final ModelMapper modelMapper;
     private final DoctorService doctorService;
 
 
     @PostMapping
     public PatientDto save(@RequestBody PatientDto patient) throws PatientException {
-        return patientService.create(patient);
+        return patientService.patientCreate(patient);
     }
 
     @PutMapping("/updatePatient")
@@ -50,12 +49,12 @@ public class PatientController {
        return patientService.searchPatient(email);
     }
     @PostMapping("/bookAppointment")
-    public AppointmentDto appoint(@RequestParam String key,@RequestBody Appointment appointment) throws AppointmentException, LoginException, TimeDateException, MessagingException, IOException, DoctorException {
-        if (appointment==null){
+    public AppointmentDto appoint(@RequestParam String key,@RequestBody AppointmentDto appointmentDto) throws AppointmentException, LoginException, TimeDateException, MessagingException, IOException, DoctorException {
+        if (appointmentDto==null){
             throw new AppointmentException("Please enter valid appointment");
         }
         if (loginService.checkUserLoginOrNot(key)){
-            AppointmentDto registerAppointment = patientService.bookAppointment(key,appointment);
+            AppointmentDto registerAppointment = patientService.bookAppointment(key,appointmentDto);
             return registerAppointment;
         }
         else {

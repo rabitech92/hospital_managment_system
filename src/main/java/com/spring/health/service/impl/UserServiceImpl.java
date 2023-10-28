@@ -27,7 +27,7 @@ public class UserServiceImpl implements UserService {
 
 
     private final UserRepository userRepository;
-    //  private final EmailService emailService;
+    private final EmailService emailService;
     private final OtpUtil otpUtil;
     private final EmailUtil emailUtil;
     private final UserMapper userMapper;
@@ -88,64 +88,5 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
         return ResponseBuilder.getSuccessResponse(HttpStatus.OK, "User registration successful", userMapper.toRegistrationDto(user));
     }
-//
-//    @Override
-//    public User registerUser(String email, String password) {
-//        User newUser = new User();
-//        newUser.setEmail(email);
-//        newUser.setPassword(password);
-//        newUser.setVerified(false);
-//
-//        // Generate OTP
-//        String otp = generateOTP();
-//        newUser.setOtp(otp);
-//        newUser.setOtpExpiration(LocalDateTime.now().plusMinutes(15)); // OTP expires in 15 minutes
-//
-//        // Save the user entity
-//        User savedUser = userRepository.save(newUser);
-//
-//        // Send verification email
-//        emailService.sendVerificationEmail(savedUser);
-//
-//        return savedUser;
-//    }
-//
-//    @Override
-//    public boolean verifyEmail(String email, String otp) {
-//        User user = userRepository.findByEmail(email);
-//
-//        if (user != null && isOTPValid(user, otp)) {
-//            user.setVerified(true);
-//            user.setOtp(null);
-//            user.setOtpExpiration(null);
-//            userRepository.save(user);
-//            return true;
-//        }
-//
-//        return false;
-//    }
-//
-//
-//    public boolean isOTPValid(User user, String otp) {
-//        return user.getOtp() != null &&
-//                user.getOtpExpiration() != null &&
-//                user.getOtp().equals(otp) &&
-//                user.getOtpExpiration().isAfter(LocalDateTime.now());
-//    }
-//
-//
-//    public String generateOTP() {
-//        int otpLength = 6;
-//        String allowedChars = "0123456789";
-//        StringBuilder otp = new StringBuilder(otpLength);
-//        Random random = new Random();
-//        for (int i = 0; i < otpLength; i++) {
-//            int randomIndex = random.nextInt(allowedChars.length());
-//            char randomChar = allowedChars.charAt(randomIndex);
-//            otp.append(randomChar);
-//        }
-//        return "Otp already  send your email";
-//    }
-
 
 }
