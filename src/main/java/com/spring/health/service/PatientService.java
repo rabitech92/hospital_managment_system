@@ -5,8 +5,7 @@ import com.spring.health.Dto.AppointmentDto;
 import com.spring.health.Dto.DoctorDto;
 import com.spring.health.Dto.PatientDto;
 import com.spring.health.exception.*;
-import com.spring.health.model.Appointment;
-import com.spring.health.model.CurrentSession;
+import com.spring.health.model.CurrentSession;;
 import com.spring.health.model.Patient;
 import jakarta.mail.MessagingException;
 

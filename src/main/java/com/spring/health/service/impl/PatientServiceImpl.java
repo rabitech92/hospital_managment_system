@@ -26,7 +26,8 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
-public class PatientServiceImpl implements PatientService, Runnable {
+public class PatientServiceImpl  implements PatientService {
+
 
     public static Map<String, LocalDateTime> myTimeDate = new LinkedHashMap<>();
     public static BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder(10, new SecureRandom());
@@ -58,13 +59,14 @@ public class PatientServiceImpl implements PatientService, Runnable {
     public PatientDto patientCreate(PatientDto patientDto) throws PatientException {
         Patient patient = patientRepository.findByEmail(patientDto.getEmail());
         if (patient == null) {
+
             patientDto.setType("Patient");
             patientDto.setPassword(bCryptPasswordEncoder.encode(patientDto.getPassword()));
-            Patient patient1 = modelMapper.map(patientDto, Patient.class);
+            Patient patient1=modelMapper.map(patientDto,Patient.class);
             patientRepository.save(patient1);
-            PatientDto patientDto1 = modelMapper.map(patient1, PatientDto.class);
+            PatientDto patientDto1=modelMapper.map(patient1,PatientDto.class);
             return patientDto1;
-        } else {
+        }else{
             throw new PatientException("Patient Already saved : " + patientDto.getName());
         }
     }
@@ -93,7 +95,6 @@ public class PatientServiceImpl implements PatientService, Runnable {
                             + "Doctor education: " + registerAppointment.getDoctor().getEducation() + "\n"
                             + "Doctor experience: " + registerAppointment.getDoctor().getExperience() + "\n"
                             + "\n"
-
                             + "Thanks and Regards \n"
                             + "Appointment Booking Application");
                     mailSender.setSubject("You have successfully book appointment at " + registerAppointment.getAppointmentDateAndTime());
@@ -153,65 +154,23 @@ public class PatientServiceImpl implements PatientService, Runnable {
     @Override
     public CurrentSession getCurrentUserByUuid(String uuid) throws LoginException {
         CurrentSession currentUserSession = sessionRepository.findByUuid(uuid);
-        if (currentUserSession != null) {
+        if(currentUserSession != null) {
             return currentUserSession;
-        } else {
+        }else {
             throw new LoginException("Please enter valid key");
         }
     }
 
 
-    public PatientDto convertToDto(PatientReqDto patientReqDto) {
-        PatientDto patientDto = modelMapper.map(patientReqDto, PatientDto.class);
-        return patientDto;
+
+    public PatientDto convertToDto(PatientReqDto patientReqDto){
+        PatientDto patientDto=modelMapper.map(patientReqDto,PatientDto.class);
+        return  patientDto;
     }
 
 
-    public static void getAppointmentDates(Integer from, Integer to) throws IOException, TimeDateException {
-        myTimeDate.clear();
-        if (from == null || to == null) {
-            throw new TimeDateException("Please enter valid doctor appointment From to To time");
-        }
-        FileReader reader = new FileReader("config.properties");
-        Properties p = new Properties();
-        p.load(reader);
-        LocalDateTime currentDateTime = LocalDateTime.now();
-        LocalDateTime tomorrowDateTime = currentDateTime.plusDays(1);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        for (int i = from; i <= to; i++) {
-            String TodaytimeString = null;
-            if (!(i >= 10)) {
-                TodaytimeString = currentDateTime.toLocalDate() + " 0" + i + ":00";
-            } else {
-                TodaytimeString = currentDateTime.toLocalDate() + " " + i + ":00";
-            }
-            LocalDateTime dateTime = LocalDateTime.parse(TodaytimeString, formatter);
-            if (currentDateTime.isBefore(dateTime)) {
-                myTimeDate.put("today" + i, dateTime);
-            }
-        }
-        for (int i = from; i <= to; i++) {
-            String tomorrowTimeString = null;
-            if (!(i >= 10)) {
-                tomorrowTimeString = tomorrowDateTime.toLocalDate() + " 0" + i + ":00";
-            } else {
-                tomorrowTimeString = tomorrowDateTime.toLocalDate() + " " + i + ":00";
-            }
-            LocalDateTime dateTime = LocalDateTime.parse(tomorrowTimeString, formatter);
-            if (currentDateTime.isBefore(dateTime)) {
-                myTimeDate.put("tomorrow" + i, dateTime);
-            }
-        }
-    }
 
-    @Override//sending mail to patient for successfully booking of appointment
-    public void run() {
-        try {
-            mailService.sendMail(appointment.getPatient().getEmail(), mailSender);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+
 
 
 }

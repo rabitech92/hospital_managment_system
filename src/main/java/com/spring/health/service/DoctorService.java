@@ -20,7 +20,6 @@ public interface DoctorService {
     Response updateDoctor(DoctorDto  doctorDto,ObjectId id);
     Response deleteDoctor(ObjectId id);
     Response loginDoctor(DoctorDto doctorDto);
-    List<LocalDateTime> getDoctorAvailableTimingForBooking(String key, DoctorDto doctorDto) throws IOException, TimeDateException, DoctorException;
     DoctorDto getDoctorDetails(ObjectId id)throws DoctorException;
 
 
