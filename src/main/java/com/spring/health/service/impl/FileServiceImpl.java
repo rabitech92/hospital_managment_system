@@ -4,12 +4,17 @@ import com.spring.health.Dto.FileInfoDto;
 import com.spring.health.model.FileInfo;
 import com.spring.health.repository.FileInfoRepository;
 import com.spring.health.service.FilesService;
+import org.bson.types.ObjectId;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Date;
+import java.util.Optional;
 
 
 @Service
@@ -31,15 +36,13 @@ public class FileServiceImpl implements FilesService {
         fileInfo.setSize(file.getSize());
         fileInfo.setContentType(file.getContentType());
         fileInfo.setUploadDate(new Date());
-//        Path filePath = Paths.get("Directory",file.getOriginalFilename());
-//        Files.write(filePath, file.getBytes());
+        Path filePath = Paths.get("E:\\Rabiul-islam\\File-Spring-App\\",file.getOriginalFilename());
+        Files.write(filePath, file.getBytes());
         return convertrDto(fileInfoRepository.save(fileInfo));
+
     }
 
-    @Override
-    public FileInfoDto downloadFile(String id) {
-        return null;
-    }
+
 
     private FileInfoDto convertrDto(FileInfo fileInfo){
         FileInfoDto fileInfoDto=modelMapper.map(fileInfo,FileInfoDto.class);

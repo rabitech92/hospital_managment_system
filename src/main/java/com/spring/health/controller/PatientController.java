@@ -62,5 +62,9 @@ public class PatientController {
     public List<DoctorDto> getAll() throws DoctorException {
         return patientService.getAllDoctors();
     }
+    @GetMapping("/name")
+    public List<Patient> getSearch(@RequestParam String name) {
+        return patientService.searchaPatient(name);
+    }
 
 }

@@ -23,5 +23,6 @@ public interface PatientService {
 	CurrentSession getCurrentUserByUuid(String uuid) throws LoginException;
 	AppointmentDto bookAppointment(String key, AppointmentDto appointment) throws AppointmentException, LoginException, DoctorException, IOException, TimeDateException, MessagingException;
 	List<DoctorDto> getAllDoctors() throws DoctorException;
+	List<Patient> searchaPatient(String name);
 
 	}

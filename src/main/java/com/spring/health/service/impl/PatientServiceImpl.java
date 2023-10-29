@@ -169,7 +169,9 @@ public class PatientServiceImpl  implements PatientService {
     }
 
 
-
+    public List<Patient> searchaPatient(String name){
+        return patientRepository.findPatientByNameContains(name);
+    }
 
 
 
