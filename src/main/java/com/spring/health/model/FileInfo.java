@@ -1,9 +1,6 @@
 package com.spring.health.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.Accessors;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -19,5 +16,7 @@ public class FileInfo extends BaseClass{
     private String filename;
     private String contentType;
     private long size;
+    private String filePath;
     private Date uploadDate;
+
 }

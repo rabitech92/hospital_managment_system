@@ -19,9 +19,14 @@ public class FileInfoController {
     public FileInfoController(FilesService fileService) {
         this.fileService = fileService;
     }
+
     @PostMapping
     public FileInfoDto upLoad(@RequestParam("file") MultipartFile file ) throws IOException{
             return fileService.uploadFile(file);
+    }
 
+    @GetMapping("/{download}")
+    public FileInfoDto downloadFile(@PathVariable("download") String filePath) throws IOException {
+        return fileService.downloadFile(filePath);
     }
 }

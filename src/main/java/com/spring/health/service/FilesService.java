@@ -8,6 +8,5 @@ import java.io.IOException;
 
 public interface FilesService {
     FileInfoDto uploadFile(MultipartFile file) throws IOException;
-
-
+    FileInfoDto downloadFile(String fileName)throws IOException;
 }
