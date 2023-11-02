@@ -9,5 +9,9 @@ import java.util.Optional;
 
 @Repository
 public interface FileInfoRepository extends MongoRepository<FileInfo, ObjectId> {
+    int countByFileLocation(String fileLocation);
     Optional<FileInfo> findByFilePath(String filePath);
+    Optional<FileInfo> findByEntityAndEntityRowIdAndActiveStatus(String className,ObjectId rowId, Integer id);
+
+
 }

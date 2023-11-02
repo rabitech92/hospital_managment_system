@@ -13,6 +13,7 @@ import org.bson.types.ObjectId;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 
 import java.util.List;
@@ -102,6 +103,11 @@ public class DoctorServiceImpl implements DoctorService {
        Doctor doctor=doctorRepository.findById(id).get();
        DoctorDto doctorDto =modelMapper.map(doctor,DoctorDto.class);
        return doctorDto;
+    }
+
+    @Override
+    public DoctorDto saveFile(DoctorDto doctorDto, MultipartFile file, String docName) {
+        return null;
     }
 
 

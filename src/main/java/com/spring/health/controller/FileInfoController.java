@@ -2,6 +2,8 @@ package com.spring.health.controller;
 
 
 import com.spring.health.Dto.FileInfoDto;
+import com.spring.health.model.Doctor;
+import com.spring.health.model.FileInfo;
 import com.spring.health.service.FilesService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,4 +31,6 @@ public class FileInfoController {
     public FileInfoDto downloadFile(@PathVariable("download") String filePath) throws IOException {
         return fileService.downloadFile(filePath);
     }
+
+
 }
