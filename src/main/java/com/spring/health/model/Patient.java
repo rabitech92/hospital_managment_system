@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.Email;
 import lombok.*;
 import lombok.experimental.Accessors;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Accessors(chain = true)
+@ToString
 @Document(collection = "patients")
 public class Patient extends BaseClass{
 
@@ -24,6 +26,7 @@ public class Patient extends BaseClass{
 	private int age ;
 	private String gender;
 	private String address;
+	@Indexed(useGeneratedName = true)
 	private String nid;
 	private String type;
 	@JsonIgnore

@@ -20,6 +20,7 @@ public class FileInfo extends BaseClass{
     private long size;
     private String filePath;
     private String fileLocation;
+    private String fileType;
     private Date uploadDate;
     @Indexed(useGeneratedName = true)
     private String entity;

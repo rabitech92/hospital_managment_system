@@ -10,6 +10,6 @@ import java.io.IOException;
 public interface FilesService {
     FileInfoDto uploadFile(MultipartFile file) throws IOException;
     FileInfoDto downloadFile(String fileName)throws IOException;
-    public FileInfoDto saveFile(String docName, MultipartFile file,
-                                Class<? extends BaseClass> modelClass, ObjectId rowId);
+    FileInfoDto saveFile(String docName, MultipartFile file,Class<? extends BaseClass> modelClass, ObjectId rowId);
+    void deleteImageIfExists(String name, ObjectId id);
 }
