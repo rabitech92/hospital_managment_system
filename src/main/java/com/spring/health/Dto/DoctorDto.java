@@ -17,7 +17,6 @@ import java.util.List;
 @Setter
 public class DoctorDto {
 
-
     private String name;
     private String email;
     private String password;
@@ -30,7 +29,6 @@ public class DoctorDto {
     private int startDateCount;
     private int endtDateCount;
     private int duration;
-
     @JsonIgnore
     private List<Review> listOfReviews = new ArrayList<>();
     private String doctorImg;
@@ -39,7 +37,6 @@ public class DoctorDto {
     List<Message> listOfMessage = new ArrayList<>();
     @JsonIgnore
     List<Appointment> listOfAppointments = new ArrayList<>();
-
     private Integer appointmentFromTime;
     private Integer appointmentToTime;
 }

@@ -15,12 +15,14 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/doctors")
-@RequiredArgsConstructor
 public class DoctorController {
 
-    @Qualifier("doctorServiceImpl")
+
     private final DoctorService doctorService;
 
+    public DoctorController(@Qualifier("doctorServiceImpl")DoctorService doctorService) {
+        this.doctorService = doctorService;
+    }
 
     @GetMapping
     public Response getAll(){

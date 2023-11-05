@@ -13,11 +13,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/new-doctor")
-@RequiredArgsConstructor
 public class DoctorNewController {
 
-    @Qualifier("doctorServiceNewImpl")
+
     private final DoctorService doctorService;
+
+    public DoctorNewController(@Qualifier("doctorServiceNewImpl")DoctorService doctorService) {
+        this.doctorService = doctorService;
+    }
 
     @PostMapping("/create")
     public DoctorDto createDoctor(@RequestBody  DoctorDto doctorDto) throws DoctorException {

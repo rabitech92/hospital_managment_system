@@ -78,7 +78,7 @@ public class DoctorServiceNewImpl implements DoctorService {
             doctorSave = doctorRepository.save(doctorSave);
             return convertEntityToDto(doctorSave);
         }else{
-            return null;
+            throw  new DoctorException("This Phone Number alrady save here "+doctorDto.getMobileNo());
         }
 
     }
