@@ -118,6 +118,11 @@ public class DoctorServiceImpl implements DoctorService {
         return null;
     }
 
+    @Override
+    public DoctorDto getDuration(int startTime, int endTime) throws DoctorException {
+        return null;
+    }
+
 
     private DoctorDto convertEntityToDto(Doctor doctor){
         DoctorDto doctorDto=modelMapper.map(doctor,DoctorDto.class);
