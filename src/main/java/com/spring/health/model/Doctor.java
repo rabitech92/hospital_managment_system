@@ -27,6 +27,9 @@ public class Doctor extends BaseClass{
 	private Boolean insuranceAcceptance;
 	private String education;
 	private String experience;
+	private int startDateCount;
+	private int endtDateCount;
+	private int duration;
 	@JsonIgnore
 	private List<Review> listOfReviews = new ArrayList<>();
 	private String doctorImg;

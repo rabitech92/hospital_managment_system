@@ -11,6 +11,8 @@ import com.spring.health.service.DoctorService;
 import com.spring.health.util.ResponseBuilder;
 import org.bson.types.ObjectId;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,7 +21,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Service
+@Service("doctorServiceImpl")
+@Primary
 public class DoctorServiceImpl implements DoctorService {
 
     private final DoctorRepository doctorRepository;
@@ -107,6 +110,11 @@ public class DoctorServiceImpl implements DoctorService {
 
     @Override
     public DoctorDto saveFile(DoctorDto doctorDto, MultipartFile file, String docName) {
+        return null;
+    }
+
+    @Override
+    public DoctorDto createDoctor(DoctorDto doctorDto) {
         return null;
     }
 

@@ -14,4 +14,5 @@ import java.util.Optional;
 public interface DoctorRepository extends MongoRepository<Doctor, ObjectId> {
     boolean existsByEmailAndIdNotIn(String email, ObjectId id);
     Doctor findByEmail(String email);
+    Optional<Doctor> findByMobileNo(String mobileNo);
 }

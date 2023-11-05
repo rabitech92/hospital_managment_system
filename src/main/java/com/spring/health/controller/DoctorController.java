@@ -7,16 +7,20 @@ import com.spring.health.exception.LoginException;
 import com.spring.health.service.DoctorLoginService;
 import com.spring.health.service.DoctorService;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.bson.types.ObjectId;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/doctors")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class DoctorController {
 
+    @Qualifier("doctorServiceImpl")
     private final DoctorService doctorService;
-    private final DoctorLoginService doctorLoginService;
+
 
     @GetMapping
     public Response getAll(){

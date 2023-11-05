@@ -58,6 +58,7 @@ public class FileServiceImpl implements FilesService {
         String fileLocation = fileInfoDto.get().getFilePath();
         return convertByte(Files.readAllBytes(new File(fileLocation).toPath()));
     }
+
     @Override
     public FileInfoDto saveFile(String docName, MultipartFile file, Class<? extends BaseClass> modelClass, ObjectId rowId) {
         if (file.isEmpty()) {
@@ -87,8 +88,8 @@ public class FileServiceImpl implements FilesService {
 
     private String getUniqueLocation(String entityName, String filename) {
         String location = fileRootlocation + File.separator + "Support Util Files " + File.separator + entityName
-                        + File.separator + DateUtils.getStringDate(new Date(), "yy-mm-dd") + File.separator
-                        + filename;
+                + File.separator + DateUtils.getStringDate(new Date(), "yy-mm-dd") + File.separator
+                + filename;
         int existingLocationCount = fileInfoRepository.countByFileLocation(location);
         if (existingLocationCount == 0) {
             return location;

@@ -22,7 +22,6 @@ public interface DoctorService {
     Response deleteDoctor(ObjectId id);
     Response loginDoctor(DoctorDto doctorDto);
     DoctorDto getDoctorDetails(ObjectId id)throws DoctorException;
-     DoctorDto saveFile(DoctorDto doctorDto, MultipartFile file,String docName);
-
-
+    DoctorDto saveFile(DoctorDto doctorDto, MultipartFile file,String docName);
+    DoctorDto createDoctor(DoctorDto doctorDto) throws DoctorException;
 }

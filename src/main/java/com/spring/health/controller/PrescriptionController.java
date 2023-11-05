@@ -15,9 +15,10 @@ import org.springframework.web.multipart.MultipartFile;
 @RequiredArgsConstructor
 @RequestMapping("/prescription")
 public class PrescriptionController {
+
     private final PrescriptionSettingsService service;
 
-    @PostMapping
+    @PostMapping("page")
     public Response settingPrescription(@ModelAttribute PrescriptionSettingsInfoRequest request, @RequestParam(value = "file",required = false) MultipartFile file){
         return service.saveSettings(request,file,"file");
     }

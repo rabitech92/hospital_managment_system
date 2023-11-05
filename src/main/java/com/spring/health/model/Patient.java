@@ -26,7 +26,6 @@ public class Patient extends BaseClass{
 	private int age ;
 	private String gender;
 	private String address;
-	@Indexed(useGeneratedName = true)
 	private String nid;
 	private String type;
 	@JsonIgnore

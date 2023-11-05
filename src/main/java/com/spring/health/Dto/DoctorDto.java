@@ -16,7 +16,8 @@ import java.util.List;
 @Getter
 @Setter
 public class DoctorDto {
-    private ObjectId id;
+
+
     private String name;
     private String email;
     private String password;
@@ -26,6 +27,9 @@ public class DoctorDto {
     private Boolean insuranceAcceptance;
     private String education;
     private String experience;
+    private int startDateCount;
+    private int endtDateCount;
+    private int duration;
 
     @JsonIgnore
     private List<Review> listOfReviews = new ArrayList<>();
