@@ -22,7 +22,7 @@ public class PatientController {
 
     private final PatientService patientService;
     private final PatientAndAdminLoginService loginService;
-    private final DoctorService doctorService;
+
 
 
     @PostMapping
@@ -44,6 +44,7 @@ public class PatientController {
     public PatientDto searchPatient(@RequestParam("email") String email) throws PatientException {
        return patientService.searchPatient(email);
     }
+
     @PostMapping("/bookAppointment")
     public AppointmentDto appoint(@RequestParam String key,@RequestBody AppointmentDto appointmentDto) throws AppointmentException, LoginException, TimeDateException, MessagingException, IOException, DoctorException {
         if (appointmentDto==null){
@@ -62,6 +63,7 @@ public class PatientController {
     public List<DoctorDto> getAll() throws DoctorException {
         return patientService.getAllDoctors();
     }
+
     @GetMapping("/name")
     public List<Patient> getSearch(@RequestParam String name) {
         return patientService.searchaPatient(name);

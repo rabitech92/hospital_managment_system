@@ -27,11 +27,13 @@ public class AppointmentController {
     public Response getById(@PathVariable ObjectId id){
         return appointmentService.getApointmentById(id);
     }
+
     @PutMapping("/{id}")
     public Response update(@PathVariable ObjectId id, @RequestBody  AppointmentDto appointmentDto){
         return appointmentService.updateApointment(appointmentDto,id);
 
     }
+
     @DeleteMapping("/{id}")
     public Response delete(@PathVariable ObjectId id){
         return appointmentService.deleteApointment(id);

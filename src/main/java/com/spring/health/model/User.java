@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class User extends BaseClass {
+
     private String name;
     private String email;
     private String password;
