@@ -86,7 +86,16 @@ public class DoctorServiceNewImpl implements DoctorService {
         }else{
             throw  new DoctorException("This Phone Number already save here "+doctorDto.getMobileNo());
         }
+    }
 
+    @Override
+    public DoctorDto getDoctorById(ObjectId id) throws DoctorException {
+        Doctor doctor = doctorRepository.findById(id).get();
+        DoctorDto doctorDto = modelMapper.map(doctor,DoctorDto.class);
+        if (doctor!=null){
+            return doctorDto;
+        }
+        throw new DoctorException("No Doctor this id. ");
     }
 
     @Override
