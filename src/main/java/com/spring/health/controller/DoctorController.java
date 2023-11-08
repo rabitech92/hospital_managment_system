@@ -6,6 +6,7 @@ import com.spring.health.exception.DoctorException;
 import com.spring.health.exception.LoginException;
 import com.spring.health.service.DoctorLoginService;
 import com.spring.health.service.DoctorService;
+import jakarta.annotation.Resource;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.bson.types.ObjectId;
@@ -15,14 +16,12 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/doctors")
+@RequiredArgsConstructor
 public class DoctorController {
 
-
+//  @Resource(name = "doctorServiceImpl")
+    @Qualifier("doctorServiceImpl")
     private final DoctorService doctorService;
-
-    public DoctorController(@Qualifier("doctorServiceImpl")DoctorService doctorService) {
-        this.doctorService = doctorService;
-    }
 
     @GetMapping
     public Response getAll(){

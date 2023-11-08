@@ -15,6 +15,7 @@ import java.util.Date;
 @Accessors(chain = true)
 @Document(collection = "files")
 public class FileInfo extends BaseClass{
+
     private String filename;
     private String contentType;
     private long size;
@@ -22,9 +23,7 @@ public class FileInfo extends BaseClass{
     private String fileLocation;
     private String fileType;
     private Date uploadDate;
-    @Indexed(useGeneratedName = true)
     private String entity;
-    @Indexed(useGeneratedName = true)
     private ObjectId entityRowId;
 
 }

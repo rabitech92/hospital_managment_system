@@ -5,5 +5,5 @@ import com.spring.health.Dto.Response;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface PrescriptionSettingsService {
-     Response saveSettings(PrescriptionSettingsInfoRequest settingDto, MultipartFile file, String docName);
+//     Response saveSettings(PrescriptionSettingsInfoRequest settingDto, MultipartFile file, String docName);
 }

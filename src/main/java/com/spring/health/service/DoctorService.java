@@ -25,6 +25,6 @@ public interface DoctorService {
     DoctorDto saveFile(DoctorDto doctorDto, MultipartFile file,String docName);
     DoctorDto createDoctor(DoctorDto doctorDto) throws DoctorException;
     DoctorDto getDoctorById(ObjectId id)throws DoctorException;
-    DoctorDto getDuration(int startTime, int endTime) throws DoctorException;
+
 
 }

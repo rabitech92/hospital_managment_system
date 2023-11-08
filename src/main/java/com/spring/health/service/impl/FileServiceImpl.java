@@ -31,23 +31,20 @@ public class FileServiceImpl implements FilesService {
 
     private final FileInfoRepository fileInfoRepository;
     private final ModelMapper modelMapper;
-    private final String fileRootlocation = System.getProperty("user.rabiul");
+    private final String fileRootLocation = System.getProperty("user.home");
 
 
-    private final String PATH_FOLDER = "E:\\Rabiul-islam\\File-Spring-App\\";
+    private final String PATH_FOLDER = "E:/Rabiul-islam/File-Spring-App/";
 
 
     @Override
     public FileInfoDto uploadFile(MultipartFile file) throws IOException {
-        String filePath1 = PATH_FOLDER + file.getOriginalFilename();
         FileInfo fileInfo = new FileInfo();
         fileInfo.setFilename(file.getOriginalFilename());
         fileInfo.setSize(file.getSize());
         fileInfo.setContentType(file.getContentType());
         fileInfo.setUploadDate(new Date());
-        fileInfo.setFilePath(filePath1);
-        Path filePath = Paths.get(PATH_FOLDER, file.getOriginalFilename());
-        fileInfo.setFilePath(filePath1);
+        Path filePath = Paths.get(PATH_FOLDER,file.getOriginalFilename());
         Files.write(filePath, file.getBytes());
         return convertrDto(fileInfoRepository.save(fileInfo));
     }
@@ -87,7 +84,7 @@ public class FileServiceImpl implements FilesService {
     }
 
     private String getUniqueLocation(String entityName, String filename) {
-        String location = fileRootlocation + File.separator + "Support Util Files " + File.separator + entityName
+        String location = fileRootLocation + File.separator + "Support Util Files " + File.separator + entityName
                 + File.separator + DateUtils.getStringDate(new Date(), "yy-mm-dd") + File.separator
                 + filename;
         int existingLocationCount = fileInfoRepository.countByFileLocation(location);
@@ -136,9 +133,7 @@ public class FileServiceImpl implements FilesService {
     }
 
     private FileInfoDto convertByte(byte[] fileInfo) {
-        FileInfoDto fileInfoDto = modelMapper.map(fileInfo, FileInfoDto.class);
-        return fileInfoDto;
-
+        return modelMapper.map(fileInfo, FileInfoDto.class);
     }
 
 }

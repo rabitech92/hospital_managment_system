@@ -3,7 +3,6 @@ package com.spring.health.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.Accessors;
-import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
@@ -28,7 +27,7 @@ public class Doctor extends BaseClass{
 	private String education;
 	private String experience;
 	private int startDateCount;
-	private int endtDateCount;
+	private int endDateCount;
 	private int duration;
 	@JsonIgnore
 	private List<Review> listOfReviews = new ArrayList<>();

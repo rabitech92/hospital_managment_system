@@ -9,6 +9,7 @@ import com.spring.health.repository.DoctorRepository;
 import com.spring.health.repository.SessionRepository;
 import com.spring.health.service.DoctorService;
 import com.spring.health.util.ResponseBuilder;
+import lombok.RequiredArgsConstructor;
 import org.bson.types.ObjectId;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -21,22 +22,14 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Service("doctorServiceImpl")
 @Primary
+@Service(value = "doctorServiceImpl")
+@RequiredArgsConstructor
 public class DoctorServiceImpl implements DoctorService {
 
     private final DoctorRepository doctorRepository;
     private final ModelMapper modelMapper;
     private final DoctorMapper doctorMapper;
-    private final SessionRepository sessionRepository;
-
-    public DoctorServiceImpl(DoctorRepository doctorRepository, ModelMapper modelMapper, DoctorMapper doctorMapper, SessionRepository sessionRepository) {
-        this.doctorRepository = doctorRepository;
-        this.modelMapper = modelMapper;
-        this.doctorMapper = doctorMapper;
-        this.sessionRepository = sessionRepository;
-    }
-
 
     @Override
     public List<DoctorDto> findAllDoctors() {
@@ -95,17 +88,15 @@ public class DoctorServiceImpl implements DoctorService {
     @Override
     public Response loginDoctor(DoctorDto doctorDto) {
         Doctor doctor= doctorRepository.findByEmail(doctorDto.getEmail());
-        if (doctor !=null){
-            return ResponseBuilder.getSuccessResponse(HttpStatus.OK,"Login Successfull",doctorDto.getEmail());
-        }
+        if (doctor !=null)
+            return ResponseBuilder.getSuccessResponse(HttpStatus.OK, "Login Successfull", doctorDto.getEmail());
         return ResponseBuilder.getFailureResponse(HttpStatus.NOT_FOUND,"No Doctor As " +doctorDto.getName());
     }
 
     @Override
     public DoctorDto getDoctorDetails(ObjectId id) throws DoctorException {
        Doctor doctor=doctorRepository.findById(id).get();
-       DoctorDto doctorDto =modelMapper.map(doctor,DoctorDto.class);
-       return doctorDto;
+        return modelMapper.map(doctor,DoctorDto.class);
     }
 
     @Override
@@ -115,22 +106,18 @@ public class DoctorServiceImpl implements DoctorService {
 
     @Override
     public DoctorDto createDoctor(DoctorDto doctorDto) {
-        return null;
+        Doctor doctor = modelMapper.map(doctorDto,Doctor.class);
+        return convertEntityToDto(doctorRepository.save(doctor));
     }
 
     @Override
     public DoctorDto getDoctorById(ObjectId id) throws DoctorException {
-        return null;
-    }
-
-    @Override
-    public DoctorDto getDuration(int startTime, int endTime) throws DoctorException {
-        return null;
+        Doctor doctor = doctorRepository.findById(id).get();
+        return convertEntityToDto(doctor);
     }
 
     private DoctorDto convertEntityToDto(Doctor doctor){
-        DoctorDto doctorDto=modelMapper.map(doctor,DoctorDto.class);
-        return doctorDto;
+        return modelMapper.map(doctor,DoctorDto.class);
     }
 
 }

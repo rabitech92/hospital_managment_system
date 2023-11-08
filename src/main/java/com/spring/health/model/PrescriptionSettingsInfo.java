@@ -16,7 +16,7 @@ public class PrescriptionSettingsInfo extends BaseClass {
   @Transient
   public static final String SEQUENCE_NAME = "prescription_settings_id_sequence";
 
-  @Indexed(useGeneratedName = true)
+
   private String hospitalName;
   private String prescriptionPageSize;
   private Boolean footerShow;

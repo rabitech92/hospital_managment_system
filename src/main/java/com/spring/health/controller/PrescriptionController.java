@@ -18,9 +18,9 @@ public class PrescriptionController {
 
     private final PrescriptionSettingsService service;
 
-    @PostMapping("page")
-    public Response settingPrescription(@ModelAttribute PrescriptionSettingsInfoRequest request, @RequestParam(value = "file",required = false) MultipartFile file){
-        return service.saveSettings(request,file,"file");
-    }
+//    @PostMapping("/page-save")
+//    public Response settingPrescription(@ModelAttribute PrescriptionSettingsInfoRequest request, @RequestParam(value = "file",required = false) MultipartFile file){
+//        return service.saveSettings(request,file,"file");
+//    }
 
 }

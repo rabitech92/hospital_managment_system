@@ -16,7 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 import java.util.Optional;
 
-@Service("doctorServiceNewImpl")
+@Service(value = "doctorServiceNewImpl")
 public class DoctorServiceNewImpl implements DoctorService {
 
     private final DoctorRepository doctorRepository;
@@ -80,6 +80,7 @@ public class DoctorServiceNewImpl implements DoctorService {
     public DoctorDto createDoctor(DoctorDto doctorDto) throws DoctorException{
         Optional<Doctor> doctor = doctorRepository.findByMobileNo(doctorDto.getMobileNo());
         if (doctor.isEmpty()){
+            doctorDto.setDuration(doctorDto.getEndDateCount() - doctorDto.getStartDateCount());
             Doctor doctorSave = convertToEntity(doctorDto);
             doctorSave = doctorRepository.save(doctorSave);
             return convertEntityToDto(doctorSave);
@@ -96,17 +97,6 @@ public class DoctorServiceNewImpl implements DoctorService {
             return doctorDto;
         }
         throw new DoctorException("No Doctor this id. ");
-    }
-
-    @Override
-    public DoctorDto getDuration(int startTime, int endTime) throws DoctorException {
-        return null;
-    }
-
-    private int timeDuration(int startTime,int endTime){
-        int result = endTime-startTime;
-        return result;
-
     }
 
     private DoctorDto convertEntityToDto(Doctor doctor){
