@@ -17,7 +17,7 @@ import java.util.List;
 @Setter
 public class DoctorDto {
 
-    private ObjectId id;
+
     private String name;
     private String email;
     private String password;

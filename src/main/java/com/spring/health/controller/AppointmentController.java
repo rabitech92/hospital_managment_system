@@ -31,7 +31,6 @@ public class AppointmentController {
     @PutMapping("/{id}")
     public Response update(@PathVariable ObjectId id, @RequestBody  AppointmentDto appointmentDto){
         return appointmentService.updateApointment(appointmentDto,id);
-
     }
 
     @DeleteMapping("/{id}")

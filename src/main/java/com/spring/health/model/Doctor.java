@@ -1,6 +1,7 @@
 package com.spring.health.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.spring.health.enums.Status;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -29,6 +30,7 @@ public class Doctor extends BaseClass{
 	private int startDateCount;
 	private int endDateCount;
 	private int duration;
+	private Status status;
 	@JsonIgnore
 	private List<Review> listOfReviews = new ArrayList<>();
 	private String doctorImg;
