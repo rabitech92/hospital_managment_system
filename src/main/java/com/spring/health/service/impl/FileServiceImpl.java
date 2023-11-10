@@ -34,17 +34,19 @@ public class FileServiceImpl implements FilesService {
     private final String fileRootLocation = System.getProperty("user.home");
 
 
-    private final String PATH_FOLDER = "E:/Rabiul-islam/File-Spring-App/";
+    private final String PATH_FOLDER = "E:\\Rabiul-islam\\File-Spring-App\\";
 
 
     @Override
     public FileInfoDto uploadFile(MultipartFile file) throws IOException {
+        String fileRoot = fileRootLocation +file.getOriginalFilename();
         FileInfo fileInfo = new FileInfo();
         fileInfo.setFilename(file.getOriginalFilename());
         fileInfo.setSize(file.getSize());
         fileInfo.setContentType(file.getContentType());
         fileInfo.setUploadDate(new Date());
-        Path filePath = Paths.get(PATH_FOLDER,file.getOriginalFilename());
+        Path filePath = Paths.get(fileRootLocation,file.getOriginalFilename());
+        fileInfo.setFilePath(fileRoot);
         Files.write(filePath, file.getBytes());
         return convertrDto(fileInfoRepository.save(fileInfo));
     }
