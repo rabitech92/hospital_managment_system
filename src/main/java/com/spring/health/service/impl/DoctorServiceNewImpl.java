@@ -4,6 +4,7 @@ import com.spring.health.Dto.DoctorDto;
 import com.spring.health.Dto.Response;
 import com.spring.health.enums.Status;
 import com.spring.health.exception.DoctorException;
+import com.spring.health.mapper.DoctorMapper;
 import com.spring.health.model.Doctor;
 import com.spring.health.repository.DoctorRepository;
 import com.spring.health.service.DoctorService;
@@ -18,12 +19,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@Service(value = "doctorServiceNewImpl")
+@Service
 @RequiredArgsConstructor
 public class DoctorServiceNewImpl implements DoctorService {
 
     private final DoctorRepository doctorRepository;
     private final ModelMapper modelMapper;
+    private final DoctorMapper doctorMapper;
 
     @Override
     public DoctorDto createDoctor(DoctorDto doctorDto) throws DoctorException{
@@ -65,7 +67,14 @@ public class DoctorServiceNewImpl implements DoctorService {
 
     @Override
     public DoctorDto updateAndSaveDoctor(DoctorDto doctorDto, ObjectId id) throws DoctorException {
-        return null;
+        Doctor existDoctor = doctorRepository.findById(id).orElse(null);
+        if (existDoctor==null){
+            throw new DoctorException("Doctor not Found");
+        }
+        Doctor  updateDoctor = doctorMapper.toEntity(doctorDto,existDoctor);
+        updateDoctor = doctorRepository.save(updateDoctor);
+         doctorRepository.save(doctorMapper.toEntity(doctorDto,existDoctor));
+         return doctorMapper.toDto(updateDoctor);
     }
 
     @Override

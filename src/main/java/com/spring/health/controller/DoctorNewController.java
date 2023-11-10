@@ -19,27 +19,31 @@ import java.util.List;
 public class DoctorNewController {
 
     @Resource(name = "doctorServiceNewImpl")
-    @Qualifier("doctorServiceNewImpl")
-    private final DoctorService doctorNewService;
+    private final DoctorService doctorServiceNewImpl;
 
 
     @PostMapping("/create")
     public DoctorDto createDoctor(@RequestBody  DoctorDto doctorDto) throws DoctorException {
-        return doctorNewService.createDoctor(doctorDto);
+        return doctorServiceNewImpl.createDoctor(doctorDto);
     }
 
     @GetMapping("/{id}")
     public DoctorDto getById(@PathVariable ObjectId id) throws DoctorException {
-        return doctorNewService.getDoctorById(id);
+        return doctorServiceNewImpl.getDoctorById(id);
     }
 
     @GetMapping("/all-doctor")
     public List<DoctorDto> allDoctors() throws DoctorException {
-        return doctorNewService.findAllDoctors();
+        return doctorServiceNewImpl.findAllDoctors();
     }
 
     @DeleteMapping("/{id}")
     public void doctorDelete(@PathVariable ObjectId id) throws DoctorException {
-         doctorNewService.deleteDoctor(id);
+        doctorServiceNewImpl.deleteDoctor(id);
+    }
+
+    @PutMapping("/update/{id}")
+    public DoctorDto uptateDoctor(@RequestBody DoctorDto doctorDto,@PathVariable ObjectId id) throws DoctorException {
+        return doctorServiceNewImpl.updateAndSaveDoctor(doctorDto,id);
     }
 }
