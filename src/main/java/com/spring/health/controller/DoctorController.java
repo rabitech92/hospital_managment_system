@@ -16,7 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DoctorController {
 
-    @Resource(name = "doctorServiceImpl")
+
     private final DoctorService doctorServiceImpl;
 
     @PostMapping("/save")

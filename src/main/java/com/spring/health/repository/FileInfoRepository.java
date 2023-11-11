@@ -14,4 +14,5 @@ public interface FileInfoRepository extends MongoRepository<FileInfo, ObjectId> 
     Optional<FileInfo> findByEntityAndEntityRowIdAndActiveStatus(String className,ObjectId rowId, Integer id);
 
 
+
 }

@@ -10,7 +10,10 @@ import com.spring.health.util.DateUtils;
 import lombok.RequiredArgsConstructor;
 import org.bson.types.ObjectId;
 import org.modelmapper.ModelMapper;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -31,32 +34,39 @@ public class FileServiceImpl implements FilesService {
 
     private final FileInfoRepository fileInfoRepository;
     private final ModelMapper modelMapper;
-    private final String fileRootLocation = System.getProperty("user.home");
-
-
-    private final String PATH_FOLDER = "E:\\Rabiul-islam\\File-Spring-App\\";
+    private final String fileRootLocation = System.getProperty("user.dir");
 
 
     @Override
     public FileInfoDto uploadFile(MultipartFile file) throws IOException {
-        String fileRoot = fileRootLocation +file.getOriginalFilename();
+        String fileRoot = StringUtils.cleanPath(File.separator + file.getOriginalFilename());
         FileInfo fileInfo = new FileInfo();
         fileInfo.setFilename(file.getOriginalFilename());
         fileInfo.setSize(file.getSize());
         fileInfo.setContentType(file.getContentType());
         fileInfo.setUploadDate(new Date());
-        Path filePath = Paths.get(fileRootLocation,file.getOriginalFilename());
+        Path filePath = Paths.get(fileRootLocation, file.getOriginalFilename());
         fileInfo.setFilePath(fileRoot);
         Files.write(filePath, file.getBytes());
         return convertrDto(fileInfoRepository.save(fileInfo));
     }
 
+
     @Override
-    public FileInfoDto downloadFile(String filePath) throws IOException {
-        Optional<FileInfo> fileInfoDto = fileInfoRepository.findByFilePath(filePath);
-        String fileLocation = fileInfoDto.get().getFilePath();
-        return convertByte(Files.readAllBytes(new File(fileLocation).toPath()));
+    public byte[] downloadFile(ObjectId id) throws IOException {
+        Optional<FileInfo> fileInfoDto = fileInfoRepository.findById(id);
+       if (fileInfoDto.isPresent()){
+           FileInfo fileInfo = fileInfoDto.get();
+           String fileLocation = fileRootLocation + fileInfo.getFilename();
+           Path path = Paths.get(fileLocation);
+           Resource resource = new UrlResource(path.toUri());
+           fileInfo = modelMapper.map(resource,FileInfo.class);
+           return convertByte(fileInfo);
+       }
+       throw new RuntimeException("File not Found");
     }
+
+
 
     @Override
     public FileInfoDto saveFile(String docName, MultipartFile file, Class<? extends BaseClass> modelClass, ObjectId rowId) {

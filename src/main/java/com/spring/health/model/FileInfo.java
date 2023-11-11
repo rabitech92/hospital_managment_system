@@ -26,4 +26,6 @@ public class FileInfo extends BaseClass{
     private String entity;
     private ObjectId entityRowId;
 
+    private byte[] data;
+
 }
