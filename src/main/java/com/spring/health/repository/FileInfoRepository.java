@@ -13,7 +13,7 @@ public interface FileInfoRepository extends MongoRepository<FileInfo, ObjectId> 
     Optional<FileInfo> findByFilePath(String filePath);
     Optional<FileInfo> findByEntityAndEntityRowIdAndActiveStatus(String className,ObjectId rowId, Integer id);
     Optional<FileInfo> findByFilename(String fileName);
-    Optional<FileInfo> findById(ObjectId id);
+
 
 
 

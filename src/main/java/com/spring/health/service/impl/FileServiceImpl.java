@@ -10,8 +10,6 @@ import com.spring.health.util.DateUtils;
 import lombok.RequiredArgsConstructor;
 import org.bson.types.ObjectId;
 import org.modelmapper.ModelMapper;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -46,14 +44,13 @@ public class FileServiceImpl implements FilesService {
         fileInfo.setSize(file.getSize());
         fileInfo.setContentType(file.getContentType());
         fileInfo.setUploadDate(new Date());
-        Path filePath = Paths.get(fileRootLocation +File.separator+ fileRoot);
+        Path filePath = Paths.get(fileRootLocation + File.separator + fileRoot);
 //        fileInfo.setFilePath(filePath.toString());
-        String s=filePath.toString();
+        String s = filePath.toString();
         fileInfo.setFilePath(Base64.getEncoder().encodeToString((s.getBytes())));
         Files.write(filePath, file.getBytes());
         return convertrDto(fileInfoRepository.save(fileInfo));
     }
-
 
 
 //    @Override
