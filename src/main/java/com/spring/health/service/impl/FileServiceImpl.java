@@ -34,7 +34,7 @@ public class FileServiceImpl implements FilesService {
 
     private final FileInfoRepository fileInfoRepository;
     private final ModelMapper modelMapper;
-    private final String fileRootLocation = System.getProperty("user.dir");
+    private final String fileRootLocation = System.getProperty("user.home");
 
 
     @Override
@@ -53,15 +53,15 @@ public class FileServiceImpl implements FilesService {
 
 
     @Override
-    public byte[] downloadFile(ObjectId id) throws IOException {
+    public FileInfoDto downloadFile(ObjectId id) throws IOException {
         Optional<FileInfo> fileInfoDto = fileInfoRepository.findById(id);
        if (fileInfoDto.isPresent()){
-           FileInfo fileInfo = fileInfoDto.get();
+           FileInfo fileInfo = null;
            String fileLocation = fileRootLocation + fileInfo.getFilename();
            Path path = Paths.get(fileLocation);
            Resource resource = new UrlResource(path.toUri());
            fileInfo = modelMapper.map(resource,FileInfo.class);
-           return convertByte(fileInfo);
+           return convertrDto(fileInfo);
        }
        throw new RuntimeException("File not Found");
     }
@@ -142,10 +142,6 @@ public class FileServiceImpl implements FilesService {
         FileInfoDto fileInfoDto = modelMapper.map(fileInfo, FileInfoDto.class);
         return fileInfoDto;
 
-    }
-
-    private FileInfoDto convertByte(byte[] fileInfo) {
-        return modelMapper.map(fileInfo, FileInfoDto.class);
     }
 
 }

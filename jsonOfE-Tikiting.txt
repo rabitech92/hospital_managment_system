@@ -1,0 +1,23 @@
+{    
+    "fullName": "String",
+    "mobileNumber": "String",
+    "gender": "String",
+    "nid": "Long",
+    "birthCertificate": "Long",
+    "dob": "LocalDateTime",
+    "user": {
+        "email": "String",
+        "userName": "String",
+        "password": "String",
+        "roles": [{
+            "name": "String",
+            "description": "String"
+        }]
+    },
+    "age": {
+        "year": 2020,
+        "month": 10,
+        "day": 28,
+        "hour": 10
+    }
+}

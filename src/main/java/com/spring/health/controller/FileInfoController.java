@@ -36,8 +36,8 @@ public class FileInfoController {
             return fileService.uploadFile(file);
     }
 
-    @GetMapping("/{filename}")
-    public FileInfoDto downloadFile(@PathVariable("filename") ObjectId id) throws IOException {
+    @GetMapping("/{id}")
+    public FileInfoDto downloadFile(@PathVariable("id") ObjectId id) throws IOException {
         return fileService.downloadFile(id);
     }
 
