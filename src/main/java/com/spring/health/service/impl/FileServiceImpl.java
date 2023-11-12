@@ -10,10 +10,9 @@ import com.spring.health.util.DateUtils;
 import lombok.RequiredArgsConstructor;
 import org.bson.types.ObjectId;
 import org.modelmapper.ModelMapper;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -39,34 +38,62 @@ public class FileServiceImpl implements FilesService {
 
     @Override
     public FileInfoDto uploadFile(MultipartFile file) throws IOException {
-        String fileRoot = StringUtils.cleanPath(File.separator + file.getOriginalFilename());
+//        String fileRoot = StringUtils.cleanPath(File.separator + file.getOriginalFilename());
+        String fileRoot = file.getOriginalFilename();
+
         FileInfo fileInfo = new FileInfo();
         fileInfo.setFilename(file.getOriginalFilename());
         fileInfo.setSize(file.getSize());
         fileInfo.setContentType(file.getContentType());
         fileInfo.setUploadDate(new Date());
-        Path filePath = Paths.get(fileRootLocation, file.getOriginalFilename());
-        fileInfo.setFilePath(fileRoot);
+        Path filePath = Paths.get(fileRootLocation +File.separator+ fileRoot);
+//        fileInfo.setFilePath(filePath.toString());
+        String s=filePath.toString();
+        fileInfo.setFilePath(Base64.getEncoder().encodeToString((s.getBytes())));
         Files.write(filePath, file.getBytes());
         return convertrDto(fileInfoRepository.save(fileInfo));
     }
 
 
-    @Override
-    public FileInfoDto downloadFile(ObjectId id) throws IOException {
-        Optional<FileInfo> fileInfoDto = fileInfoRepository.findById(id);
-       if (fileInfoDto.isPresent()){
-           FileInfo fileInfo = null;
-           String fileLocation = fileRootLocation + fileInfo.getFilename();
-           Path path = Paths.get(fileLocation);
-           Resource resource = new UrlResource(path.toUri());
-           fileInfo = modelMapper.map(resource,FileInfo.class);
-           return convertrDto(fileInfo);
-       }
-       throw new RuntimeException("File not Found");
-    }
+
+//    @Override
+//    public byte[] downloadFile(ObjectId id) throws IOException {
+//        Optional<FileInfo> fileInfoOptional = fileInfoRepository.findById(id);
+//        if (fileInfoOptional.isPresent()){
+//            FileInfo fileInfo = fileInfoOptional.get();
+//            String fileLocation = fileInfo.getFilePath();
+//            Path path = Paths.get(fileLocation);
+//            if (Files.exists(path) ){
+//                Resource resource = new FileSystemResource(path.toFile());
+//                resource.getFile();
+//                return resource;
+//            }else{
+//                throw new RuntimeException("File not Found or not Readable");
+//            }
+//        }else{
+//            throw new RuntimeException("File not found");
+//        }
+//    }
 
 
+//    @Override
+//    public Resource downloadFile(ObjectId id) throws IOException {
+//        Optional<FileInfo> fileInfoOptional = fileInfoRepository.findById(id);
+//        if (fileInfoOptional.isPresent()){
+//            FileInfo fileInfo = fileInfoOptional.get();
+//            String fileLocation = fileInfo.getFilePath();
+//            Path path = Paths.get(fileLocation);
+//            if (Files.exists(path) ){
+//                Resource resource = new FileSystemResource(path.toFile());
+//                resource.getFile();
+//                return resource;
+//            }else{
+//                throw new RuntimeException("File not Found or not Readable");
+//            }
+//        }else{
+//            throw new RuntimeException("File not found");
+//        }
+//    }
 
     @Override
     public FileInfoDto saveFile(String docName, MultipartFile file, Class<? extends BaseClass> modelClass, ObjectId rowId) {
@@ -129,12 +156,18 @@ public class FileServiceImpl implements FilesService {
         return result.orElse(null);
     }
 
+
     @Override
     public void deleteImageIfExists(String name, ObjectId id) {
         FileInfo fileInfo = findFile(name, id);
         if (fileInfo != null) {
             fileInfoRepository.delete(fileInfo);
         }
+    }
+
+    @Override
+    public Optional<FileInfo> finByID(ObjectId id) {
+        return fileInfoRepository.findById(id);
     }
 
 

@@ -23,6 +23,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Primary
 public class DoctorServiceImpl implements DoctorService {
 
     private final DoctorRepository doctorRepository;
@@ -81,7 +82,7 @@ public class DoctorServiceImpl implements DoctorService {
     public Response loginDoctor(DoctorDto doctorDto) {
         Doctor doctor= doctorRepository.findByEmail(doctorDto.getEmail());
         if (doctor !=null)
-            return ResponseBuilder.getSuccessResponse(HttpStatus.OK, "Login Successfull", doctorDto.getEmail());
+            return ResponseBuilder.getSuccessResponse(HttpStatus.OK, "Login Successfully", doctorDto.getEmail());
         return ResponseBuilder.getFailureResponse(HttpStatus.NOT_FOUND,"No Doctor As " +doctorDto.getName());
     }
 
