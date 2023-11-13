@@ -43,10 +43,3 @@ public class FileInfoController {
     }
 
 }
-
-
-
-// return ResponseEntity.ok()
-//         .contentType(MediaType.parseMediaType(fileInfo.get().getFileType()))
-//         .header(HttpHeaders.CONTENT_DISPOSITION, "fileUpload; filename=\""+ fileInfo.get().getFilename()
-//         +"\"").body(new ByteArrayResource(fileInfo.get().getData()));

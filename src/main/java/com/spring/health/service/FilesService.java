@@ -11,9 +11,7 @@ import java.util.Optional;
 
 public interface FilesService {
     FileInfoDto uploadFile(MultipartFile file) throws IOException;
-
-//    byte[] downloadFile(ObjectId id) throws IOException;
-
+    
     FileInfoDto saveFile(String docName, MultipartFile file, Class<? extends BaseClass> modelClass, ObjectId rowId);
 
     void deleteImageIfExists(String name, ObjectId id);
