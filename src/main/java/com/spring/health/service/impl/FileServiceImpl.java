@@ -36,7 +36,6 @@ public class FileServiceImpl implements FilesService {
 
     @Override
     public FileInfoDto uploadFile(MultipartFile file) throws IOException {
-//        String fileRoot = StringUtils.cleanPath(File.separator + file.getOriginalFilename());
         String fileRoot = file.getOriginalFilename();
 
         FileInfo fileInfo = new FileInfo();
@@ -44,60 +43,19 @@ public class FileServiceImpl implements FilesService {
         fileInfo.setSize(file.getSize());
         fileInfo.setContentType(file.getContentType());
         fileInfo.setUploadDate(new Date());
-        Path filePath = Paths.get(fileRootLocation + File.separator + fileRoot);
-//        fileInfo.setFilePath(filePath.toString());
+        Path filePath = Paths.get(fileRootLocation + File.separator + fileRoot + "rabiul-islam" + file.getOriginalFilename());
         String s = filePath.toString();
         fileInfo.setFilePath(Base64.getEncoder().encodeToString((s.getBytes())));
         Files.write(filePath, file.getBytes());
-        return convertrDto(fileInfoRepository.save(fileInfo));
+        return convertDto(fileInfoRepository.save(fileInfo));
     }
 
-
-//    @Override
-//    public byte[] downloadFile(ObjectId id) throws IOException {
-//        Optional<FileInfo> fileInfoOptional = fileInfoRepository.findById(id);
-//        if (fileInfoOptional.isPresent()){
-//            FileInfo fileInfo = fileInfoOptional.get();
-//            String fileLocation = fileInfo.getFilePath();
-//            Path path = Paths.get(fileLocation);
-//            if (Files.exists(path) ){
-//                Resource resource = new FileSystemResource(path.toFile());
-//                resource.getFile();
-//                return resource;
-//            }else{
-//                throw new RuntimeException("File not Found or not Readable");
-//            }
-//        }else{
-//            throw new RuntimeException("File not found");
-//        }
-//    }
-
-
-//    @Override
-//    public Resource downloadFile(ObjectId id) throws IOException {
-//        Optional<FileInfo> fileInfoOptional = fileInfoRepository.findById(id);
-//        if (fileInfoOptional.isPresent()){
-//            FileInfo fileInfo = fileInfoOptional.get();
-//            String fileLocation = fileInfo.getFilePath();
-//            Path path = Paths.get(fileLocation);
-//            if (Files.exists(path) ){
-//                Resource resource = new FileSystemResource(path.toFile());
-//                resource.getFile();
-//                return resource;
-//            }else{
-//                throw new RuntimeException("File not Found or not Readable");
-//            }
-//        }else{
-//            throw new RuntimeException("File not found");
-//        }
-//    }
 
     @Override
     public FileInfoDto saveFile(String docName, MultipartFile file, Class<? extends BaseClass> modelClass, ObjectId rowId) {
         if (file.isEmpty()) {
             return null;
         }
-
         Optional<FileInfo> result = fileInfoRepository.findByEntityAndEntityRowIdAndActiveStatus(
                 Base64.getEncoder().encodeToString(modelClass.getName().getBytes()), rowId,
                 Status.ACTIVE.getValue());
@@ -114,7 +72,7 @@ public class FileServiceImpl implements FilesService {
             fileInfo.setEntityRowId(rowId);
             fileInfo.setActiveStatus(Status.ACTIVE.getValue());
             result.ifPresent(info -> fileInfo.setId(info.getId()));
-            return convertrDto(fileInfoRepository.save(fileInfo));
+            return convertDto(fileInfoRepository.save(fileInfo));
         }
         return null;
     }
@@ -168,7 +126,7 @@ public class FileServiceImpl implements FilesService {
     }
 
 
-    private FileInfoDto convertrDto(FileInfo fileInfo) {
+    private FileInfoDto convertDto(FileInfo fileInfo) {
         FileInfoDto fileInfoDto = modelMapper.map(fileInfo, FileInfoDto.class);
         return fileInfoDto;
 

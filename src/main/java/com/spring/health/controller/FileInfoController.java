@@ -24,31 +24,22 @@ import java.util.Optional;
 public class FileInfoController {
 
     private final FilesService fileService;
-    private final ModelMapper modelMapper;
-
 
     @PostMapping("/save")
     public FileInfoDto upLoad(@RequestParam("file") MultipartFile file) throws IOException {
         return fileService.uploadFile(file);
     }
 
-    //    @GetMapping("/{id}")
-//    public Resource downloadFile(@PathVariable("id") ObjectId id) throws IOException {
-//        return fileService.downloadFile(id);
-//    }
+
     @GetMapping("/{id}")
     public byte[] downloadFile(HttpServletResponse response, @PathVariable("id") ObjectId id) throws IOException {
         Optional<FileInfo> fileInfo = fileService.finByID(id);
-
         String decodedFilePath = new String(Base64.getDecoder().decode(fileInfo.get().getFilePath().getBytes()));
-
         File downloadableFile = new File(decodedFilePath);
-
         InputStream in = new FileInputStream(downloadableFile);
         response.setHeader("Content-Disposition",
                 "attachment; filename=" + fileInfo.get().getFilename().replaceAll("[^a-zA-Z0-9.]", ""));
         return IOUtils.toByteArray(in);
-//        return fileService.downloadFile(id);
     }
 
 }
