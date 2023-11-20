@@ -7,11 +7,12 @@ import org.bson.types.ObjectId;
 import org.springframework.data.annotation.*;
 
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Data
 @Accessors(chain = true)
-public class BaseClass {
+public class BaseClass implements Serializable {
 
     @Id
     private ObjectId id;
@@ -24,7 +25,7 @@ public class BaseClass {
     private String LastModifiedBy;
     @LastModifiedDate
     private LocalDateTime lastModifyDate;
-    private Boolean activeStatus = true;
+    private Integer activeStatus;
 
 
 }

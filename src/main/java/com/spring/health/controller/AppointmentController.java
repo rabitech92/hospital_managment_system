@@ -4,6 +4,7 @@ import com.spring.health.Dto.AppointmentDto;
 import com.spring.health.Dto.Response;
 import com.spring.health.service.AppointmentService;
 import lombok.AllArgsConstructor;
+import org.bson.types.ObjectId;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -23,16 +24,17 @@ public class AppointmentController {
     }
 
     @GetMapping("/{id}")
-    public Response getById(@PathVariable String id){
+    public Response getById(@PathVariable ObjectId id){
         return appointmentService.getApointmentById(id);
     }
-    @PutMapping("/{id}")
-    public Response update(@PathVariable String id,@RequestBody  AppointmentDto appointmentDto){
-        return appointmentService.updateApointment(appointmentDto,id);
 
+    @PutMapping("/{id}")
+    public Response update(@PathVariable ObjectId id, @RequestBody  AppointmentDto appointmentDto){
+        return appointmentService.updateApointment(appointmentDto,id);
     }
+
     @DeleteMapping("/{id}")
-    public Response delete(@PathVariable String id){
+    public Response delete(@PathVariable ObjectId id){
         return appointmentService.deleteApointment(id);
     }
 

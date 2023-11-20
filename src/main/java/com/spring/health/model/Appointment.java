@@ -1,31 +1,29 @@
 package com.spring.health.model;
 
+
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
-import lombok.experimental.Accessors;
+import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.time.LocalDateTime;
+import java.util.Objects;
 
-
-@Getter
-@Setter
+@Document
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString(callSuper = true)
-@Document(collection = "appointments")
-@Accessors(chain = true)
-public class Appointment extends BaseClass {
+@Getter
+@Setter
+@Component
+@ToString
+public class Appointment {
+    private ObjectId id;
+    private Patient patient;
+    private LocalDateTime appointmentDateAndTime;
+    private Doctor doctor;
+    @JsonIgnore
+    private Review review;
 
-
-  private String patientId;
-  private String patientName;
-  private String patientNumber;
-  private LocalDate date;
-  private LocalTime time;
-
-  private String complaint;
-  private String doctorId;
-  private String room;
-  private String department;
 }

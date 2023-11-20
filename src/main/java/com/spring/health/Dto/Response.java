@@ -13,7 +13,7 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 @Builder
-public class Response {
+public class Response extends Throwable {
   private long timeStamp;
 
   private int statusCode;
