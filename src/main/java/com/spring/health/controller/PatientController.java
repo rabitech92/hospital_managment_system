@@ -30,7 +30,7 @@ public class PatientController {
         return patientService.patientCreate(patient);
     }
 
-    @PutMapping("/updatePatient")
+    @PutMapping("/update-Patient")
     public PatientDto update(@RequestBody Patient patient,@RequestParam(required = false) String key)throws PatientException{
         return patientService.update(patient,key);
     }

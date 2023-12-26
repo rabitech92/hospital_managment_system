@@ -20,8 +20,6 @@ public class UserController {
         this.userService = userService;
     }
 
-
-
     @PostMapping("/register")
     public Response register(@RequestBody RegisterDto registerDto) {
         return userService.register(registerDto);
