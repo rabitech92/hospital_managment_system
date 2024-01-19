@@ -23,6 +23,8 @@ public class AdminController {
     private final PatientAndAdminLoginService patientAndAdminLoginService;
     private final DoctorMapper doctorMapper;
 
+
+
     @PostMapping("/doctorRegister")
     public DoctorDto rigisterDoctor(@RequestParam String key, @RequestBody DoctorDto doctorDto)throws DoctorException, LoginException {
         if (patientAndAdminLoginService.checkUserLoginOrNot(key)){
