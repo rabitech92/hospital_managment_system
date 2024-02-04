@@ -21,7 +21,6 @@ public class AdminController {
     private final PatientService patientService;
     private final AdminDoctorService adminDoctorService;
     private final PatientAndAdminLoginService patientAndAdminLoginService;
-    private final DoctorMapper doctorMapper;
 
 
 

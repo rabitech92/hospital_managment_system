@@ -59,7 +59,7 @@ public class PatientController {
         }
     }
 
-    @GetMapping("/DoctorList")
+    @GetMapping("/doctorList")
     public List<DoctorDto> getAll() throws DoctorException {
         return patientService.getAllDoctors();
     }
