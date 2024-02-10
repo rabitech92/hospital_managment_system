@@ -28,15 +28,15 @@ public class DoctorServiceNewImpl implements DoctorService {
     private final DoctorMapper doctorMapper;
 
     @Override
-    public DoctorDto createDoctor(DoctorDto doctorDto) throws DoctorException{
+    public DoctorDto createDoctor(DoctorDto doctorDto) throws DoctorException {
         Optional<Doctor> doctor = doctorRepository.findByMobileNo(doctorDto.getMobileNo());
-        if (doctor.isEmpty()){
+        if (doctor.isEmpty()) {
             doctorDto.setDuration(doctorDto.getEndDateCount() - doctorDto.getStartDateCount());
             Doctor doctorSave = convertToEntity(doctorDto);
             doctorSave = doctorRepository.save(doctorSave);
             return convertEntityToDto(doctorSave);
-        }else{
-            throw  new DoctorException("This Phone Number already save here "+doctorDto.getMobileNo());
+        } else {
+            throw new DoctorException("This Phone Number already save here " + doctorDto.getMobileNo());
         }
     }
 
@@ -49,8 +49,8 @@ public class DoctorServiceNewImpl implements DoctorService {
     @Override
     public DoctorDto getDoctorById(ObjectId id) throws DoctorException {
         Doctor doctor = doctorRepository.findById(id).get();
-        DoctorDto doctorDto = modelMapper.map(doctor,DoctorDto.class);
-        if (doctor!=null){
+        DoctorDto doctorDto = modelMapper.map(doctor, DoctorDto.class);
+        if (doctor != null) {
             return doctorDto;
         }
         throw new DoctorException("No Doctor this id  ");
@@ -59,22 +59,22 @@ public class DoctorServiceNewImpl implements DoctorService {
     @Override
     @Transactional
     public void deleteDoctor(ObjectId id) throws DoctorException {
-       Doctor doctor = doctorRepository.findById(id).orElseThrow();
-       doctor.setStatus(Status.DELETE);
-       doctorRepository.save(doctor);
-       throw new DoctorException("Doctor Deleted this id " + id);
+        Doctor doctor = doctorRepository.findById(id).orElseThrow();
+        doctor.setStatus(Status.DELETE);
+        doctorRepository.save(doctor);
+        throw new DoctorException("Doctor Deleted this id " + id);
     }
 
     @Override
     public DoctorDto updateAndSaveDoctor(DoctorDto doctorDto, ObjectId id) throws DoctorException {
         Doctor existDoctor = doctorRepository.findById(id).orElse(null);
-        if (existDoctor==null){
+        if (existDoctor == null) {
             throw new DoctorException("Doctor not Found");
         }
-        Doctor  updateDoctor = doctorMapper.toEntity(doctorDto,existDoctor);
+        Doctor updateDoctor = doctorMapper.toEntity(doctorDto, existDoctor);
         updateDoctor = doctorRepository.save(updateDoctor);
-         doctorRepository.save(doctorMapper.toEntity(doctorDto,existDoctor));
-         return doctorMapper.toDto(updateDoctor);
+        doctorRepository.save(doctorMapper.toEntity(doctorDto, existDoctor));
+        return doctorMapper.toDto(updateDoctor);
     }
 
     @Override
@@ -87,13 +87,13 @@ public class DoctorServiceNewImpl implements DoctorService {
         return null;
     }
 
-    private DoctorDto convertEntityToDto(Doctor doctor){
-        DoctorDto doctorDto=modelMapper.map(doctor,DoctorDto.class);
+    private DoctorDto convertEntityToDto(Doctor doctor) {
+        DoctorDto doctorDto = modelMapper.map(doctor, DoctorDto.class);
         return doctorDto;
     }
 
-    private Doctor convertToEntity(DoctorDto doctorDto){
-        Doctor doctor = modelMapper.map(doctorDto,Doctor.class);
+    private Doctor convertToEntity(DoctorDto doctorDto) {
+        Doctor doctor = modelMapper.map(doctorDto, Doctor.class);
         return doctor;
     }
 }

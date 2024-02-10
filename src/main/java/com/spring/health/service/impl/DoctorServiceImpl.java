@@ -1,10 +1,12 @@
 package com.spring.health.service.impl;
 
 import com.spring.health.Dto.DoctorDto;
+import com.spring.health.Dto.PatientDto;
 import com.spring.health.Dto.Response;
 import com.spring.health.enums.Status;
 import com.spring.health.exception.DoctorException;
 import com.spring.health.model.Doctor;
+import com.spring.health.model.Patient;
 import com.spring.health.repository.DoctorRepository;
 import com.spring.health.service.DoctorService;
 import com.spring.health.util.ResponseBuilder;

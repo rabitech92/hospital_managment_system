@@ -65,8 +65,11 @@ public class PatientController {
     }
 
     @GetMapping("/name")
-    public List<Patient> getSearch(@RequestParam String name) {
-        return patientService.searchaPatient(name);
+    public List<PatientDto> getSearch( @RequestParam (value = "name", required = false)String name,
+                                       @RequestParam(value = "email", required = false) String email,
+                                       @RequestParam(value = "nid",required = false) String nid,
+                                       @RequestParam(value="age",required = false) int[] age) {
+        return patientService.search(name, email, nid, age);
     }
 
 }

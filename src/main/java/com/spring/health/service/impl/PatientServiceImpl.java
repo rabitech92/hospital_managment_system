@@ -1,7 +1,13 @@
 package com.spring.health.service.impl;
 
-import com.spring.health.Dto.*;
-import com.spring.health.exception.*;
+import com.spring.health.Dto.AppointmentDto;
+import com.spring.health.Dto.DoctorDto;
+import com.spring.health.Dto.PatientDto;
+import com.spring.health.Dto.PatientReqDto;
+import com.spring.health.exception.AppointmentException;
+import com.spring.health.exception.DoctorException;
+import com.spring.health.exception.LoginException;
+import com.spring.health.exception.PatientException;
 import com.spring.health.model.*;
 import com.spring.health.repository.AppointmentRepository;
 import com.spring.health.repository.DoctorRepository;
@@ -9,24 +15,20 @@ import com.spring.health.repository.PatientRepository;
 import com.spring.health.repository.SessionRepository;
 import com.spring.health.service.MailService;
 import com.spring.health.service.PatientService;
-import jakarta.mail.MessagingException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.FileReader;
-import java.io.IOException;
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 @Transactional
-public class PatientServiceImpl  implements PatientService {
+public class PatientServiceImpl implements PatientService {
 
 
     public static Map<String, LocalDateTime> myTimeDate = new LinkedHashMap<>();
@@ -62,11 +64,11 @@ public class PatientServiceImpl  implements PatientService {
 
             patientDto.setType("Patient");
             patientDto.setPassword(bCryptPasswordEncoder.encode(patientDto.getPassword()));
-            Patient patient1=modelMapper.map(patientDto,Patient.class);
+            Patient patient1 = modelMapper.map(patientDto, Patient.class);
             patientRepository.save(patient1);
-            PatientDto patientDto1=modelMapper.map(patient1,PatientDto.class);
+            PatientDto patientDto1 = modelMapper.map(patient1, PatientDto.class);
             return patientDto1;
-        }else{
+        } else {
             throw new PatientException("Patient Already saved : " + patientDto.getName());
         }
     }
@@ -81,15 +83,15 @@ public class PatientServiceImpl  implements PatientService {
             Optional<Doctor> registerDoctor = doctorRepository.findById(doctor.getId());
             if (!registerDoctor.isEmpty()) {
                 appointmentDto.setDoctor(registerDoctor.get());
-                boolean appoint =false;
-                boolean appoint1 =false;
-                Appointment registerAppointment= null;
-                if (!appoint && appoint1){
-                    Appointment appointment1=modelMapper.map(appointmentDto,Appointment.class);
-                    registerAppointment =appointmentRepository.save(appointment1);
-                    mailSender.setMessage("Dear Sir/Ma'am, \n You have booked an appointment with " +registerAppointment.getDoctor().getName()+
-                            ". Please make sure to join on time. If you want to call a doctor please contact " +registerAppointment.getDoctor().getMobileNo()+"\n"
-                            +"\n"
+                boolean appoint = false;
+                boolean appoint1 = false;
+                Appointment registerAppointment = null;
+                if (!appoint && appoint1) {
+                    Appointment appointment1 = modelMapper.map(appointmentDto, Appointment.class);
+                    registerAppointment = appointmentRepository.save(appointment1);
+                    mailSender.setMessage("Dear Sir/Ma'am, \n You have booked an appointment with " + registerAppointment.getDoctor().getName() +
+                            ". Please make sure to join on time. If you want to call a doctor please contact " + registerAppointment.getDoctor().getMobileNo() + "\n"
+                            + "\n"
                             + "Appointment Id: " + registerAppointment.getId() + "\n"
                             + "Doctor specialty: " + registerAppointment.getDoctor().getSpecialty() + "\n"
                             + "Doctor education: " + registerAppointment.getDoctor().getEducation() + "\n"
@@ -98,20 +100,20 @@ public class PatientServiceImpl  implements PatientService {
                             + "Thanks and Regards \n"
                             + "Appointment Booking Application");
                     mailSender.setSubject("You have successfully book appointment at " + registerAppointment.getAppointmentDateAndTime());
-                    PatientServiceImpl patientService=new PatientServiceImpl(mailSender,mailService,appointment);
-                }else {
-                    throw new AppointmentException("This time or date already booked or please enter valid appointment time and date " +appointment.getAppointmentDateAndTime());
+                    PatientServiceImpl patientService = new PatientServiceImpl(mailSender, mailService, appointment);
+                } else {
+                    throw new AppointmentException("This time or date already booked or please enter valid appointment time and date " + appointment.getAppointmentDateAndTime());
                 }
                 registerDoctor.get().getListOfAppointments().add(registerAppointment);
                 doctorRepository.save(registerDoctor.get());
                 registerPatient.get().getListOfAppointments().add(registerAppointment);
                 patientRepository.save(registerPatient.get());
-                AppointmentDto appointmentDto1=modelMapper.map(registerAppointment,AppointmentDto.class);
+                AppointmentDto appointmentDto1 = modelMapper.map(registerAppointment, AppointmentDto.class);
                 return appointmentDto1;
-            }else{
+            } else {
                 throw new DoctorException("Please enter valid doctors details or doctor not present with this id " + doctor.getId());
             }
-        }else{
+        } else {
             throw new LoginException("Please enter valid key");
         }
     }
@@ -128,6 +130,30 @@ public class PatientServiceImpl  implements PatientService {
         } else {
             throw new DoctorException("No doctors registered. Please contact admin.");
         }
+    }
+
+    /*------------search APT to hold name, email,nid,age------------------*/
+    @Override
+    public List<PatientDto> search(String name, String email, String nid, int[] age) {
+        List<Patient> patientList = patientRepository.findAll();
+
+        // Initialize a list to hold the resulting DTOs
+        List<PatientDto> patientDtoList = new ArrayList<>();
+
+        // Iterate over each patient and map it to a DTO
+        for (Patient patient : patientList) {
+            PatientDto patientDto = modelMapper.map(patient, PatientDto.class);
+
+            // Apply filters
+            if ((name == null || patientDto.getName().toLowerCase().contains(name.toLowerCase()))
+                    && (email == null || patientDto.getEmail().toLowerCase().contains(email.toLowerCase()))
+                    && (nid == null || patientDto.getNid().toLowerCase().contains(nid.toLowerCase()))
+                    && (age == null || (patientDto.getAge() >= age[0] && patientDto.getAge() <= age[1]))) {
+                patientDtoList.add(patientDto);
+            }
+        }
+
+        return patientDtoList;
     }
 
 
@@ -154,25 +180,23 @@ public class PatientServiceImpl  implements PatientService {
     @Override
     public CurrentSession getCurrentUserByUuid(String uuid) throws LoginException {
         CurrentSession currentUserSession = sessionRepository.findByUuid(uuid);
-        if(currentUserSession != null) {
+        if (currentUserSession != null) {
             return currentUserSession;
-        }else {
+        } else {
             throw new LoginException("Please enter valid key");
         }
     }
 
 
-
-    public PatientDto convertToDto(PatientReqDto patientReqDto){
-        PatientDto patientDto=modelMapper.map(patientReqDto,PatientDto.class);
-        return  patientDto;
+    public PatientDto convertToDto(PatientReqDto patientReqDto) {
+        PatientDto patientDto = modelMapper.map(patientReqDto, PatientDto.class);
+        return patientDto;
     }
 
 
-    public List<Patient> searchaPatient(String name){
+    public List<Patient> searchaPatient(String name) {
         return patientRepository.findPatientByNameContains(name);
     }
-
 
 
 }
