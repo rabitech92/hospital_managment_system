@@ -1,0 +1,12 @@
+version: "3.8"
+services:
+  sb-app:
+    build: .
+    container_name: "docker-app"
+    ports:
+      - 8888:8881
+  mongodb:
+    image: mongo:spring-mongo
+    container_name: "mongodb"
+    ports:
+      - 27070:27017

@@ -136,14 +136,11 @@ public class PatientServiceImpl implements PatientService {
     @Override
     public List<PatientDto> search(String name, String email, String nid, int[] age) {
         List<Patient> patientList = patientRepository.findAll();
-
         // Initialize a list to hold the resulting DTOs
         List<PatientDto> patientDtoList = new ArrayList<>();
-
         // Iterate over each patient and map it to a DTO
         for (Patient patient : patientList) {
             PatientDto patientDto = modelMapper.map(patient, PatientDto.class);
-
             // Apply filters
             if ((name == null || patientDto.getName().toLowerCase().contains(name.toLowerCase()))
                     && (email == null || patientDto.getEmail().toLowerCase().contains(email.toLowerCase()))
