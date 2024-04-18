@@ -21,6 +21,7 @@ public class projectSecurity {
                 .httpBasic(Customizer.withDefaults())
                 .formLogin(Customizer.withDefaults());
         return http.build();
+
     }
 
 }
