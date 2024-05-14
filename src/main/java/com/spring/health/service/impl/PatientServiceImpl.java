@@ -132,7 +132,7 @@ public class PatientServiceImpl implements PatientService {
         }
     }
 
-    /*------------search APT to hold name, email,nid,age------------------*/
+    /*------------search API to hold name, email,nid,age------------------*/
     @Override
     public List<PatientDto> search(String name, String email, String nid, int[] age) {
         List<Patient> patientList = patientRepository.findAll();
