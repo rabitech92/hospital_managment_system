@@ -1,7 +1,7 @@
 spring:
   datasource:
-      username:
-      password:
+      username:root
+      password:Admin123
       url:
       driver-class-name:
 
