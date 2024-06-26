@@ -16,6 +16,7 @@
 #EXPOSE 8881
 #ENTRYPOINT ["java","-jar","app.jar"]
 FROM openjdk:17
-ADD target/sb-app.jar app.jar
+#ADD target/sb-app.jar app.jar
+ADD target/sb-app.jar sb-app.jar
 EXPOSE 5000
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-jar/", "sb-app.jar"]

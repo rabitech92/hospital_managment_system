@@ -1,7 +1,10 @@
 version: "3.8"
 services:
   sb-app:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
     container_name: "docker-app"
     ports:
       - 5000:8881
@@ -10,3 +13,5 @@ services:
     container_name: "mongodb"
     ports:
       - 27070:27017
+networks:
+  hospital_managment_system:
