@@ -16,13 +16,13 @@ public class LamdaCode {
                 .collect(Collectors.toList());
         System.out.println(list);
 
-
+// filter
         List<String> stringList = Arrays.asList("Jamal","Kamal","Hasib","Rahman","Astreammamal","Kamal","Hasib","ARahman");
         List<String> strings = stringList.stream()
                 .filter(s -> s.equalsIgnoreCase("hasib")).collect(Collectors.toList());
         System.out.println(strings);
 
-
+// sorting
         List<String>  sorting = Arrays.asList("Abdullah","Jama","Kamal","Rahim","Afifa");
         List<String> sorted = sorting.stream()
                 .sorted()
