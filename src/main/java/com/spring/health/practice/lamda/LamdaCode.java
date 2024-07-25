@@ -28,20 +28,24 @@ public class LamdaCode {
                 .sorted()
                 .collect(Collectors.toList());
         System.out.println(sorted);
-
+//foreach loop
         integerList.stream()
                 .forEach(num -> System.out.print(num+","));
-
+//collect
        List<String> strings1 = strings.stream()
                 .collect(Collectors.toList());
         System.out.println(strings1);
 
+        //map , filter , sorting
         List<String> strings2 = strings.stream()
-                .filter(name ->name.startsWith("A"))
+                .filter(name ->name.equalsIgnoreCase("hasib"))
                 .map(name -> name.toUpperCase())
                 .sorted()
                 .collect(Collectors.toList());
         System.out.println(strings2);
+//
+        Stream<Integer> integerStream = Stream.iterate(0,n->n+2).limit(10);
+        integerStream.forEach(System.out::println);
     }
 
 }
