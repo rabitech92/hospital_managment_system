@@ -11,6 +11,6 @@ public class FixedRateScheduler {
     @Scheduled(fixedRate = 5000)
     public void task(){
 
-        log.info("B Fixed rate task - " + System.currentTimeMillis() / 1000);
+        log.info("A Fixed rate task - " + System.currentTimeMillis() / 1000);
     }
 }

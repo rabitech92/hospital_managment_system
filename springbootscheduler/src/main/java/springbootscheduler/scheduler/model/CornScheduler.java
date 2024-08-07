@@ -11,6 +11,6 @@ public class CornScheduler {
 
     @Scheduled(cron = "*/5 * * * * ?")
     public void task(){
-        log.info("Hello corn - " + System.currentTimeMillis() / 1000);
+        log.info("B Hello Bangladesh - " + System.currentTimeMillis() / 1000);
     }
 }
