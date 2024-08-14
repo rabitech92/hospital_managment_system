@@ -16,8 +16,7 @@ public class MailController {
     }
 
     @PostMapping("/send/{email}")
-    public MailSenderDto
-    sendMail(@PathVariable String email, @RequestBody SenderMail senderMail){
+    public MailSenderDto sendMail(@PathVariable String email, @RequestBody SenderMail senderMail){
        return  service.mailSend(email, senderMail);
     }
 }
