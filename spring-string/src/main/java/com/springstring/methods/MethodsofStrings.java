@@ -16,6 +16,16 @@ public class MethodsofStrings {
         String  result = String.valueOf(str1.length());
         System.out.println("length of result "+result);
 
+        String string = "Abc";
+        String string1 = new String("Abc");
+        System.out.println("Comparing tow string : "+string == string1); // result false
+
+        String str5 = "abc";
+        String str6 = "abc";
+
+        System.out.println(str5 == str6);
+        System.out.println(str5 == "abc");
+
 
 
 
