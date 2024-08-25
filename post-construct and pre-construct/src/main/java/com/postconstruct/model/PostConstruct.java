@@ -26,6 +26,9 @@ public class PostConstruct implements InitializingBean, DisposableBean {
         User user = new User();
         user.setName("Admin");
         user.setAddress("Dhaka");
+        if (userRepository.equals(user)){
+            System.out.println("user already save here");
+        }
         userRepository.save(user);
     }
 }
