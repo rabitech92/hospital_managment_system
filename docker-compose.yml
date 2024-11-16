@@ -9,7 +9,7 @@ services:
     ports:
       - 5000:8881
   mongodb:
-    image: mongo:latest
+    image: mongodb:latest
     container_name: "mongodb"
     ports:
       - 27070:27017
