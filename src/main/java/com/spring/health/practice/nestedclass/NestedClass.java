@@ -7,14 +7,19 @@ public class NestedClass implements Student{
     }
 
 
-     class Teacher{
+    static class Teacher{
          public void display(){
              System.out.println("I am a student");
          }
 
     }
     public static void main(String[] args) {
-        Student nestedClass = new NestedClass();
+        Student nestedClass = new Student() {
+            @Override
+            public void display() {
+                System.out.println("I am anonymous class");
+            }
+        };
         nestedClass.display();
 
 
