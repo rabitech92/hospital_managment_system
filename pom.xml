@@ -104,10 +104,15 @@
 			<artifactId>jasperreports-fonts</artifactId>
 			<version>6.17.0</version>
 		</dependency>
+        <dependency>
+            <groupId>com.spring</groupId>
+            <artifactId>swagger2</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
 
 
-
-		<!--		<dependency>-->
+        <!--		<dependency>-->
 <!--			<groupId>io.jsonwebtoken</groupId>-->
 <!--			<artifactId>jjwt-api</artifactId>-->
 <!--			<version>0.11.5</version>-->
