@@ -1,7 +1,7 @@
 package com.spring.health.practice.supper;
 
-import jakarta.annotation.Generated;
-import nonapi.io.github.classgraph.json.Id;
+
+
 
 public class SuperKeyword {
 

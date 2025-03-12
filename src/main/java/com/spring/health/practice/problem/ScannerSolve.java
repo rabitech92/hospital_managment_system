@@ -17,6 +17,7 @@ public class ScannerSolve {
             System.out.println(y);
             System.out.println(z);
         }
+        System.out.println();
 
 
     }
